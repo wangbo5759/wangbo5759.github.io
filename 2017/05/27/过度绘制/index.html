@@ -5,25 +5,22 @@
   
   <title>过度绘制的解决 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="过度绘制的解决
-背景：《Google的性能优化典范》一文是Android程序内存优化的指导，分别从渲染、电量、运算和内存几个方面阐述了优化方向。本文关注渲染方向：
+  <meta name="description" content="背景：《Google的性能优化典范》一文是Android程序内存优化的指导，分别从渲染、电量、运算和内存几个方面阐述了优化方向。本文关注渲染方向：
 
-渲染其实是指GPU渲染，是App计算–绘制–渲染 过程中的最后一步。CPU负责Measure Layout，Execute GPU负责Rasterization（栅格化）。CPU通常存在的问题是 非必需的视图组件、视图层级；GPU的问">
+渲染其实是指GPU渲染，是App计算–绘制–渲染 过程中的最后一步。CPU负责Measure Layout，Execute GPU负责Rasterization（栅格化）。CPU通常存在的问题是 非必需的视图组件、视图层级；GPU的问题是过度绘制。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="过度绘制的解决">
 <meta property="og:url" content="http://yoursite.com/2017/05/27/过度绘制/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="过度绘制的解决
-背景：《Google的性能优化典范》一文是Android程序内存优化的指导，分别从渲染、电量、运算和内存几个方面阐述了优化方向。本文关注渲染方向：
+<meta property="og:description" content="背景：《Google的性能优化典范》一文是Android程序内存优化的指导，分别从渲染、电量、运算和内存几个方面阐述了优化方向。本文关注渲染方向：
 
-渲染其实是指GPU渲染，是App计算–绘制–渲染 过程中的最后一步。CPU负责Measure Layout，Execute GPU负责Rasterization（栅格化）。CPU通常存在的问题是 非必需的视图组件、视图层级；GPU的问">
-<meta property="og:updated_time" content="2017-05-27T07:02:22.000Z">
+渲染其实是指GPU渲染，是App计算–绘制–渲染 过程中的最后一步。CPU负责Measure Layout，Execute GPU负责Rasterization（栅格化）。CPU通常存在的问题是 非必需的视图组件、视图层级；GPU的问题是过度绘制。">
+<meta property="og:updated_time" content="2017-05-27T07:05:40.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="过度绘制的解决">
-<meta name="twitter:description" content="过度绘制的解决
-背景：《Google的性能优化典范》一文是Android程序内存优化的指导，分别从渲染、电量、运算和内存几个方面阐述了优化方向。本文关注渲染方向：
+<meta name="twitter:description" content="背景：《Google的性能优化典范》一文是Android程序内存优化的指导，分别从渲染、电量、运算和内存几个方面阐述了优化方向。本文关注渲染方向：
 
-渲染其实是指GPU渲染，是App计算–绘制–渲染 过程中的最后一步。CPU负责Measure Layout，Execute GPU负责Rasterization（栅格化）。CPU通常存在的问题是 非必需的视图组件、视图层级；GPU的问">
+渲染其实是指GPU渲染，是App计算–绘制–渲染 过程中的最后一步。CPU负责Measure Layout，Execute GPU负责Rasterization（栅格化）。CPU通常存在的问题是 非必需的视图组件、视图层级；GPU的问题是过度绘制。">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -94,14 +91,14 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="过度绘制的解决"><a href="#过度绘制的解决" class="headerlink" title="过度绘制的解决"></a>过度绘制的解决</h3><hr>
-<h5 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h5><p>《Google的性能优化典范》一文是Android程序内存优化的指导，分别从渲染、电量、运算和内存几个方面阐述了优化方向。<br>本文关注渲染方向：</p>
+        <hr>
+<h4 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h4><p>《Google的性能优化典范》一文是Android程序内存优化的指导，分别从渲染、电量、运算和内存几个方面阐述了优化方向。<br>本文关注渲染方向：</p>
 <hr>
 <p>渲染其实是指GPU渲染，是App计算–绘制–渲染 过程中的最后一步。CPU负责Measure Layout，Execute GPU负责Rasterization（栅格化）。<br>CPU通常存在的问题是 非必需的视图组件、视图层级；GPU的问题是过度绘制。</p>
 <p>Overdraw 过度绘制：<br>定义：屏幕上的某个像素在同一帧的时间内被绘制了多次<br>例如UI是层叠的，看不见的UI也做绘制操作，就是多余的。当设计效果上更加华丽炫酷时，堆叠视图层级是常见的情况，但这很容易产生性能问题。</p>
 <p>怎么过度绘制打开开关和如何看，不介绍了就。</p>
 <hr>
-<h5 id="解决方案："><a href="#解决方案：" class="headerlink" title="解决方案："></a>解决方案：</h5><p>1.写合理而高效的布局<br>Android的布局可以通过xml来实现，这使得开发者布局时较为随意，只以实现功能为目的，忽略性能问题的累积效应。<br>在开发设计之初，就应该考虑布局的效率问题，以免出现后期修改的高成本。<br>降低Layout层级，有很多方法 不列举了。</p>
+<h4 id="解决方案："><a href="#解决方案：" class="headerlink" title="解决方案："></a>解决方案：</h4><p>1.写合理而高效的布局<br>Android的布局可以通过xml来实现，这使得开发者布局时较为随意，只以实现功能为目的，忽略性能问题的累积效应。<br>在开发设计之初，就应该考虑布局的效率问题，以免出现后期修改的高成本。<br>降低Layout层级，有很多方法 不列举了。</p>
 <p>2.移除非必须的background: Activity的DecorView有默认的背景色，可以改为透明<br><code>getWindow().getDecorView().setBackgroundColor(getResources().getColor(R.color.transparent));</code><br>这个颜色从ActivityTheme设置，被decorView所持有<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;style name=&quot;Theme&quot;&gt;</div><div class="line">    ...</div><div class="line">    &lt;!-- Window attributes --&gt;</div><div class="line">    &lt;item name=&quot;windowBackground&quot;&gt;@drawable/screen_background_selector_dark&lt;/item&gt;</div><div class="line">    ...</div><div class="line">&lt;/style&gt;</div></pre></td></tr></table></figure></p>
 <p>screen_background_selector_dark在sdk中定义为纯黑色<br>所以也可以<code>android:windowbackground=&quot;null&quot;</code>方法来修改</p>
 <p>3.View BackGround 优化：<br>1) 所有的View都可以设置Background，ImageView除了可以设置BackGround外，还可以设置imageResource<br>在使用ImageView时，尤其是ListView ViewHolder中，可能imageView设置默认bitmap给background，然后<br>真正的bitmap给imageResource，导致了重复绘制。解决方法是都通过imageResource设置<br>2) 有时采用selector背景，可以normal状态设置为transparent</p>
