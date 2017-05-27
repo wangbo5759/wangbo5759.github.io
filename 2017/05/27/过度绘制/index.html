@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>过度绘制的解决 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="过度绘制的解决
+背景：《Google的性能优化典范》一文是Android程序内存优化的指导，分别从渲染、电量、运算和内存几个方面阐述了优化方向。本文关注渲染方向：
+
+渲染其实是指GPU渲染，是App计算–绘制–渲染 过程中的最后一步。CPU负责Measure Layout，Execute GPU负责Rasterization（栅格化）。CPU通常存在的问题是 非必需的视图组件、视图层级；GPU的问">
+<meta property="og:type" content="article">
+<meta property="og:title" content="过度绘制的解决">
+<meta property="og:url" content="http://yoursite.com/2017/05/27/过度绘制/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="过度绘制的解决
+背景：《Google的性能优化典范》一文是Android程序内存优化的指导，分别从渲染、电量、运算和内存几个方面阐述了优化方向。本文关注渲染方向：
+
+渲染其实是指GPU渲染，是App计算–绘制–渲染 过程中的最后一步。CPU负责Measure Layout，Execute GPU负责Rasterization（栅格化）。CPU通常存在的问题是 非必需的视图组件、视图层级；GPU的问">
+<meta property="og:updated_time" content="2017-05-27T02:28:20.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="过度绘制的解决">
+<meta name="twitter:description" content="过度绘制的解决
+背景：《Google的性能优化典范》一文是Android程序内存优化的指导，分别从渲染、电量、运算和内存几个方面阐述了优化方向。本文关注渲染方向：
+
+渲染其实是指GPU渲染，是App计算–绘制–渲染 过程中的最后一步。CPU负责Measure Layout，Execute GPU负责Rasterization（栅格化）。CPU通常存在的问题是 非必需的视图组件、视图层级；GPU的问">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-过度绘制" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/05/27/过度绘制/" class="article-date">
+  <time datetime="2017-05-26T16:00:00.000Z" itemprop="datePublished">2017-05-27</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      过度绘制的解决
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="过度绘制的解决"><a href="#过度绘制的解决" class="headerlink" title="过度绘制的解决"></a>过度绘制的解决</h3><hr>
+<p>背景：<br>《Google的性能优化典范》一文是Android程序内存优化的指导，分别从渲染、电量、运算和内存几个方面阐述了优化方向。<br>本文关注渲染方向：</p>
+<hr>
+<p>渲染其实是指GPU渲染，是App计算–绘制–渲染 过程中的最后一步。CPU负责Measure Layout，Execute GPU负责Rasterization（栅格化）。<br>CPU通常存在的问题是 非必需的视图组件、视图层级；GPU的问题是过度绘制。</p>
+<p>Overdraw 过度绘制：<br>定义：屏幕上的某个像素在同一帧的时间内被绘制了多次<br>例如UI是层叠的，看不见的UI也做绘制操作，就是多余的。当设计效果上更加华丽炫酷时，堆叠视图层级是常见的情况，但这很容易产生性能问题。</p>
+<p>怎么过度绘制打开开关和如何看，不介绍了就。</p>
+<hr>
+<p>解决方案：<br>1.降低Layout层级，这在页面的设计之初就应该考虑 ViewStub Merge等方法<br>2.移除非必须的background，Activity的DecorView有默认的背景色，可以改为透明<br><code>getWindow().getDecorView().setBackgroundColor(getResources().getColor(R.color.transparent));</code><br>这个颜色从ActivityTheme设置，被decorView所持有<br>也可以<code>android:windowbackground=&quot;null&quot;</code><br>一般页面的Rootview 背景色可以去掉<br>3.ListView 优化：ViewHolder中ImageView的设置，如果获取到Bitmap，则ImageView.setImageBitmap设置，并setBackground为透明。如果bitmap == null，再设置背景图。按需显示占位图。</p>
+<ol>
+<li>有时采用selector背景，可以normal状态设置为transparent</li>
+<li>ClipRect 在自定义onDraw时有用，还没有场景实战，遇到了再补充</li>
+<li>善用9patch，背景图如果只显示边框，选用9patch，中间的透明会被2D渲染器优化overdraw</li>
+</ol>
+<hr>
+<p>过度绘制的原因无外乎：复杂的Layout层级、重叠的背景、重叠的View几种。开发人员在设计之初就要充分考虑过度绘制等性能敏感地带，要知道等到功能实现之后再去改Layout层级，onDraw方法等，成本和风险都指数型提高。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/05/27/过度绘制/" data-id="cj36nq2lw0003gvx3xtq5i9il" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android性能优化/">Android性能优化</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/05/26/test/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">随笔记</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android性能优化/">Android性能优化</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Android性能优化/" style="font-size: 10px;">Android性能优化</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/05/27/过度绘制/">过度绘制的解决</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/26/test/">随笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/08/clean code/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2017/01/10/hello-world/">Hello World</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
