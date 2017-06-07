@@ -10,7 +10,7 @@
 渲染其实是指GPU渲染，是App计算–绘制–渲染 过程中的最后一步。CPU负责Measure Layout，Execute GPU负责Rasterization（栅格化）。CPU通常存在的问题是 非必需的视图组件、视图层级；GPU的问题是过度绘制。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="过度绘制的解决">
-<meta property="og:url" content="http://yoursite.com/2017/05/27/过度绘制/index.html">
+<meta property="og:url" content="http://yoursite.com/2017/05/27/perf-overdraw/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="背景：《Google的性能优化典范》一文是Android程序内存优化的指导，分别从渲染、电量、运算和内存几个方面阐述了优化方向。本文关注渲染方向：
 
@@ -18,7 +18,7 @@
 <meta property="og:image" content="http://oqjv79a9c.bkt.clouddn.com/0518-unmodified.png">
 <meta property="og:image" content="http://oqjv79a9c.bkt.clouddn.com/0516-modified.png">
 <meta property="og:image" content="http://oqjv79a9c.bkt.clouddn.com/0518-didi.png">
-<meta property="og:updated_time" content="2017-05-27T09:22:26.000Z">
+<meta property="og:updated_time" content="2017-06-06T03:56:27.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="过度绘制的解决">
 <meta name="twitter:description" content="背景：《Google的性能优化典范》一文是Android程序内存优化的指导，分别从渲染、电量、运算和内存几个方面阐述了优化方向。本文关注渲染方向：
@@ -62,9 +62,9 @@
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
@@ -73,9 +73,9 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-过度绘制" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-perf-overdraw" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2017/05/27/过度绘制/" class="article-date">
+    <a href="/2017/05/27/perf-overdraw/" class="article-date">
   <time datetime="2017-05-26T16:00:00.000Z" itemprop="datePublished">2017-05-27</time>
 </a>
     
@@ -119,7 +119,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/05/27/过度绘制/" data-id="cj36nq2lw0003gvx3xtq5i9il" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2017/05/27/perf-overdraw/" data-id="cj3mfe3xj0000c4x35a0dr2x7" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android性能优化/">Android性能优化</a></li></ul>
@@ -131,7 +131,7 @@
 <nav id="article-nav">
   
     <a href="/2017/06/06/perf-memory/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Récent</strong>
+      <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
           内存问题的解决
@@ -141,7 +141,7 @@
   
   
     <a href="/2017/05/26/essay/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Ancien</strong>
+      <strong class="article-nav-caption">Older</strong>
       <div class="article-nav-title">随笔记</div>
     </a>
   
@@ -159,7 +159,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Mot-clés</h3>
+    <h3 class="widget-title">Tags</h3>
     <div class="widget">
       <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android性能优化/">Android性能优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码及架构/">代码及架构</a></li></ul>
     </div>
@@ -169,7 +169,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Nuage de mot-clés</h3>
+    <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
       <a href="/tags/Android性能优化/" style="font-size: 20px;">Android性能优化</a> <a href="/tags/代码及架构/" style="font-size: 10px;">代码及架构</a>
     </div>
@@ -188,7 +188,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Articles récents</h3>
+    <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
         
@@ -197,7 +197,7 @@
           </li>
         
           <li>
-            <a href="/2017/05/27/过度绘制/">过度绘制的解决</a>
+            <a href="/2017/05/27/perf-overdraw/">过度绘制的解决</a>
           </li>
         
           <li>
@@ -221,7 +221,7 @@
   <div class="outer">
     <div id="footer-info" class="inner">
       &copy; 2017 John Doe<br>
-      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>
