@@ -31,7 +31,7 @@
 <meta property="og:image" content="http://oqjv79a9c.bkt.clouddn.com/activity%20leak.png">
 <meta property="og:image" content="http://oqjv79a9c.bkt.clouddn.com/dominator%20tree.png">
 <meta property="og:image" content="http://img.blog.csdn.net/20151123144226349">
-<meta property="og:updated_time" content="2017-06-06T13:55:24.000Z">
+<meta property="og:updated_time" content="2017-06-07T02:34:45.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="内存问题的解决">
 <meta name="twitter:description" content="内存可以引发的问题
@@ -79,9 +79,9 @@
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Zoeken"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
@@ -120,20 +120,23 @@
 <li>图片加载失败（图片多的场景， oom往往被loader catch）</li>
 </ol>
 <h5 id="通过如下的5R方法来对ANDROID内存进行优化："><a href="#通过如下的5R方法来对ANDROID内存进行优化：" class="headerlink" title="通过如下的5R方法来对ANDROID内存进行优化："></a>通过如下的5R方法来对ANDROID内存进行优化：</h5><p>1.Reckon（计算）<br>首先需要知道你的app所消耗内存的情况，<br>2.Reduce（减少）<br>消耗更少的资源<br>3.Reuse（重用）<br>Cache的使用<br>4.Recycle（回收）<br>资源利用后的释放，回收；防止内存泄露<br>5.Review（检查）<br>回顾检查你的程序，看看设计或代码有什么不合理的地方。</p>
-<h6 id="Reckon-（计算）"><a href="#Reckon-（计算）" class="headerlink" title="Reckon （计算）"></a>Reckon （计算）</h6><p>内存的监控：我们监控的内存究竟是分配的哪部分？</p>
-<p>一般Java在内存分配时会涉及到以下区域：<br>寄存器（Registers）：速度最快的存储场所，因为寄存器位于处理器内部，我们在程序中无法控制<br>栈（Stack）：存放基本类型的数据和对象的引用，但对象本身不存放在栈中，而是存放在堆中；大小和个数是受限制的。程序的运行由栈维护<br>堆（Heap）：堆内存用来存放由new创建的对象和数组。在堆中分配的内存，由Java虚拟机的自动垃圾回收器（GC）来管理。（堆内存）<br>静态域（static field）： Java在内存中专门划分了一个静态存储区域来管理一些特殊的数据变量如静态的数据变量<br>常量池（constant pool）：虚拟机必须为每个被装载的类型维护一个常量池。常量池就是该类型所用到常量的一个有序集和，包括直接常量（string,integer和floating point常量）和对其他类型，字段和方法的符号引用。</p>
-<p>Java数据类型的分类如图：<br><img src="http://images.cnitblog.com/blog/488573/201309/15165530-8a570626bf3741a1b4937759a89a5a93.png" width="460" height="300"></p>
-<p>内存的监控就是对堆内存的监控，不仅因为其大小最大，还考虑到无引用的head是否可以被回收<br>监控方法：<br>Android Studio之前，通过adb shell dumpsys meminfo com.szzc.ucar.pilot<br><img src="http://oqjv79a9c.bkt.clouddn.com/1.png" width="460" height="300"><br>通过不断的打印，监控内存的走势。<br>或者Android Device Monitor中的Update Heap，但是缺点都是无法实时监控，可视化不够。</p>
-<p>现有的监控：<br>1 性能监控系统<br>app轮询，获得指定进程的内存值，并上传dreport，同时上传页面、点击事件等信息<br>dreport上结果通过内存曲线展示，做到可视化，结果固化，分析不同场景下的内存表现趋势，可以多版本比较。<br>2 Android Monitor监控<br><img src="http://oqjv79a9c.bkt.clouddn.com/2.png" width="460" height="300"><br>free allocated 内存大小，一一对应于meminfo的红框内的内存信息。只是更加直观<br>这种监控方式，一般是在开发过程中，oom复现debug 等一些有目的性的内存监控，用来观察：<br>1）实时查看App的内存分配情况、走势情况<br>2）发现大内存对象分配的场景<br>3）快速判断App是否由GC造成卡顿<br>4）发现内存不断增长的场景 初步判断泄漏</p>
-<h5 id="Reduce（减少）"><a href="#Reduce（减少）" class="headerlink" title="Reduce（减少）"></a>Reduce（减少）</h5><p>掌握了上述的内存监控方法，我们就可以查看app在启动、使用过程中的各场景的内存分配情况了。<br>如何判定app的内存水平处于合理位置？<br>先看一个概念<br><code>Runtime rt=Runtime.getRuntime();
-        long maxMemory=rt.maxMemory();</code><br>maxMemory指系统能分配给app的最大内存，不同系统不一样，且与<code>android:largeHeap=&quot;true&quot;</code>有关，代表app能使用的最大内存；<br>app启动后需要多少，申请多少（TotalMemory），所以total一直在增长或波动，但totalMemory &lt; maxMemory<br>totalMemory包含哪些呢？看到图一中最后一行，TOTAL就表示totalMemory, 其中包含 Native Heap以及  Dalvik Heap<br>关系如下：<br><code>Max &gt; Total = (Native free + allocated) + (Dalvik free + allocated)</code><br>从上述公式可以看出，评判allocated内存的范围，不仅要考虑maxMemory的大小，还要给native heap留出余量。<br>例如：图一的手机max = 128M，当 Total 临界 Max 时，再次申请heap内存时，OOM发生了。<br>根据经验来讲，如果dalvik层的内存超过maxMemory的2/3时，OOM的概率就很高了。而在启动后，应用处于maxMemory的1/3左右较为合理。</p>
-<p>有了判断的标准，我们需要在app启动、使用过程中各场景，监控内存的大小。如果发现内存大，直接内存快照查看。<br>Studio可以直接导出prof文件（导出前主动GC），通过hprof-conv转换，在MAT中分析<br>MAT有很多的分析工具，我总结了我认为的较为实用几个<br><img src="http://oqjv79a9c.bkt.clouddn.com/MAT%20Histogram.png" width="460" height="300"><br>在Overview页面，Dominator Tree可以看到不同class的内存占用比例，按照优先级分析，例如最高Bitmap；</p>
-<p>在Histograme柱状图列表中，搜索Bitmap，结果为class列表，右键list objects –&gt; with incomming references,可以看到相关类的对象列表，通过Path To GCRoot 查找到bitmap究竟是什么对象，存在是否合理。<br><img src="http://oqjv79a9c.bkt.clouddn.com/MAT%20GcRoot.png" width="400" height="300"><br>不合理的Bitmap有以下特征：<br>1）上个页面的大背景图<br>2）bitmap大小明显大于其容器的大小<br>3）浮窗、蒙版、背景等代码可以实现的效果</p>
+<h5 id="Reckon-（计算）"><a href="#Reckon-（计算）" class="headerlink" title="Reckon （计算）"></a>Reckon （计算）</h5><h6 id="内存的监控：我们监控的内存究竟是分配的哪部分？"><a href="#内存的监控：我们监控的内存究竟是分配的哪部分？" class="headerlink" title="内存的监控：我们监控的内存究竟是分配的哪部分？"></a>内存的监控：我们监控的内存究竟是分配的哪部分？</h6><p>一般Java在内存分配时会涉及到以下区域：<br>寄存器（Registers）：速度最快的存储场所，因为寄存器位于处理器内部，我们在程序中无法控制<br>栈（Stack）：存放基本类型的数据和对象的引用，但对象本身不存放在栈中，而是存放在堆中；栈的大小和个数是受限制的。方法的调用顺序按照先进后出的顺序存入栈中，程序的运行由栈维护<br>堆（Heap）：堆内存用来存放由new创建的对象和数组。在堆中分配的内存，由Java虚拟机的自动垃圾回收器（GC）来管理。<br>静态域（static field）： Java在内存中专门划分了一个静态存储区域来管理一些特殊的数据变量如静态的数据变量<br>常量池（constant pool）：虚拟机必须为每个被装载的类型维护一个常量池。常量池就是该类型所用到常量的一个有序集和，包括直接常量（string,integer和floating point常量）和对其他类型，字段和方法的符号引用。</p>
+<p>Java数据类型的分类如图：<br><img src="http://images.cnitblog.com/blog/488573/201309/15165530-8a570626bf3741a1b4937759a89a5a93.png" width="660" height="300"><br>图一<br><strong>内存的监控就是对堆内存的监控，不仅因为其大小最大，还考虑到GC的回收情况影响整体内存的大小</strong></p>
+<h6 id="监控方法："><a href="#监控方法：" class="headerlink" title="监控方法："></a>监控方法：</h6><p>Android Studio之前，通过adb shell dumpsys meminfo com.szzc.ucar.pilot 打印app内存信息<br><img src="http://oqjv79a9c.bkt.clouddn.com/1.png" width="460" height="300"><br>图二<br>通过不断的打印，监控内存的走势。<br>或者Android Device Monitor中的Update Heap，也是监控allocated和free的内存，但是缺点都是无法实时监控，可视化不够。</p>
+<p>现有的监控：<br>1 性能监控系统<br>app轮询，获得指定进程的内存值，并上传dreport，同时上传页面、点击事件等信息<br>dreport统计数据后通过内存曲线展示，该监控方式做到可视化和结果固化，方便分析不同场景下的内存表现趋势，可以多版本比较，用于日常和线上监控。<br>2 Android Monitor监控<br><img src="http://oqjv79a9c.bkt.clouddn.com/2.png" width="460" height="300"><br>图三<br>图中free和allocated 内存大小，一一对应于图二meminfo的红框内的内存信息。只是更加直观<br>这种监控方式，一般是在开发过程中，或oom复现debug 等一些有目的性的内存监控，用来观察，比如：<br>1）实时查看App的内存分配情况、走势情况<br>2）发现大内存对象分配的场景<br>3）快速判断App是否由GC造成卡顿<br>4）发现内存不断增长的场景 初步判断泄漏</p>
+<h5 id="Reduce（减少）"><a href="#Reduce（减少）" class="headerlink" title="Reduce（减少）"></a>Reduce（减少）</h5><h6 id="知道了如何监控内存的大小，那么该如何判定app的内存水平处于合理位置？"><a href="#知道了如何监控内存的大小，那么该如何判定app的内存水平处于合理位置？" class="headerlink" title="知道了如何监控内存的大小，那么该如何判定app的内存水平处于合理位置？"></a>知道了如何监控内存的大小，那么该如何判定app的内存水平处于合理位置？</h6><p>先看几个概念<br><code>Runtime rt=Runtime.getRuntime();
+        long maxMemory=rt.maxMemory();</code><br>maxMemory指系统能分配给app的最大内存，不同系统不一样，且与<code>android:largeHeap=&quot;true&quot;</code>有关，代表app能使用的最大内存；<br>而app启动后需要多少，申请多少（totalMemory），所以totalMemory一直在增长或波动，但totalMemory &lt; maxMemory<br>totalMemory包含哪些呢？看到图二中最后一行，TOTAL就表示totalMemory, 其中包含 Native Heap以及  Dalvik Heap<br>关系如下：<br><code>Max &gt; Total = (Native free + allocated) + (Dalvik free + allocated)</code><br>（其中free代表申请的totalMemory中未被分配的内存，申请时的预留和GC回收导致的剩余都是free的来源）<br>如果图二的手机max = 128M，当 Total 临界 Max 时，再次申请heap内存时，OOM发生了。</p>
+<p>从上述公式可以看出，评判allocated内存的合理范围，不仅要考虑maxMemory的大小，还要给native heap留出余量。<br>根据经验来讲，如果dalvik层的内存超过maxMemory的2/3时，OOM的概率就很高了。而在启动后和使用中，dalvik层的内存处于maxMemory的1/3左右较为合理。</p>
+<h6 id="如何分析大内存？"><a href="#如何分析大内存？" class="headerlink" title="如何分析大内存？"></a>如何分析大内存？</h6><p>有了判断的标准，我们需要在app启动、使用过程中各场景，监控内存的大小。如果发现内存过大，直接通过内存快照分析。<br>Studio –&gt; Android Monitor –&gt; Dump Java Heap可以直接导出prof文件（导出前主动GC），通过hprof-conv转换，在MAT中分析<br>MAT有很多的分析工具，我总结了我认为的较为实用几个<br><img src="http://oqjv79a9c.bkt.clouddn.com/MAT%20Histogram.png" width="460" height="300"><br>在Overview页面，可以直观看到app的内存占用值和比例；</p>
+<p>在Histograme页面直接按照Retained Heap排序，从最大开始逐个分析</p>
+<p>也可以通过Dominator Tree看到不同class的内存占用比例，按照优先级分析，例如最高Bitmap；<br>接下来在Histograme柱状图列表中，搜索Bitmap，结果为class列表，右键list objects –&gt; with incomming references,可以看到相关类的对象列表，通过Path To GCRoot 查找到bitmap究竟是什么对象，存在是否合理。<br><img src="http://oqjv79a9c.bkt.clouddn.com/MAT%20GcRoot.png" width="400" height="300"><br>不合理的Bitmap有以下特征：<br>1）上个页面的大背景图<br>2）bitmap大小明显大于其容器的大小<br>3）浮窗、蒙版、背景等代码可以实现的效果</p>
 <p>对于这三种情况，<br>1）是否有页面泄漏，imageView.setImageDrawable(null)<br>2) imageLoader 或其他加载器，要传入view容器宽高，以便bitmap裁剪<br>3）BackgroundColor 自定义View  9patch 等方式实现，避免整张bitmap图</p>
 <p>以上只是拿Bitmap举了例子，除了bitmap之外，内存快照里还会有其他内存大户，需要用类似的方法进行分析。</p>
-<h5 id="Reuse（重用）"><a href="#Reuse（重用）" class="headerlink" title="Reuse（重用）"></a>Reuse（重用）</h5><p>1 Bitmap重用 使用第三方库加载bitmap，第三方库一般采用二级或三级缓存，可以对不再使用的bitmap及时释放，重用已有的内存<br>2 使用AdapterView、viewHolder复用<br>3 一些全局使用的大数据，如果可以全局公用，不采用每次获取。</p>
-<h5 id="Recycle（回收）"><a href="#Recycle（回收）" class="headerlink" title="Recycle（回收）"></a>Recycle（回收）</h5><p>除了必须的内存足够小之外，不需要的内存及时释放也非常重要，<br>JVM的heap回收依赖GC，app无法控制GC的时机和频率，能做的就是保证在系统GC时自身不再使用的内存，可以顺利被释放。<br>无法被释放，就是泄漏，查找泄漏目前最有效的方法是MAT，如何使用在reduce一节有描述。这里重点说说泄漏的分析：<br>什么时候分析泄漏？<br>1）对疑似泄漏的地方反复操作  2）内存曲线持续异常上涨 3）重度使用app后 4）Monkey测试 自动化测试之后<br>这些方式可以发现最基本、最明显的内存泄漏，对用户价值极大，性价比高。<br>拿到内存快照后如何分析泄漏？<br>MAT对于泄漏分析的支持还是全面的，功能复杂而繁多，以我的经验来说，一般从两方面检查泄漏：<br>1）基于class<br>MAT支持sql查询，app的泄漏大多发生在Activity上<br><code>select * from instanceof android.app.Activity</code><br><img src="http://oqjv79a9c.bkt.clouddn.com/activity%20leak.png" width="560" height="300"><br>SplashActivity是上一个页面，说明泄漏了。然后根据Path To GCRoot –&gt; exclude weak/soft references 找到泄漏原因<br><code>select * from instanceof com.ucar.base.fragment.BaseFragment</code>可以找到Fragment的泄漏<br>这种查法基于以前的经验，效率高，但覆盖程度不高。<br>2）基于内存块<br>MAT中Leak suspects具有一定参考性，但通过Dominator Tree 对内存占用排序后，更有针对性的进行泄漏排查。<br><img src="http://oqjv79a9c.bkt.clouddn.com/dominator%20tree.png" width="660" height="350"></p>
-<p>对于内存泄漏问题，亡羊补牢当然犹未为晚，但是防微杜渐更为可取。优秀的代码实践，会大大降低内存泄漏的概率。在设计、开发过程中，始终关注app的性能表现，是一名合格app工程师的基本素质。<br>3）基于prof对比<br>需要两个Dump结果作对比，打开 Navigator History面板，将两个表的 Histogram结果都添加到 Compare Basket中去<br>步骤如下：<br>a.打开第一个hprof，打开histogram view<br>b.在NavigationHistory view里 (如果看不到就从Window &gt;show view&gt;MAT- Navigation History ), 右击histogram然后选择Add to Compare Basket<br>c.打开第二个prof，重复步骤b 点击右上角红色‘！’<br>快速定位内存增量，那么泄漏的部分显而易见。</p>
+<h5 id="Reuse（重用）"><a href="#Reuse（重用）" class="headerlink" title="Reuse（重用）"></a>Reuse（重用）</h5><p>如果一些内存大户必须存在，那考虑是否可以缓存或重用<br>1 Bitmap重用 使用第三方库加载bitmap，第三方库一般采用二级或三级缓存，可以对不再使用的bitmap及时释放，重用已有的内存<br>2 使用AdapterView、viewHolder复用<br>3 一些全局使用的大数据，如果可以全局公用，不采用每次获取。</p>
+<h5 id="Recycle（回收）"><a href="#Recycle（回收）" class="headerlink" title="Recycle（回收）"></a>Recycle（回收）</h5><p>除了必须的内存足够小之外，不需要的内存及时释放也非常重要，<br>JVM的heap回收依赖GC，app无法控制GC的时机和频率，能做的就是保证在系统GC时自身不再使用的内存，可以顺利被释放。<br>无法被释放，就是内存泄漏，查找泄漏目前最有效的方法是MAT，如何使用在reduce一节有描述。这里重点说说泄漏的分析：</p>
+<h6 id="什么时候分析泄漏？"><a href="#什么时候分析泄漏？" class="headerlink" title="什么时候分析泄漏？"></a>什么时候分析泄漏？</h6><p>1）对疑似泄漏的地方反复操作  2）内存曲线持续异常上涨 3）重度使用app后 4）Monkey测试 自动化测试之后<br>这些方式可以发现最基本、最明显的内存泄漏，对用户价值极大，性价比高。</p>
+<h6 id="拿到内存快照后如何分析泄漏？"><a href="#拿到内存快照后如何分析泄漏？" class="headerlink" title="拿到内存快照后如何分析泄漏？"></a>拿到内存快照后如何分析泄漏？</h6><p>MAT对于泄漏分析的支持还是全面的，功能复杂而繁多，以我的经验来说，一般从几方面检查泄漏：<br>1）基于class<br>MAT支持sql查询，app的泄漏大多发生在Activity上<br><code>select * from instanceof android.app.Activity</code><br><img src="http://oqjv79a9c.bkt.clouddn.com/activity%20leak.png" width="560" height="300"><br>SplashActivity是上一个页面，但是还存在于内存中，说明泄漏了。然后根据Path To GCRoot –&gt; exclude weak/soft references 找到泄漏原因 — 引用持有链<br><code>select * from instanceof com.ucar.base.fragment.BaseFragment</code>可以找到Fragment的泄漏<br>这种查法基于以前的经验，效率高，但覆盖程度不够。<br>2）基于内存块<br>MAT中Leak suspects具有一定参考性，但通过Dominator Tree 对内存占用排序后，更有针对性的进行泄漏排查。<br><img src="http://oqjv79a9c.bkt.clouddn.com/dominator%20tree.png" width="660" height="350"><br>3）基于prof对比<br>需要两个Dump结果作对比，打开 Navigator History面板，将两个表的 Histogram结果都添加到 Compare Basket中去<br>步骤如下：<br>a.打开第一个hprof，打开histogram view<br>b.在NavigationHistory view里 (如果看不到就从Window &gt;show view&gt;MAT- Navigation History ), 右击histogram然后选择Add to Compare Basket<br>c.打开第二个prof，重复步骤b 点击右上角红色‘！’<br>快速定位内存增量，那么泄漏的部分显而易见。</p>
+<p><em>对于内存泄漏问题，亡羊补牢当然犹未为晚，但是防微杜渐更为可取。优秀的代码实践，会大大降低内存泄漏的概率。在设计、开发过程中，始终关注app的性能表现，是一名合格app工程师的基本素质。</em></p>
 <p>几条大的原则：</p>
 <ol>
 <li>保存对象前要三思（static）<br>I. 对象本身有无隐含的引用<br>II. 保存后何时能够回收</li>
@@ -164,7 +167,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/06/06/perf-memory/" data-id="cj3lmp9k30000m4x3hc9pc219" class="article-share-link">Delen</a>
+      <a data-url="http://yoursite.com/2017/06/06/perf-memory/" data-id="cj3lmp9k30000m4x3hc9pc219" class="article-share-link">Partager</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android性能优化/">Android性能优化</a></li></ul>
@@ -177,7 +180,7 @@
   
   
     <a href="/2017/05/27/过度绘制/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Ouder</strong>
+      <strong class="article-nav-caption">Ancien</strong>
       <div class="article-nav-title">过度绘制的解决</div>
     </a>
   
@@ -195,7 +198,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Labels</h3>
+    <h3 class="widget-title">Mot-clés</h3>
     <div class="widget">
       <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android性能优化/">Android性能优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码及架构/">代码及架构</a></li></ul>
     </div>
@@ -205,7 +208,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
+    <h3 class="widget-title">Nuage de mot-clés</h3>
     <div class="widget tagcloud">
       <a href="/tags/Android性能优化/" style="font-size: 20px;">Android性能优化</a> <a href="/tags/代码及架构/" style="font-size: 10px;">代码及架构</a>
     </div>
@@ -214,7 +217,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Archieven</h3>
+    <h3 class="widget-title">Archives</h3>
     <div class="widget">
       <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li></ul>
     </div>
@@ -224,7 +227,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Recente berichten</h3>
+    <h3 class="widget-title">Articles récents</h3>
     <div class="widget">
       <ul>
         
@@ -257,7 +260,7 @@
   <div class="outer">
     <div id="footer-info" class="inner">
       &copy; 2017 John Doe<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>
