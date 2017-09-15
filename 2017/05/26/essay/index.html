@@ -6,18 +6,27 @@
   <title>随笔记 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="Android getResources().getColor() DeprecatedgetColor方法在Android 6.0即API 23中 已经过时，替代方法为：
-ContextCompat.getColor(context, R.color.black)ContextCompat 在v4包。">
+ContextCompat.getColor(context, R.color.black)ContextCompat 在v4包。
+
+Gradle 配置异常
+You have not accepted the license">
 <meta property="og:type" content="article">
 <meta property="og:title" content="随笔记">
 <meta property="og:url" content="http://yoursite.com/2017/05/26/essay/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="Android getResources().getColor() DeprecatedgetColor方法在Android 6.0即API 23中 已经过时，替代方法为：
-ContextCompat.getColor(context, R.color.black)ContextCompat 在v4包。">
-<meta property="og:updated_time" content="2017-05-26T09:05:05.000Z">
+ContextCompat.getColor(context, R.color.black)ContextCompat 在v4包。
+
+Gradle 配置异常
+You have not accepted the license">
+<meta property="og:updated_time" content="2017-06-16T15:48:33.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="随笔记">
 <meta name="twitter:description" content="Android getResources().getColor() DeprecatedgetColor方法在Android 6.0即API 23中 已经过时，替代方法为：
-ContextCompat.getColor(context, R.color.black)ContextCompat 在v4包。">
+ContextCompat.getColor(context, R.color.black)ContextCompat 在v4包。
+
+Gradle 配置异常
+You have not accepted the license">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -57,7 +66,7 @@ ContextCompat.getColor(context, R.color.black)ContextCompat 在v4包。">
         
           <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Søk"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
@@ -90,6 +99,14 @@ ContextCompat.getColor(context, R.color.black)ContextCompat 在v4包。">
       
         <h5 id="Android-getResources-getColor-Deprecated"><a href="#Android-getResources-getColor-Deprecated" class="headerlink" title="Android getResources().getColor() Deprecated"></a>Android getResources().getColor() Deprecated</h5><p>getColor方法在Android 6.0即API 23中 已经过时，替代方法为：</p>
 <p>ContextCompat.getColor(context, R.color.black)<br>ContextCompat 在v4包。</p>
+<hr>
+<h5 id="Gradle-配置异常"><a href="#Gradle-配置异常" class="headerlink" title="Gradle 配置异常"></a>Gradle 配置异常</h5><ol>
+<li>You have not accepted the license agreements of the following SDK components: [Android SDK Build-Tools 24.0.2]</li>
+</ol>
+<p>从Android Gradle plugin 2.2.0开始，gradle会自动加载需要的SDK, build-tools，但是因为没有接受license，导致加载依赖终止<br>例如依赖了google gms服务的依赖，gradle会下载sdk对应的包，此时会报这个错误。<br>问题解决：</p>
+<p>license存放在$ANDROID_HOME/licenses下（ANDROID_HOME 就是sdk的位置）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mkdir &quot;$ANDROID_HOME/licenses&quot;</div><div class="line">echo -e &quot;\n8933bad161af4178b1185d1a37fbf41ea5269c55&quot; &gt; &quot;$ANDROID_HOME/licenses/android-sdk-license&quot;</div></pre></td></tr></table></figure></p>
+<p> getSupportFragmentManager().getFragments() 抛出空指针异常</p>
+<h2 id="http-blog-csdn-net-lintcgirl-article-details-50681373"><a href="#http-blog-csdn-net-lintcgirl-article-details-50681373" class="headerlink" title=" http://blog.csdn.net/lintcgirl/article/details/50681373"></a> <a href="http://blog.csdn.net/lintcgirl/article/details/50681373" target="_blank" rel="external">http://blog.csdn.net/lintcgirl/article/details/50681373</a></h2><p>删除chrome指定密码记录<br>chrome://settings/passwords</p>
 
       
     </div>
@@ -151,9 +168,9 @@ ContextCompat.getColor(context, R.color.black)ContextCompat 在v4包。">
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
+    <h3 class="widget-title">Arkiv</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li></ul>
     </div>
   </div>
 
@@ -161,9 +178,13 @@ ContextCompat.getColor(context, R.color.black)ContextCompat 在v4包。">
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
+    <h3 class="widget-title">Siste innlegg</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2017/09/15/ARouter/">(no title)</a>
+          </li>
         
           <li>
             <a href="/2017/06/06/perf-memory/">内存问题的解决</a>
