@@ -332,9 +332,10 @@
 <p><strong>可以这么说UrlRouter在页面跳转方面，JSBridge在方法调用方面，都具备各自的特点和优势，可以有效的结合起来。</strong></p>
 <p>#####3. H5 页面如何接近 Native 的体验？</p>
 <p>######资源加载缓慢<br>1.模块化你的 H5 页面/应用，引入模块加载器<br>2.资源预加载<br>第一种方式是说使用 WebView 自身的缓存机制<br>这种缓存，系统会自动把它清掉，我们没法进行控制、<br>第二种方案是说，我们自己去构建，自己管理缓存<br>把这些需要预加载的资源放在 APP 里面，他可能是预制放进去的，也可能是后续下载的。<br>每当这个 WebView 发起资源请求的时候，我们会拦截到这些资源的请求，去本地检查一下我们的这些静态资源本地离线包有没有。针对本地的缓存文件我们有些策略能够及时的去更新它<br><img src="http://upload-images.jianshu.io/upload_images/2638203-321faacaeb38d7e6" alt=""><br>资源预加载效果：<br><img src="http://upload-images.jianshu.io/upload_images/2638203-43d00f93cffd7391" alt=""><br>每个页面在预加载后都有明显提升（4G下明显），同时横向比较，也可看出，在一系列的web加载过程中，平均时间再降低。也说明了webview自身的缓存机制。</p>
-<p>最后放一张hybrid客户端架构图<br><img src="http://img1.tuicool.com/Zjiyyu.png!web" alt=""></p>
+<p>最后放一张hybrid客户端架构图</p>
+<p><img src="http://img1.tuicool.com/Zjiyyu.png!web" alt=""></p>
 <p>H5Container是架构设计的重点和难点，其中nativeApi，HandwareApi都是对于手机对web提供功能的封装。Data Channel负责埋点;JSBridge是处于底层的通讯接口，JSBridges为各个模块的定制和扩展。<br>Synchronize Service 模块表示和服务器的长连接通信模块，用于接受服务器端各种推送，包括离线包等。 Source Merge Service 模块表示对解压后的H5资源进行更新，包括增加文件、以旧换新以及删除过期文件等。</p>
-<h4 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h4><p>一般来说Hybrid的项目一般是用在一些快速迭代试错的地方。另外包括有一些非主流产品的页面，我们倾向于用 Hybrid 的形式做.<br>但是像前端购买一些交易环节，特别核心的流程的话，我们一般情况下会用 Native 的形式去写这些页面，去提升，达到一个极致的用户体验。不要为了hybrid而hybrid，一切都是根据需求的实际情况出发，同时hybrid的框架在设计时，协议方面要注意ios android两端的统一，android端自身尽量考虑扩展性和解耦，有利于后续开发迭代的稳定和迅速。</p>
+<h2 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h2><p>一般来说Hybrid的项目一般是用在一些快速迭代试错的地方。另外包括有一些非主流产品的页面，我们倾向于用 Hybrid 的形式做.<br>但是像前端购买一些交易环节，特别核心的流程的话，我们一般情况下会用 Native 的形式去写这些页面，去提升，达到一个极致的用户体验。不要为了hybrid而hybrid，一切都是根据需求的实际情况出发，同时hybrid的框架在设计时，协议方面要注意ios android两端的统一，android端自身尽量考虑扩展性和解耦，有利于后续开发迭代的稳定和迅速。</p>
 
           
         
