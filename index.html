@@ -228,6 +228,285 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/07/hybrid/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="bo.wang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Muse--D.D">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/07/hybrid/" itemprop="url">Hybrid应用开发初探</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-07T00:00:00+08:00">
+                2017-12-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <hr>
+<h2 id="Hybrid开发定义和使用范围"><a href="#Hybrid开发定义和使用范围" class="headerlink" title="Hybrid开发定义和使用范围"></a>Hybrid开发定义和使用范围</h2><p>现有3类主流APP，分别为：Web App、Hybrid App（混合模式应用，Hybrid有“混合的”意思）、 Native App；</p>
+<p>Native App 和 Web App不作解释了，主要解释Hybrid App。<br>Hybrid App按网页语言与程序语言的混合，通常分为三种类型：多View混合型，单View混合型，Web主体型。</p>
+<p>######单View混合型<br>即在同一个View内，同时包括Native View和Web View。互相之间是覆盖（层叠）的关系。这种Hybrid App的开发成本较高，开发难度较大，但是体验较好。如百度搜索为代表的单View混合型移动应用，既可以实现充分的灵活性，又能实现较好的用户体验。一般如无特殊需求，不会采用此种方式</p>
+<p>######Web主体型<br>这种常见于市面上第三方hybrid框架实现。例如Wex5（电子录单），AppCan和Rexsee都属于Web主体型移动应用中间件。基本可以实现跨平台，主要以网页语言编写，框架生成native的壳子。但是一般用户体验存在缺陷，仅比web强些有限。</p>
+<p>######多View混合型<br>即Native View和Web View独立展示，交替出现。这种应用混合逻辑相对简单。这种移动应用主体通常是Native App，Web技术只是起到补充作用。开发难度和Native App基本相当。常见的Hybrid App是Native View与WebView交替的场景出现。<br><img src="http://upload-images.jianshu.io/upload_images/2638203-e4aef13b373e0140" alt=""></p>
+<p>为什么要采用hybrid：</p>
+<p>现阶段的应用开发，会遇到如下问题和挑战：<br>1 一些页面或业务，和运营强相关，无法native固定（例如电子商务 详情展示）<br>2 客户端发版周期长，一些需求想要很快上线，或变化非常频繁</p>
+<p>与现阶段App内接入H5的区别：</p>
+<p>hybrid的开发模式与我们之前一些运营页面采用h5的根本区别在于，后者只是在一些不重要的功能上实现可运营和便于分享，并不接入到应用的主要流程中，与native的交互较少，对应用的影响小，作为开发的一个小模块独立存在。hybrid开发则是将web页面作为native的重要补充，应用功能的重要组成部分，需要考虑上线节奏，web与native的通讯，优化web体验等问题，对于应用来讲，web与native的地位，被大大拉平了。</p>
+<p>#####如何区分Hybrid APP中的原生页面和H5页面<br>很多人从页面的设计上来区分的。如：（1）顶部显示网页链接；（2）有加载的进度条；（3）没有底部tab导航栏；（4）顶部显示两个导航条；<br>但是现在app的h5页面做的可以以假乱真了，这些统统不管用。<br>以淘宝为例：<br><img src="http://upload-images.jianshu.io/upload_images/738531-b9c78c9eb6330834.png" alt=""></p>
+<p>#####设置-开发者选项-显示布局边界<br>H5中使用了webview控件，其作为一个控件，只有一个边界框，所以通过这一点，就比较容易区分出一个界面是webview实现的还是原生布局控件实现的<br>这次再来看看：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/738531-76cbd5f6bffafcbf.png" alt=""></p>
+<p>几个主流HybridApp：淘宝、大众点评、乐车邦</p>
+<p>####Native和Hybrid的使用范围:<br>Native<br>1 应用核心逻辑：例如 下单、支付等<br>2 对手机native功能（如照相、定位）重度依赖的页面<br>3 用户体验要求强，运营要求弱的页面<br>H5：<br>1.功能开发不完善，试运营阶段（试错成本低）<br>2.强运营需求，在功能调整或内容的运营上很灵活<br>3.阶段性的营销活动，希望被分享出去</p>
+<h2 id="Hybrid开发中要解决的几个问题"><a href="#Hybrid开发中要解决的几个问题" class="headerlink" title="Hybrid开发中要解决的几个问题"></a>Hybrid开发中要解决的几个问题</h2><p>一、H5 和 Native 上线时间不一致，如何衔接？<br>二、H5 和 Native 之间如何进行通信？<br>三、H5 页面如何接近 Native 的体验？<br>说下美团对于这三个问题的解答：</p>
+<p>#####1. H5 和 Native 上线时间不一致，如何衔接？<br>比如一个功能以H5形式作出，H5的发布滞后于native，当H5上线之后，客户端需要给H5提供一些跳转的入口，这个跳转的入口提供的应该是在不发版的情况下去给出的。<br>这就需要对路由的跳转做到后台的可配置。<br>现阶段的跳转：（Native 到 Native）<br><img src="http://upload-images.jianshu.io/upload_images/2638203-a70659645a2243ed" alt=""><br>这个跳转去做一些扩展：对路由协议扩展后，让他能支持跳转到H5里。如下图：<br><img src="http://upload-images.jianshu.io/upload_images/2638203-60f2c090a2eecfe1" alt=""><br>通过后台动态决定一个页面，究竟是native还是h5的展现形式。<br>举个例子：<br>在美团 APP 买一个团购的订单，用户需要访问列表页，商家的详情页，创建订单，最后购买成功。对一些新的产品，有新的产品详情和创建订单样式。可以通过h5上线的方式：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2638203-d32af64ba8238c55" alt=""><br>可以看到流程的两端都是native，中间环节从native到h5可以动态切换<br>备注：这些路由配置，是实际需求的少数，作为主体方案的有效补充存在。</p>
+<p>#####2. H5 和 Native 如何进行通信？</p>
+<p>######传统的JSInterface（兼容性）<br>看一段html代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;zh-CN&quot; dir=&quot;ltr&quot;&gt;</div><div class="line">&lt;head&gt;</div><div class="line">    &lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot; /&gt;</div><div class="line"></div><div class="line">    &lt;script type=&quot;text/javascript&quot;&gt;</div><div class="line">        function showToast(toast) &#123;</div><div class="line">            javascript:control.showToast(toast);</div><div class="line">        &#125;</div><div class="line">        function log(msg)&#123;</div><div class="line">            console.log(msg);</div><div class="line">        &#125;</div><div class="line">    &lt;/script&gt;</div><div class="line"></div><div class="line">&lt;/head&gt;</div><div class="line"></div><div class="line">&lt;body&gt;</div><div class="line">&lt;input type=&quot;button&quot; value=&quot;toast&quot;</div><div class="line">       onClick=&quot;showToast(&apos;Hello world&apos;)&quot; /&gt;</div><div class="line">&lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure></p>
+<p>对应的java代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">public class MainActivity extends AppCompatActivity &#123;</div><div class="line"></div><div class="line">    private WebView webView;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</div><div class="line">        super.onCreate(savedInstanceState);</div><div class="line">        setContentView(R.layout.activity_main);</div><div class="line"></div><div class="line">        webView = (WebView)findViewById(R.id.webView);</div><div class="line"></div><div class="line">        WebSettings webSettings = webView.getSettings();</div><div class="line"></div><div class="line">        webSettings.setJavaScriptEnabled(true);</div><div class="line"></div><div class="line">        webView.addJavascriptInterface(new JsInterface(), &quot;control&quot;);</div><div class="line"></div><div class="line">        webView.loadUrl(&quot;file:///android_asset/interact.html&quot;);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public class JsInterface &#123;</div><div class="line"></div><div class="line">        @JavascriptInterface</div><div class="line">        public void showToast(String toast) &#123;</div><div class="line">            Toast.makeText(MainActivity.this, toast, Toast.LENGTH_SHORT).show();</div><div class="line">            log(&quot;show toast success&quot;);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        public void log(final String msg)&#123;</div><div class="line">            webView.post(new Runnable() &#123;</div><div class="line">                @Override</div><div class="line">                public void run() &#123;</div><div class="line">                    webView.loadUrl(&quot;javascript: log(&quot; + &quot;&apos;&quot; + msg + &quot;&apos;&quot; + &quot;)&quot;);</div><div class="line">                &#125;</div><div class="line">            &#125;);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>但是，，，<br>4.2版本之前的addjavascriptInterface接口引起的漏洞，可能导致恶意网页通过Js方法遍历刚刚通过addjavascriptInterface注入进来的类的所有方法从中获取到getClass方法，然后通过反射获取到Runtime对象，进而调用Runtime对象的exec方法执行一些操作，恶意的Js代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">function execute(cmdArgs) &#123;</div><div class="line">    for (var obj in window) &#123;</div><div class="line">        if (&quot;getClass&quot; in window[obj]) &#123;</div><div class="line">            alert(obj);</div><div class="line">            return  window[obj].getClass().forName(&quot;java.lang.Runtime&quot;)  </div><div class="line">                 .getMethod(&quot;getRuntime&quot;,null).invoke(null,null).exec(cmdArgs);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>4.2以后通过为可以被Js调用的方法添加@JavascriptInterface注解来解决，但是4.2之前的版本兼容性存在问题。而且这种类似于函数式的调用方式，扩展性和两端的兼容性都受限，所以他也就没法广泛采用了。</p>
+<p>######UrlRouter<br>严格的说，UrlRouter不算是js和java的通信，它只是一个通过url来让前端唤起native页面的框架。不过千万不要小看它的作用，如果协议定义的合理，它可以让前端，Android和iOS三端有一个高度的统一，十分方便。<br><code>public boolean shouldOverrideUrlLoading(WebView view, String url) {</code><br>在这个回调中拦截url的跳转，通过解析url中内容，达到native的页面跳转。这种逻辑在应用中已经广泛使用了，只不过目前并没有和native之间的跳转统一起来。</p>
+<p>######JSBridge<br>这种方式不算新，一些大公司都有自己的jsBridge封装方式，这里简要说明一下基本原理。<br>WebView中有一个WebChromeClient类，有三个监听函数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">@Override</div><div class="line">public boolean onJsPrompt(WebView view, String url, String message, String defaultValue, JsPromptResult result) &#123;</div><div class="line">    return super.onJsPrompt(view, url, message, defaultValue, result);</div><div class="line">&#125;</div><div class="line"></div><div class="line">@Override</div><div class="line">public boolean onJsAlert(WebView view, String url, String message, JsResult result) &#123;</div><div class="line">    return super.onJsAlert(view, url, message, result);</div><div class="line">&#125;</div><div class="line"></div><div class="line">@Override</div><div class="line">public boolean onJsConfirm(WebView view, String url, String message, JsResult result) &#123;</div><div class="line">    return super.onJsConfirm(view, url, message, result);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>在js中，alert和confirm本身的使用概率还是很高的，不建议使用这两个通道，onJsPrompt方法可以用来js与java通信。通过在回调函数中message参数传递通讯协议，native根据协议解析决定自己的操作。<br><code>hybrid://JSBridge:1538351/method?{“message”:”msg”}</code><br>sheme是hybrid://，host是JSBridge，方法名字是toast，传递的参数是以json格式传递的<br>java层的处理：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">public class InjectedChromeClient extends WebChromeClient &#123;</div><div class="line">    private final String TAG = &quot;InjectedChromeClient&quot;;</div><div class="line"></div><div class="line">    private JsCallJava mJsCallJava;</div><div class="line"></div><div class="line">    public InjectedChromeClient() &#123;</div><div class="line">        mJsCallJava = new JsCallJava();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public boolean onJsPrompt(WebView view, String url, String message, String defaultValue, JsPromptResult result) &#123;</div><div class="line">        result.confirm(mJsCallJava.call(view, message));</div><div class="line">        return true;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>核心的call方法做了哪些？<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line">public String call(WebView webView, String jsonStr) &#123;</div><div class="line">    String methodName = &quot;&quot;;</div><div class="line">    String name = BRIDGE_NAME;</div><div class="line">    String param = &quot;&#123;&#125;&quot;;</div><div class="line">    String result = &quot;&quot;;</div><div class="line">    String sid=&quot;&quot;;</div><div class="line">    if (!TextUtils.isEmpty(jsonStr) &amp;&amp; jsonStr.startsWith(SCHEME)) &#123;</div><div class="line">        Uri uri = Uri.parse(jsonStr);</div><div class="line">        name = uri.getHost();</div><div class="line">        param = uri.getQuery();</div><div class="line">        sid = getPort(jsonStr);</div><div class="line">        String path = uri.getPath();</div><div class="line">        if (!TextUtils.isEmpty(path)) &#123;</div><div class="line">            methodName = path.replace(&quot;/&quot;, &quot;&quot;);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    if (!TextUtils.isEmpty(jsonStr)) &#123;</div><div class="line">        try &#123;</div><div class="line">            ArrayMap&lt;String, Method&gt; methodMap = mInjectNameMethods.get(name);</div><div class="line"></div><div class="line">            Object[] values = new Object[3];</div><div class="line">            values[0] = webView;</div><div class="line">            values[1] = new JSONObject(param);</div><div class="line">            values[2]=new JsCallback(webView,sid);</div><div class="line">            Method currMethod = null;</div><div class="line">            if (null != methodMap &amp;&amp; !TextUtils.isEmpty(methodName)) &#123;</div><div class="line">                currMethod = methodMap.get(methodName);</div><div class="line">            &#125;</div><div class="line">            // 方法匹配失败</div><div class="line">            if (currMethod == null) &#123;</div><div class="line">                result = getReturn(jsonStr, RESULT_FAIL, &quot;not found method(&quot; + methodName + &quot;) with valid parameters&quot;);</div><div class="line">            &#125;else&#123;</div><div class="line">                result = getReturn(jsonStr, RESULT_SUCCESS, currMethod.invoke(null, values));</div><div class="line">            &#125;</div><div class="line">        &#125; catch (Exception e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125; else &#123;</div><div class="line">        result = getReturn(jsonStr, RESULT_FAIL, &quot;call data empty&quot;);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    return result;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>代码的思路如下：<br>(1) 在js脚本中把对应的方法名，参数等写成一个符合协议的uri，并且通过window.prompt方法发送给java层。</p>
+<p>(2) 在java层的onJsPrompt方法中接受到对应的message之后，通过JsCallJava类进行具体的解析。</p>
+<p>(3) 在JsCallJava类中，我们解析得到对应的方法名，参数等信息，并且在map中查找出对应的类的方法。<br>思考：为什么不直接switch case，而是要经过mInjectNameMethods的遍历呢?<br>如何增强扩展性、模块化</p>
+<p><strong>可以这么说UrlRouter在页面跳转方面，JSBridge在方法调用方面，都具备各自的特点和优势，可以有效的结合起来。</strong></p>
+<p>#####3. H5 页面如何接近 Native 的体验？</p>
+<p>######资源加载缓慢<br>1.模块化你的 H5 页面/应用，引入模块加载器<br>2.资源预加载<br>第一种方式是说使用 WebView 自身的缓存机制<br>这种缓存，系统会自动把它清掉，我们没法进行控制、<br>第二种方案是说，我们自己去构建，自己管理缓存<br>把这些需要预加载的资源放在 APP 里面，他可能是预制放进去的，也可能是后续下载的。<br>每当这个 WebView 发起资源请求的时候，我们会拦截到这些资源的请求，去本地检查一下我们的这些静态资源本地离线包有没有。针对本地的缓存文件我们有些策略能够及时的去更新它<br><img src="http://upload-images.jianshu.io/upload_images/2638203-321faacaeb38d7e6" alt=""><br>资源预加载效果：<br><img src="http://upload-images.jianshu.io/upload_images/2638203-43d00f93cffd7391" alt=""><br>每个页面在预加载后都有明显提升（4G下明显），同时横向比较，也可看出，在一系列的web加载过程中，平均时间再降低。也说明了webview自身的缓存机制。</p>
+<p>最后放一张hybrid客户端架构图<br><img src="https://img1.tuicool.com/Zjiyyu.png!web" alt=""></p>
+<p>H5Container是架构设计的重点和难点，其中nativeApi，HandwareApi都是对于手机对web提供功能的封装。Data Channel负责埋点;JSBridge是处于底层的通讯接口，JSBridges为各个模块的定制和扩展。<br>Synchronize Service 模块表示和服务器的长连接通信模块，用于接受服务器端各种推送，包括离线包等。 Source Merge Service 模块表示对解压后的H5资源进行更新，包括增加文件、以旧换新以及删除过期文件等。</p>
+<p>####总结：<br>一般来说Hybrid的项目一般是用在一些快速迭代试错的地方。另外包括有一些非主流产品的页面，我们倾向于用 Hybrid 的形式做.<br>但是像前端购买一些交易环节，特别核心的流程的话，我们一般情况下会用 Native 的形式去写这些页面，去提升，达到一个极致的用户体验。不要为了hybrid而hybrid，一切都是根据需求的实际情况出发，同时hybrid的框架在设计时，协议方面要注意ios android两端的统一，android端自身尽量考虑扩展性和解耦，有利于后续开发迭代的稳定和迅速。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/24/webserver/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="bo.wang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Muse--D.D">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/11/24/webserver/" itemprop="url">mac上web服务器配置</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-24T00:00:00+08:00">
+                2017-11-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <hr>
+<h2 id="自己的Web服务器：mac本地"><a href="#自己的Web服务器：mac本地" class="headerlink" title="自己的Web服务器：mac本地"></a>自己的Web服务器：mac本地</h2><h3 id="web服务器的用途"><a href="#web服务器的用途" class="headerlink" title="web服务器的用途"></a>web服务器的用途</h3><p>本地的web服务器使用上，当然受限。只能在局域网内使用。在android native的开发中，一些测试用的前端页面，就可以借助web服务器部署来完成了。</p>
+<h3 id="web服务器mac上的配置"><a href="#web服务器mac上的配置" class="headerlink" title="web服务器mac上的配置"></a>web服务器mac上的配置</h3><p>mac上自带Apache和PHP环境，我们只要启动并配置就ok了。</p>
+<h4 id="启动-Apache"><a href="#启动-Apache" class="headerlink" title="启动 Apache"></a>启动 Apache</h4><p>sudo apachectl -k start 启动Apache服务器<br>sudo apachectl -k stop  停止Apache服务器<br>启动后，在浏览器中输入 <a href="http://127.0.0.1" target="_blank" rel="external">http://127.0.0.1</a> 或 <a href="http://localhost" target="_blank" rel="external">http://localhost</a> 如果看到It Works!就是启动成功了。实际启动的是/Library/WebServer/Documents/index.html.en;</p>
+<p>那么可以推论了，如果我们自己写一个html，替换上面地址的html就可以了。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/15/ARouter/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1101,7 +1380,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1114,7 +1393,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
