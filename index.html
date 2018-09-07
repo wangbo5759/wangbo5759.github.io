@@ -228,6 +228,244 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/07/LRecycler/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="bo.wang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Muse--D.D">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/09/07/LRecycler/" itemprop="url">未命名</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-07T17:22:15+08:00">
+                2018-09-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/07/ReactiveX/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="bo.wang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Muse--D.D">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/09/07/ReactiveX/" itemprop="url">未命名</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-07T17:07:54+08:00">
+                2018-09-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/06/IntelliJplugin/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -312,7 +550,7 @@
 <li>GUI Form 类似于android中xml布局文件，只不过此处是swing的拖拽控件，Form与Dialog是配对出现，其对应关系在Form配置。</li>
 </ol>
 <h5 id="jsonString–JavaBean的过程，及代码架构"><a href="#jsonString–JavaBean的过程，及代码架构" class="headerlink" title="jsonString–JavaBean的过程，及代码架构"></a>jsonString–JavaBean的过程，及代码架构</h5><p>从MainAction入口开始看起，在JsonDialog中点击确定后，开始解析jsonString。主要是通过ConvertBridget类,将初步解析的结果generateClassEntity传递给FieldsDialog，FieldsDialog中可以修改field等属性，确认后通过DataWriter写入class文件中。</p>
-<h5 id="我的诉求"><a href="#我的诉求" class="headerlink" title="我的诉求"></a>我的诉求</h5><p>在混淆后的代码后JavaBean类也被混淆了，里面的field名变了，导致无论是GSon fastjson都无法正确解析了，所以想解决这个问题必须保证javaBean不被混淆。如何不被混淆，有几个解决办法：1 统一放到一个文件夹里，但是这办法不好，一个是文件夹容易变名字，还有多人开发时无法保证所有的人都遵守。 2 所有JavaBean序列化，这样proguard文件中保证所有Seriallizable的子类不被混淆即可。而且Bundle传递参数时javaBean可以直接被用。但是这个办法也有一个缺点：多人开发时不能保证所有的class都序列化。<br>因为JavaBean的生成过程一般用GsonFormat插件来做，所以在基于GsonFormat功能提供一个所有的JavaBean class统一集成Serializable，这样兼顾了易用性和统一性。</p>
+<h5 id="我的诉求"><a href="#我的诉求" class="headerlink" title="我的诉求"></a>我的诉求</h5><p>在混淆后的代码后JavaBean类也被混淆了，里面的field名变了，导致无论是GSon fastjson都无法正确解析了，所以想解决这个问题必须保证javaBean不被混淆。如何不被混淆，有几个解决办法：1 统一放到一个文件夹里，但是这办法不好，一个是文件夹容易变名字，还有多人开发时无法保证所有的人都遵守。 2 所有JavaBean序列化，这样proguard文件中保证所有Seriallizable的子类不被混淆即可。而且Bundle传递参数时javaBean可以直接被用。但是这个办法也有一个缺点：多人开发时不能保证所有的class都序列化。<br>因为JavaBean的生成过程一般用GsonFormat插件来做，所以在基于GsonFormat功能提供一个所有的JavaBean class统一集成Serializable，这样兼顾了易用性和统一性。<br>插件下载地址： <a href="https://plugins.jetbrains.com/plugin/11100-sgsonformat/update/49532；" target="_blank" rel="external">https://plugins.jetbrains.com/plugin/11100-sgsonformat/update/49532；</a><br>或者直接搜索SGsonFormat，install即可使用</p>
 
           
         
@@ -1519,7 +1757,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
