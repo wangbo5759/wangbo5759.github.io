@@ -89,7 +89,7 @@
 基本可以把插件的功能分为以下几类：1、解决重复性工作：GsonFormat（jsonString自动生成JavaBean类）、ButterKnife Zelezny（xml自动生成butterknife的注解代码）、Cod">
 <meta property="og:image" content="http://oqjv79a9c.bkt.clouddn.com/c035fd2ead7a041bac807ed4fc526b49.png">
 <meta property="og:image" content="http://oqjv79a9c.bkt.clouddn.com/303488b7c0d72c275d50706684bc6182.png">
-<meta property="og:updated_time" content="2018-09-07T10:03:28.246Z">
+<meta property="og:updated_time" content="2018-09-07T10:05:45.929Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SGsonFormat插件开发">
 <meta name="twitter:description" content="Android Studio插件开发Studio主流插件插件汇总：见于这篇文章：https://juejin.im/entry/5998090ff265da248a7a6bde
@@ -317,7 +317,7 @@
 <li>GUI Form 类似于android中xml布局文件，只不过此处是swing的拖拽控件，Form与Dialog是配对出现，其对应关系在Form配置。</li>
 </ol>
 <h5 id="jsonString–JavaBean的过程，及代码架构"><a href="#jsonString–JavaBean的过程，及代码架构" class="headerlink" title="jsonString–JavaBean的过程，及代码架构"></a>jsonString–JavaBean的过程，及代码架构</h5><p>从MainAction入口开始看起，在JsonDialog中点击确定后，开始解析jsonString。主要是通过ConvertBridget类,将初步解析的结果generateClassEntity传递给FieldsDialog，FieldsDialog中可以修改field等属性，确认后通过DataWriter写入class文件中。</p>
-<h5 id="我的诉求"><a href="#我的诉求" class="headerlink" title="我的诉求"></a>我的诉求</h5><p>在混淆后的代码后JavaBean类也被混淆了，里面的field名变了，导致无论是GSon fastjson都无法正确解析了，所以想解决这个问题必须保证javaBean不被混淆。如何不被混淆，有几个解决办法：1 统一放到一个文件夹里，但是这办法不好，一个是文件夹容易变名字，还有多人开发时无法保证所有的人都遵守。 2 所有JavaBean序列化，这样proguard文件中保证所有Seriallizable的子类不被混淆即可。而且Bundle传递参数时javaBean可以直接被用。但是这个办法也有一个缺点：多人开发时不能保证所有的class都序列化。<br>因为JavaBean的生成过程一般用GsonFormat插件来做，所以在基于GsonFormat功能提供一个所有的JavaBean class统一集成Serializable，这样兼顾了易用性和统一性。<br>插件下载地址： <a href="https://plugins.jetbrains.com/plugin/11100-sgsonformat/update/49532；" target="_blank" rel="external">https://plugins.jetbrains.com/plugin/11100-sgsonformat/update/49532；</a><br>或者直接搜索SGsonFormat，install即可使用</p>
+<h5 id="我的诉求"><a href="#我的诉求" class="headerlink" title="我的诉求"></a>我的诉求</h5><p>在混淆后的代码后JavaBean类也被混淆了，里面的field名变了，导致无论是GSon fastjson都无法正确解析了，所以想解决这个问题必须保证javaBean不被混淆。如何不被混淆，有几个解决办法：1 统一放到一个文件夹里，但是这办法不好，一个是文件夹容易变名字，还有多人开发时无法保证所有的人都遵守。 2 所有JavaBean序列化，这样proguard文件中保证所有Seriallizable的子类不被混淆即可。而且Bundle传递参数时javaBean可以直接被用。但是这个办法也有一个缺点：多人开发时不能保证所有的class都序列化。<br>因为JavaBean的生成过程一般用GsonFormat插件来做，所以在基于GsonFormat功能提供一个所有的JavaBean class统一集成Serializable，这样兼顾了易用性和统一性。<br>插件下载地址： <a href="https://plugins.jetbrains.com/plugin/11100-sgsonformat/update/49532" target="_blank" rel="external">https://plugins.jetbrains.com/plugin/11100-sgsonformat/update/49532</a><br>或者直接搜索SGsonFormat，install即可使用</p>
 
       
     </div>
