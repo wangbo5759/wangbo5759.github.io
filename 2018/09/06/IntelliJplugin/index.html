@@ -79,30 +79,21 @@
 
 
 
-<meta name="description" content="##Android Studio插件开发
-####Studio主流插件插件汇总：见于这篇文章：https://juejin.im/entry/5998090ff265da248a7a6bde
-#####基本可以把插件的功能分为以下几类：
-######1、解决重复性工作：
-GsonFormat（jsonString自动生成JavaBean类）、ButterKnife Zelezny（xml自动生成b">
+<meta name="description" content="Android Studio插件开发Studio主流插件插件汇总：见于这篇文章：https://juejin.im/entry/5998090ff265da248a7a6bde
+基本可以把插件的功能分为以下几类：1、解决重复性工作：GsonFormat（jsonString自动生成JavaBean类）、ButterKnife Zelezny（xml自动生成butterknife的注解代码）、Cod">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SGsonFormat插件开发">
 <meta property="og:url" content="http://yoursite.com/2018/09/06/IntelliJplugin/index.html">
 <meta property="og:site_name" content="Muse--D.D">
-<meta property="og:description" content="##Android Studio插件开发
-####Studio主流插件插件汇总：见于这篇文章：https://juejin.im/entry/5998090ff265da248a7a6bde
-#####基本可以把插件的功能分为以下几类：
-######1、解决重复性工作：
-GsonFormat（jsonString自动生成JavaBean类）、ButterKnife Zelezny（xml自动生成b">
+<meta property="og:description" content="Android Studio插件开发Studio主流插件插件汇总：见于这篇文章：https://juejin.im/entry/5998090ff265da248a7a6bde
+基本可以把插件的功能分为以下几类：1、解决重复性工作：GsonFormat（jsonString自动生成JavaBean类）、ButterKnife Zelezny（xml自动生成butterknife的注解代码）、Cod">
 <meta property="og:image" content="http://oqjv79a9c.bkt.clouddn.com/c035fd2ead7a041bac807ed4fc526b49.png">
 <meta property="og:image" content="http://oqjv79a9c.bkt.clouddn.com/303488b7c0d72c275d50706684bc6182.png">
-<meta property="og:updated_time" content="2018-09-07T06:46:38.499Z">
+<meta property="og:updated_time" content="2018-09-07T08:19:10.957Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SGsonFormat插件开发">
-<meta name="twitter:description" content="##Android Studio插件开发
-####Studio主流插件插件汇总：见于这篇文章：https://juejin.im/entry/5998090ff265da248a7a6bde
-#####基本可以把插件的功能分为以下几类：
-######1、解决重复性工作：
-GsonFormat（jsonString自动生成JavaBean类）、ButterKnife Zelezny（xml自动生成b">
+<meta name="twitter:description" content="Android Studio插件开发Studio主流插件插件汇总：见于这篇文章：https://juejin.im/entry/5998090ff265da248a7a6bde
+基本可以把插件的功能分为以下几类：1、解决重复性工作：GsonFormat（jsonString自动生成JavaBean类）、ButterKnife Zelezny（xml自动生成butterknife的注解代码）、Cod">
 <meta name="twitter:image" content="http://oqjv79a9c.bkt.clouddn.com/c035fd2ead7a041bac807ed4fc526b49.png">
 
 
@@ -313,25 +304,20 @@ GsonFormat（jsonString自动生成JavaBean类）、ButterKnife Zelezny（xml自
       
 
       
-        <p>##Android Studio插件开发</p>
-<p>####Studio主流插件<br>插件汇总：见于这篇文章：<a href="https://juejin.im/entry/5998090ff265da248a7a6bde" target="_blank" rel="external">https://juejin.im/entry/5998090ff265da248a7a6bde</a></p>
-<p>#####基本可以把插件的功能分为以下几类：</p>
-<p>######1、解决重复性工作：</p>
-<p>GsonFormat（jsonString自动生成JavaBean类）、<br>ButterKnife Zelezny（xml自动生成butterknife的注解代码）、<br>Code Generator （xml自动生成activity fragment）、<br>AndroidProguardPlugin（根据依赖的第三方库，生成proguard文件）、<br>Exynap （更加扩展，把成型、固定的代码段，自动生成）<br>MVPHelper （自动生成 M V P 到不同文件夹）<br>把工作中技术含量低，重复性高的工作，用插件形式代替。</p>
-<p>######2、集成studio不包含的功能：<br>EventBus3 Intellij （辅助 索引eventbus 从subscribe到post，提高eventbus可读性）<br>GradleDependenciesHelperPlugin （gradle依赖自动补全）<br>SQLScout （调试sqlite）<br>FindBugs-IDEA （findbugs插件）<br>Android Methods Count （预览依赖库中方法数，提前判断方法数超限）</p>
-<p>#####插件的安装方法</p>
-<p>1、Preferences - plugins - Browse repositories 查找jetBrains远程仓库上的插件<br>很多插件是免费且开源的（github），远程repositories上的plugins都是最新的release版本<br>我们可以使用beta版本，或者自己也可以对开源插件进行修改，这就需要安装本地插件<br>2、Preferences - plugins - Install plugin from disk 查找本地plugin的jar包</p>
-<p>####插件开发<br>studio是基于IntelliJ的二次开发的IDE，所以plugins其实是IntelliJ的插件，IntelliJ这个IDE本身就可以开发plugins，IntelliJ下载免费版即可，官网下载。</p>
-<p>#####新建及import工程<br>新建project很多文章都有讲，不赘述，可以参考<a href="https://www.jianshu.com/p/336a07b9d98a" target="_blank" rel="external">https://www.jianshu.com/p/336a07b9d98a</a><br>基本是配置IntelliJ sdk，创建plugin project，然后在plugin.xml中配置此插件即可</p>
+        <h2 id="Android-Studio插件开发"><a href="#Android-Studio插件开发" class="headerlink" title="Android Studio插件开发"></a>Android Studio插件开发</h2><h4 id="Studio主流插件"><a href="#Studio主流插件" class="headerlink" title="Studio主流插件"></a>Studio主流插件</h4><p>插件汇总：见于这篇文章：<a href="https://juejin.im/entry/5998090ff265da248a7a6bde" target="_blank" rel="external">https://juejin.im/entry/5998090ff265da248a7a6bde</a></p>
+<h5 id="基本可以把插件的功能分为以下几类："><a href="#基本可以把插件的功能分为以下几类：" class="headerlink" title="基本可以把插件的功能分为以下几类："></a>基本可以把插件的功能分为以下几类：</h5><h6 id="1、解决重复性工作："><a href="#1、解决重复性工作：" class="headerlink" title="1、解决重复性工作："></a>1、解决重复性工作：</h6><p>GsonFormat（jsonString自动生成JavaBean类）、<br>ButterKnife Zelezny（xml自动生成butterknife的注解代码）、<br>Code Generator （xml自动生成activity fragment）、<br>AndroidProguardPlugin（根据依赖的第三方库，生成proguard文件）、<br>Exynap （更加扩展，把成型、固定的代码段，自动生成）<br>MVPHelper （自动生成 M V P 到不同文件夹）<br>把工作中技术含量低，重复性高的工作，用插件形式代替。</p>
+<h6 id="2、集成studio不包含的功能："><a href="#2、集成studio不包含的功能：" class="headerlink" title="2、集成studio不包含的功能："></a>2、集成studio不包含的功能：</h6><p>EventBus3 Intellij （辅助 索引eventbus 从subscribe到post，提高eventbus可读性）<br>GradleDependenciesHelperPlugin （gradle依赖自动补全）<br>SQLScout （调试sqlite）<br>FindBugs-IDEA （findbugs插件）<br>Android Methods Count （预览依赖库中方法数，提前判断方法数超限）</p>
+<h5 id="插件的安装方法"><a href="#插件的安装方法" class="headerlink" title="插件的安装方法"></a>插件的安装方法</h5><p>1、Preferences - plugins - Browse repositories 查找jetBrains远程仓库上的插件<br>很多插件是免费且开源的（github），远程repositories上的plugins都是最新的release版本<br>我们可以使用beta版本，或者自己也可以对开源插件进行修改，这就需要安装本地插件<br>2、Preferences - plugins - Install plugin from disk 查找本地plugin的jar包</p>
+<h4 id="插件开发"><a href="#插件开发" class="headerlink" title="插件开发"></a>插件开发</h4><p>studio是基于IntelliJ的二次开发的IDE，所以plugins其实是IntelliJ的插件，IntelliJ这个IDE本身就可以开发plugins，IntelliJ下载免费版即可，官网下载。</p>
+<h5 id="新建及import工程"><a href="#新建及import工程" class="headerlink" title="新建及import工程"></a>新建及import工程</h5><p>新建project很多文章都有讲，不赘述，可以参考<a href="https://www.jianshu.com/p/336a07b9d98a" target="_blank" rel="external">https://www.jianshu.com/p/336a07b9d98a</a><br>基本是配置IntelliJ sdk，创建plugin project，然后在plugin.xml中配置此插件即可</p>
 <p>重点说下import工程，以GsonFormat为例<a href="https://github.com/zzz40500/GsonFormat/" target="_blank" rel="external">https://github.com/zzz40500/GsonFormat/</a><br>github工程下，分为两个分支master和dev_1.2.2其中dev开发分支可以直接用于二次开发。（master分支直接import作为project，需要IDE配置很多东西）<br>dev分支工程配置步骤<br>1、import project from existing code 注意我们的工程是plugin选择的sdk不是jdk1.8（此处同new project），而是IntelliJ IDEA Community，一路‘下一步’<br>这个过程中，有一步已经把src下代码作为module放入了project，生成了GsonFormat.iml,<br>2、只是此时GsonFormat.iml中module type是JAVA_MODULE,而不是PLUGIN_MODULE，需要修改。（project的module设置很重要，决定了project是否可以正常编译）<br>此处配置成功的标志就是 IDE出现了run 和 debug两个按钮。如果还不正常，可以进入IDE右上角的按钮进入project structure进行配置<br><img src="http://oqjv79a9c.bkt.clouddn.com/c035fd2ead7a041bac807ed4fc526b49.png" alt="配置sdk"><br>2、如果想正常编译插件，还需要一步，在 Edit Configuration中配置project的属性，见图二，新建一个Plugin Configuration，在右侧的Use classpath of module中选择刚刚的GsonFormat（由于刚刚我们成功配置了GsonFormat为PLUGIN_MODULE,否则此处找不到哦）<br>图二：<br><img src="http://oqjv79a9c.bkt.clouddn.com/303488b7c0d72c275d50706684bc6182.png" alt="配置plugin的Module"><br>3、到了这一步，无论是run  debug 还是Prepare Plugin Module For Deployment(产出本地plugin jar)都可以了。</p>
-<p>#####分析plugin工程</p>
-<ol>
+<h5 id="分析plugin工程"><a href="#分析plugin工程" class="headerlink" title="分析plugin工程"></a>分析plugin工程</h5><ol>
 <li>Action<br>作为整个插件的入口类，其入口方式和name等定义在plugin.xml，Action中actionPerformed作为入口方法，初始化当前类，包，传入到dialog中</li>
 <li>Dialog 类似于android中的activity，绑定了Form类，用于view的databinding和逻辑<br>JsonDialog是入口dialog，FieldsDialog是解析jsonstring后展示的dialog，SettingDialog是配置dialog</li>
 <li>GUI Form 类似于android中xml布局文件，只不过此处是swing的拖拽控件，Form与Dialog是配对出现，其对应关系在Form配置。</li>
 </ol>
-<p>#####jsonString–JavaBean的过程，及代码架构<br>从MainAction入口开始看起，在JsonDialog中点击确定后，开始解析jsonString。主要是通过ConvertBridget类,将初步解析的结果generateClassEntity传递给FieldsDialog，FieldsDialog中可以修改field等属性，确认后通过DataWriter写入class文件中。</p>
-<p>#####我的诉求<br>在混淆后的代码后JavaBean类也被混淆了，里面的field名变了，导致无论是GSon fastjson都无法正确解析了，所以想解决这个问题必须保证javaBean不被混淆。如何不被混淆，有几个解决办法：1 统一放到一个文件夹里，但是这办法不好，一个是文件夹容易变名字，还有多人开发时无法保证所有的人都遵守。 2 所有JavaBean序列化，这样proguard文件中保证所有Seriallizable的子类不被混淆即可。而且Bundle传递参数时javaBean可以直接被用。但是这个办法也有一个缺点：多人开发时不能保证所有的class都序列化。<br>因为JavaBean的生成过程一般用GsonFormat插件来做，所以在基于GsonFormat功能提供一个所有的JavaBean class统一集成Serializable，这样兼顾了易用性和统一性。</p>
+<h5 id="jsonString–JavaBean的过程，及代码架构"><a href="#jsonString–JavaBean的过程，及代码架构" class="headerlink" title="jsonString–JavaBean的过程，及代码架构"></a>jsonString–JavaBean的过程，及代码架构</h5><p>从MainAction入口开始看起，在JsonDialog中点击确定后，开始解析jsonString。主要是通过ConvertBridget类,将初步解析的结果generateClassEntity传递给FieldsDialog，FieldsDialog中可以修改field等属性，确认后通过DataWriter写入class文件中。</p>
+<h5 id="我的诉求"><a href="#我的诉求" class="headerlink" title="我的诉求"></a>我的诉求</h5><p>在混淆后的代码后JavaBean类也被混淆了，里面的field名变了，导致无论是GSon fastjson都无法正确解析了，所以想解决这个问题必须保证javaBean不被混淆。如何不被混淆，有几个解决办法：1 统一放到一个文件夹里，但是这办法不好，一个是文件夹容易变名字，还有多人开发时无法保证所有的人都遵守。 2 所有JavaBean序列化，这样proguard文件中保证所有Seriallizable的子类不被混淆即可。而且Bundle传递参数时javaBean可以直接被用。但是这个办法也有一个缺点：多人开发时不能保证所有的class都序列化。<br>因为JavaBean的生成过程一般用GsonFormat插件来做，所以在基于GsonFormat功能提供一个所有的JavaBean class统一集成Serializable，这样兼顾了易用性和统一性。</p>
 
       
     </div>
@@ -422,8 +408,17 @@ GsonFormat（jsonString自动生成JavaBean类）、ButterKnife Zelezny（xml自
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -476,6 +471,22 @@ GsonFormat（jsonString自动生成JavaBean类）、ButterKnife Zelezny（xml自
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Android-Studio插件开发"><span class="nav-number">1.</span> <span class="nav-text">Android Studio插件开发</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Studio主流插件"><span class="nav-number">1.0.1.</span> <span class="nav-text">Studio主流插件</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#基本可以把插件的功能分为以下几类："><span class="nav-number">1.0.1.1.</span> <span class="nav-text">基本可以把插件的功能分为以下几类：</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#1、解决重复性工作："><span class="nav-number">1.0.1.1.1.</span> <span class="nav-text">1、解决重复性工作：</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#2、集成studio不包含的功能："><span class="nav-number">1.0.1.1.2.</span> <span class="nav-text">2、集成studio不包含的功能：</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#插件的安装方法"><span class="nav-number">1.0.1.2.</span> <span class="nav-text">插件的安装方法</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#插件开发"><span class="nav-number">1.0.2.</span> <span class="nav-text">插件开发</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#新建及import工程"><span class="nav-number">1.0.2.1.</span> <span class="nav-text">新建及import工程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#分析plugin工程"><span class="nav-number">1.0.2.2.</span> <span class="nav-text">分析plugin工程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#jsonString–JavaBean的过程，及代码架构"><span class="nav-number">1.0.2.3.</span> <span class="nav-text">jsonString–JavaBean的过程，及代码架构</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#我的诉求"><span class="nav-number">1.0.2.4.</span> <span class="nav-text">我的诉求</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
