@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="效率提升," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="下拉刷新分页加载控件分析
+主流下拉刷新控件横评备注：我将从实现原理、易用性、扩展性、稳定性三个方面比较易用性：包括 1、使用是否方便，xml java均可配置使用 2、是否将常用的逻辑功能封装（分页计算、footer等），使用者不关心细节 3、对一些常用的扩展是否已支持可配置（header的样式等）扩展性：包括 1、支持的下拉、分页的ViewGroup是否可方便扩展 2、header footer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="下拉刷新分页加载控件">
+<meta property="og:url" content="http://yoursite.com/2018/09/11/LRecycler/index.html">
+<meta property="og:site_name" content="Muse--D.D">
+<meta property="og:description" content="下拉刷新分页加载控件分析
+主流下拉刷新控件横评备注：我将从实现原理、易用性、扩展性、稳定性三个方面比较易用性：包括 1、使用是否方便，xml java均可配置使用 2、是否将常用的逻辑功能封装（分页计算、footer等），使用者不关心细节 3、对一些常用的扩展是否已支持可配置（header的样式等）扩展性：包括 1、支持的下拉、分页的ViewGroup是否可方便扩展 2、header footer">
+<meta property="og:image" content="http://oqjv79a9c.bkt.clouddn.com/242f899fc57da705005ee7c98962e1f2.png">
+<meta property="og:image" content="http://oqjv79a9c.bkt.clouddn.com/e040fa8b1de1b240d6fa4a84f530734e.png">
+<meta property="og:updated_time" content="2018-09-12T06:35:42.624Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="下拉刷新分页加载控件">
+<meta name="twitter:description" content="下拉刷新分页加载控件分析
+主流下拉刷新控件横评备注：我将从实现原理、易用性、扩展性、稳定性三个方面比较易用性：包括 1、使用是否方便，xml java均可配置使用 2、是否将常用的逻辑功能封装（分页计算、footer等），使用者不关心细节 3、对一些常用的扩展是否已支持可配置（header的样式等）扩展性：包括 1、支持的下拉、分页的ViewGroup是否可方便扩展 2、header footer">
+<meta name="twitter:image" content="http://oqjv79a9c.bkt.clouddn.com/242f899fc57da705005ee7c98962e1f2.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/09/11/LRecycler/"/>
+
+
+
+
+
+  <title>下拉刷新分页加载控件 | Muse--D.D</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Muse--D.D</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/11/LRecycler/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="bo.wang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Muse--D.D">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">下拉刷新分页加载控件</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-11T00:00:00+08:00">
+                2018-09-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="下拉刷新分页加载控件分析"><a href="#下拉刷新分页加载控件分析" class="headerlink" title="下拉刷新分页加载控件分析"></a>下拉刷新分页加载控件分析</h2><hr>
+<h4 id="主流下拉刷新控件横评"><a href="#主流下拉刷新控件横评" class="headerlink" title="主流下拉刷新控件横评"></a>主流下拉刷新控件横评</h4><p>备注：我将从实现原理、易用性、扩展性、稳定性三个方面比较<br>易用性：包括 1、使用是否方便，xml java均可配置使用 2、是否将常用的逻辑功能封装（分页计算、footer等），使用者不关心细节 3、对一些常用的扩展是否已支持可配置（header的样式等）<br>扩展性：包括 1、支持的下拉、分页的ViewGroup是否可方便扩展 2、header footer等是否扩展方便<br>稳定性：包括 1、github活跃性，issue是否及时处理 2、上线后控件内部crash</p>
+<h5 id="一、最早的先行者：XListView-（https-github-com-Maxwin-z-XListView-Android）"><a href="#一、最早的先行者：XListView-（https-github-com-Maxwin-z-XListView-Android）" class="headerlink" title="一、最早的先行者：XListView （https://github.com/Maxwin-z/XListView-Android）"></a>一、最早的先行者：XListView （<a href="https://github.com/Maxwin-z/XListView-Android）" target="_blank" rel="external">https://github.com/Maxwin-z/XListView-Android）</a></h5><p>1、实现原理：<br>直接extends ListView，使用也和Listview一样，header和footer也是采用ListView自带的功能，仅对layout做了封装XListViewFooter和XListViewHeader。<br>从代码结构来看，非常简单。header和footer的显示，通过listview的onTouchEvent来判断。<br><img src="http://oqjv79a9c.bkt.clouddn.com/242f899fc57da705005ee7c98962e1f2.png" alt=""><br>2、易用性：与ListView同，但是下拉和分页的可配置性几乎没有，常用封装全无<br>3、扩展性：很差，只能在使用ListView时使用，扩展需要改动代码，代码本身扩展性考虑很少。<br>4、稳定性：github已停更，线上经典crash难于解决。<br>作为最早Android下拉刷新功能的实践者，仅有有历史意义</p>
+<h5 id="二、广泛应用者：PullToRefresh-https-github-com-chrisbanes-Android-PullToRefresh"><a href="#二、广泛应用者：PullToRefresh-https-github-com-chrisbanes-Android-PullToRefresh" class="headerlink" title="二、广泛应用者：PullToRefresh (https://github.com/chrisbanes/Android-PullToRefresh)"></a>二、广泛应用者：PullToRefresh (<a href="https://github.com/chrisbanes/Android-PullToRefresh" target="_blank" rel="external">https://github.com/chrisbanes/Android-PullToRefresh</a>)</h5><h6 id="1、实现原理："><a href="#1、实现原理：" class="headerlink" title="1、实现原理："></a>1、实现原理：</h6><p>其类图可以较好的说明，其架构方式：<br><img src="http://oqjv79a9c.bkt.clouddn.com/e040fa8b1de1b240d6fa4a84f530734e.png" alt=""><br>PullToRefresh控件基本奠定了 下拉刷新控件的架构形式：架构两大部分，<br>1）一部分下拉分页的骨架：核心content的加载和扩展、footer和header的加载、交互（state的分发）等<br>2）一部分footer和header的处理：footer header架构对不同state的处理，及自身的扩展和定制。<br>依据以上两部分，基于IPullToRefresh和 ILoadingLayout两个接口开发。</p>
+<ol>
+<li><p>核心骨架</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"> private void init(Context context, AttributeSet attrs) &#123;</div><div class="line">	........//init Codes</div><div class="line"></div><div class="line">	setGravity(Gravity.CENTER);</div><div class="line"></div><div class="line">	ViewConfiguration config = ViewConfiguration.get(context);</div><div class="line">	mTouchSlop = config.getScaledTouchSlop();</div><div class="line"></div><div class="line">	....//Parse styleable</div><div class="line"></div><div class="line">	// Refreshable View 用于扩展</div><div class="line">	// By passing the attrs, we can add ListView/GridView params via XML</div><div class="line">	mRefreshableView = createRefreshableView(context, attrs);</div><div class="line">	addRefreshableView(context, mRefreshableView);</div><div class="line"></div><div class="line">	// We need to create now layouts now</div><div class="line">   //createLoadingLayout方法构造header 和 footer</div><div class="line">	mHeaderLayout = createLoadingLayout(context, Mode.PULL_FROM_START, a);</div><div class="line">	mFooterLayout = createLoadingLayout(context, Mode.PULL_FROM_END, a);</div><div class="line"></div><div class="line"></div><div class="line">	if (a.hasValue(R.styleable.PullToRefresh_ptrOverScroll)) &#123;</div><div class="line">		mOverScrollEnabled = a.getBoolean(R.styleable.PullToRefresh_ptrOverScroll, true);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	if (a.hasValue(R.styleable.PullToRefresh_ptrScrollingWhileRefreshingEnabled)) &#123;</div><div class="line">		mScrollingWhileRefreshingEnabled = a.getBoolean(</div><div class="line">				R.styleable.PullToRefresh_ptrScrollingWhileRefreshingEnabled, false);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	// Let the derivative classes have a go at handling attributes, then</div><div class="line">	// recycle them...</div><div class="line">	handleStyledAttributes(a);</div><div class="line">	a.recycle();</div><div class="line"></div><div class="line">	// Finally update the UI for the modes</div><div class="line">   //updateUIForMode 用于添加footer和header到linearlayout中</div><div class="line">	updateUIForMode();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>PullToRefreshBase本身是LinearLayout，其支持横向（很少用）和纵向的下拉刷新，把contentView（mRefreshableView）和footer header作为childView添加到其中。<br>扩展方式：<br>abstract方法createRefreshableView（），在子类中实现用于扩展contentView<br>footer header的扩展通过createLoadingLayout()返回，只要继承自LoadingLayout即可扩展。当然控件本身提供了集中常用的Loadinglayout(FlipLoadingLayout RotateLoadingLayout)<br>交互处理：<br>如何从手势的变化决定header以及footer的state呢？是通过onInterceptTouchEvent和OnTouchEvent。<br>和其他的touch事件处理类似，onInterceptTouchEvent方法作为前置准备，onTouchEvent方法实际处理手势操作<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div></pre></td><td class="code"><pre><div class="line">@Override</div><div class="line">public final boolean onTouchEvent(MotionEvent event) &#123;</div><div class="line"></div><div class="line">  if (!isPullToRefreshEnabled()) &#123;</div><div class="line">    return false;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  // If we&apos;re refreshing, and the flag is set. Eat the event</div><div class="line">  if (!mScrollingWhileRefreshingEnabled &amp;&amp; isRefreshing()) &#123;</div><div class="line">    return true;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  if (event.getAction() == MotionEvent.ACTION_DOWN &amp;&amp; event.getEdgeFlags() != 0) &#123;</div><div class="line">    return false;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  switch (event.getAction()) &#123;</div><div class="line">    case MotionEvent.ACTION_MOVE: &#123;</div><div class="line">      if (mIsBeingDragged) &#123;</div><div class="line">        mLastMotionY = event.getY();</div><div class="line">        mLastMotionX = event.getX();</div><div class="line">        pullEvent();//处理拉动过程中，header footer状态的变化</div><div class="line">        return true;</div><div class="line">      &#125;</div><div class="line">      break;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    case MotionEvent.ACTION_DOWN: &#123;</div><div class="line">      if (isReadyForPull()) &#123;</div><div class="line">        mLastMotionY = mInitialMotionY = event.getY();</div><div class="line">        mLastMotionX = mInitialMotionX = event.getX();</div><div class="line">        return true;</div><div class="line">      &#125;</div><div class="line">      break;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    case MotionEvent.ACTION_CANCEL:</div><div class="line">    case MotionEvent.ACTION_UP: &#123;</div><div class="line">      //ACTION_UP事件的处理，在不同state下松手，处理方式的不同</div><div class="line">      if (mIsBeingDragged) &#123;</div><div class="line">        mIsBeingDragged = false;</div><div class="line"></div><div class="line">        if (mState == State.RELEASE_TO_REFRESH</div><div class="line">            &amp;&amp; (null != mOnRefreshListener || null != mOnRefreshListener2)) &#123;</div><div class="line">          //拉动结束，在RELEASE_TO_REFRESH状态下松手，变为REFRESHING</div><div class="line">          setState(State.REFRESHING, true);</div><div class="line">          return true;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        // If we&apos;re already refreshing, just scroll back to the top</div><div class="line">        if (isRefreshing()) &#123;</div><div class="line">          //拉动结束，在REFRESHING状态下松手，回到原点</div><div class="line">          smoothScrollTo(0);</div><div class="line">          return true;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        // If we haven&apos;t returned by here, then we&apos;re not in a state</div><div class="line">        // to pull, so just reset</div><div class="line">        //拉动结束，在其他状态（PULL_TO_REFRESH）下松手，reset到初始状态</div><div class="line">        setState(State.RESET);</div><div class="line"></div><div class="line">        return true;</div><div class="line">      &#125;</div><div class="line">      break;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  return false;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * Actions a Pull Event</div><div class="line"> *</div><div class="line"> * @return true if the Event has been handled, false if there has been no</div><div class="line"> *         change</div><div class="line"> */</div><div class="line">private void pullEvent() &#123;</div><div class="line">  final int newScrollValue;</div><div class="line">  final int itemDimension;</div><div class="line">  final float initialMotionValue, lastMotionValue;</div><div class="line"></div><div class="line"></div><div class="line">  switch (mCurrentMode) &#123;</div><div class="line">    case PULL_FROM_END:</div><div class="line">      newScrollValue = Math.round(Math.max(initialMotionValue - lastMotionValue, 0) / FRICTION);</div><div class="line">      itemDimension = getFooterSize();</div><div class="line">      break;</div><div class="line">    case PULL_FROM_START:</div><div class="line">    default:</div><div class="line">      newScrollValue = Math.round(Math.min(initialMotionValue - lastMotionValue, 0) / FRICTION);</div><div class="line">      itemDimension = getHeaderSize();</div><div class="line">      break;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  setHeaderScroll(newScrollValue);</div><div class="line"></div><div class="line">  if (newScrollValue != 0 &amp;&amp; !isRefreshing()) &#123;</div><div class="line">    float scale = Math.abs(newScrollValue) / (float) itemDimension;</div><div class="line">    switch (mCurrentMode) &#123;</div><div class="line">      case PULL_FROM_END://上拉分页</div><div class="line">        mFooterLayout.onPull(scale);//根据滑动的位置更新footerLayout</div><div class="line">        break;</div><div class="line">      case PULL_FROM_START://下拉刷新</div><div class="line">      default:</div><div class="line">        mHeaderLayout.onPull(scale);//根据滑动的位置更新headerLayout</div><div class="line">        break;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    //根据滑动的位置（是否超过阈值），决定状态PULL_TO_REFRESH or RELEASE_TO_REFRESH</div><div class="line">    if (mState != State.PULL_TO_REFRESH &amp;&amp; itemDimension &gt;= Math.abs(newScrollValue)) &#123;</div><div class="line">      setState(State.PULL_TO_REFRESH);</div><div class="line">    &#125; else if (mState == State.PULL_TO_REFRESH &amp;&amp; itemDimension &lt; Math.abs(newScrollValue)) &#123;</div><div class="line">      setState(State.RELEASE_TO_REFRESH);</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>从以上代码可以看到，从手指开始滑动控件的不同状态，PullToRefreshBase的不同状态的流转，在流转的过程中，不只更新了state状态，也对footer和header进行了同步。<br>从以上代码容易理解下拉刷新的逻辑脉络，但是上拉分页加载是怎么实现的呢?<br>PullToRefreshBase控件通过mCurrentMode来区分上拉和下拉，其实上拉和下拉的逻辑，从整体上是可以归一的，有几个关键点<br>1、判断上拉 下拉的逻辑阈值：isReadyForPullStart（）isReadyForPullEnd（）分别是下拉 上拉的阈值方法，子类需要根据 mRefreshableView来实现<br>2、在不同的state下做不同的处理: 两者都有 reset PULL_TO_REFRESH RELEASE_TO_REFRESH REFRESHING等状态，可能上拉不需要区分PULL_TO_REFRESH RELEASE_TO_REFRESH两种state而已。所以既然都是基于一套state的处理方案，那么根据手势滑动方向决定当前mCurrentMode，进而交给header 或 footer来处理state就是可行的。</p>
+<p>2.footer和header的扩展和处理<br>刚才说到了footer和header是在同一套state状态下的处理机制，其回调也类似。所以两者继承同一接口和基类。PullToRefreshBase控件采用了Proxy的方式，实现了二者的统一调用。<br>也就是说LoadingLayoutProxy 、headerLoadingLayout、footerLoadingLayout均实现ILoadingLayout，LoadingLayoutProxy是headerLoadingLayout与footerLoadingLayout二者的代理，在state的流转过程中，通过LoadingLayoutProxy的调用，达到header 和footer两个loadingLayout的同步调用。</p>
+<p>LoadingLayout基类已经实现了基本的layout，我们自己定制的子类（例如CustomLoadingLayout）,对里面的动画，文案等进行定制即可，基于ILoadingLayout接口完全重写一个新的,目前看不行，一方面PullToRefreshBase控件内部很多地方强转到LoadingLayout。而且LoadingLayout基类（abstract类）预留了stated的回调抽象方法，供子类实现:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">protected abstract void onLoadingDrawableSet(Drawable imageDrawable);</div><div class="line"></div><div class="line">protected abstract void onPullImpl(float scaleOfLayout);</div><div class="line"></div><div class="line">protected abstract void pullToRefreshImpl();</div><div class="line"></div><div class="line">protected abstract void refreshingImpl();</div><div class="line"></div><div class="line">protected abstract void releaseToRefreshImpl();</div><div class="line"></div><div class="line">protected abstract void resetImpl();</div></pre></td></tr></table></figure></p>
+<h6 id="2、易用性："><a href="#2、易用性：" class="headerlink" title="2、易用性："></a>2、易用性：</h6><p>实现原理说了这么多，基本上把控件的基本架构和处理流程都涉及了。一般来说，通用控件架构设计的初衷一般为易用性和扩展性考虑。好的架构能够兼顾这二者。我们具体看一下：<br>1、使用是否方便，xml和java代码都可以初始化和配置控件，这是控件设计初期就考虑到的<br>2、我们知道为了保证扩展性，架构上的实现不能过于具体，否则灵活性降低。架构上基于接口和抽象类进行设计，能保证在整体架构内部方便扩展。同时也提供了一些常用的具体实现类，比如PullToRefreshListView FlipLoadingLayout等对于一般的使用者可以省去二次开发的时间<br>3、一些业务上的常用逻辑：（分页计算、footer多个状态的显示等）没有集成，需要二次开发</p>
+<h6 id="3、扩展性："><a href="#3、扩展性：" class="headerlink" title="3、扩展性："></a>3、扩展性：</h6><p>mRefreshableView的设计理念，可以说让控件理论上可以支持任何视图类（ViewGroup）的下拉刷新操作，比如后期扩展RecyclerView、ViewPager等。<br>从类图中可以看出 PullToRefreshBase的多层子类，设计合理，层次分明。二次开发中可以选择合适的基类进行扩展。<br>LoadingLayoutProxy机制的引入，为实现更多LoadingLayout的state流转提供了可能。<br>模板方法设计模式，基于接口开发，abstract基类，易于扩展和维护</p>
+<h6 id="4、稳定性："><a href="#4、稳定性：" class="headerlink" title="4、稳定性："></a>4、稳定性：</h6><p>github star 8700多，多个工程中考验，类库内部崩溃率较低。</p>
+<h5 id="三、官方控件：SwipeRefreshLayout"><a href="#三、官方控件：SwipeRefreshLayout" class="headerlink" title="三、官方控件：SwipeRefreshLayout"></a>三、官方控件：SwipeRefreshLayout</h5><p>一两句就能说清：<br>这个控件作为targetView（比如listview）的parentView出现，而且SwipeRefreshLayout只能有一个childView。<br>交互上比较单一，materialDesign风格，loading图标在targetView之上显示，targetView本身可以是任何view。</p>
+<h5 id="四、二次开发的控件：LRecyclerView"><a href="#四、二次开发的控件：LRecyclerView" class="headerlink" title="四、二次开发的控件：LRecyclerView"></a>四、二次开发的控件：LRecyclerView</h5>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/效率提升/" rel="tag"># 效率提升</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/07/ReactiveX/" rel="next" title="">
+                <i class="fa fa-chevron-left"></i> 
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">bo.wang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#下拉刷新分页加载控件分析"><span class="nav-number">1.</span> <span class="nav-text">下拉刷新分页加载控件分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#主流下拉刷新控件横评"><span class="nav-number">1.0.1.</span> <span class="nav-text">主流下拉刷新控件横评</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#一、最早的先行者：XListView-（https-github-com-Maxwin-z-XListView-Android）"><span class="nav-number">1.0.1.1.</span> <span class="nav-text">一、最早的先行者：XListView （https://github.com/Maxwin-z/XListView-Android）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#二、广泛应用者：PullToRefresh-https-github-com-chrisbanes-Android-PullToRefresh"><span class="nav-number">1.0.1.2.</span> <span class="nav-text">二、广泛应用者：PullToRefresh (https://github.com/chrisbanes/Android-PullToRefresh)</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#1、实现原理："><span class="nav-number">1.0.1.2.1.</span> <span class="nav-text">1、实现原理：</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#2、易用性："><span class="nav-number">1.0.1.2.2.</span> <span class="nav-text">2、易用性：</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#3、扩展性："><span class="nav-number">1.0.1.2.3.</span> <span class="nav-text">3、扩展性：</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#4、稳定性："><span class="nav-number">1.0.1.2.4.</span> <span class="nav-text">4、稳定性：</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#三、官方控件：SwipeRefreshLayout"><span class="nav-number">1.0.1.3.</span> <span class="nav-text">三、官方控件：SwipeRefreshLayout</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#四、二次开发的控件：LRecyclerView"><span class="nav-number">1.0.1.4.</span> <span class="nav-text">四、二次开发的控件：LRecyclerView</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bo.wang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
