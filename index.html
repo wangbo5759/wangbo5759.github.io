@@ -320,7 +320,10 @@
 <p>由于Android-Async-Http的停更，Google对volley基本放弃的态度。而对于okhttp，Google官方应用则广泛使用。<br>Retrofit可以说是目前Android app网络请求框架的不二选择，与okhttp搭配，是性能、稳定性、兼容性、易用性都达到很高水平的框架组合。</p>
 <h3 id="Observable网络框架的抽象"><a href="#Observable网络框架的抽象" class="headerlink" title="Observable网络框架的抽象"></a>Observable网络框架的抽象</h3><h4 id="Observable网络框架建立的原因"><a href="#Observable网络框架建立的原因" class="headerlink" title="Observable网络框架建立的原因"></a>Observable网络框架建立的原因</h4><ol>
 <li>Retrofit已经对网络请求做了封装，为什么还要封装?<br>每个App对于网络请求对于请求流程、配置、加解密、异常处理都是一定的，而且这些步骤因App而异，如果业务每次请求都自己处理，会存在冗余代码，且质量不易保证。所以我们需要基于Retrofit对请求流程、配置、加解密、异常处理等操作做二次封装，并对调用方式进行统一。</li>
-<li>框架封装方式Observable是什么？<br>对网络请求二次封装（一般为异步请求），传统使用callback方式异步回调网络请求结果。但是这种callback的方式，没有利用到Retrofit的一大优势–rxjava调用，所以我们基于rxjava调用方式，封装一个基于Observable的网络请求框架。<br>以下所说网络框架，均指基于Observable的网络请求二次封装框架。<h4 id="Observable网络框架要解决的问题"><a href="#Observable网络框架要解决的问题" class="headerlink" title="Observable网络框架要解决的问题"></a>Observable网络框架要解决的问题</h4>网络框架要帮助业务处理以下几个问题：</li>
+<li>框架封装方式Observable是什么？<br>对网络请求二次封装（一般为异步请求），传统使用callback方式异步回调网络请求结果。但是这种callback的方式，没有利用到Retrofit的一大优势–rxjava调用，所以我们基于rxjava调用方式，封装一个基于Observable的网络请求框架。<br>以下所说网络框架，均指基于Observable的网络请求二次封装框架。</li>
+</ol>
+<h4 id="Observable网络框架要解决的问题"><a href="#Observable网络框架要解决的问题" class="headerlink" title="Observable网络框架要解决的问题"></a>Observable网络框架要解决的问题</h4><p>网络框架要帮助业务处理以下几个问题：</p>
+<ol>
 <li>支持Get Post请求，对Request的参数业务可轻松配置</li>
 <li>对Request 参数做发送前处理：组合和加密处理</li>
 <li>返回Response 解密处理，Java实体化</li>
