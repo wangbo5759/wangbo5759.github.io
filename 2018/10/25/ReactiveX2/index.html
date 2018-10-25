@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Android框架," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Observable网络框架的解耦和复用BaseObserver的解耦我们可以看到BaseObserver实际做了error的异常响应，loading控制，对外接口的定义等工作。实际上这几部分工作有一定的耦合，业务使用时无法定制（使用了BaseObserver）我们可以如下优化：
+
+将callback接口化我们定义的onSuccess(T)和onFail（boolean isException">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于RxJava Retrofit的网络框架（二）">
+<meta property="og:url" content="http://yoursite.com/2018/10/25/ReactiveX2/index.html">
+<meta property="og:site_name" content="Muse--D.D">
+<meta property="og:description" content="Observable网络框架的解耦和复用BaseObserver的解耦我们可以看到BaseObserver实际做了error的异常响应，loading控制，对外接口的定义等工作。实际上这几部分工作有一定的耦合，业务使用时无法定制（使用了BaseObserver）我们可以如下优化：
+
+将callback接口化我们定义的onSuccess(T)和onFail（boolean isException">
+<meta property="og:updated_time" content="2018-10-25T14:10:56.006Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基于RxJava Retrofit的网络框架（二）">
+<meta name="twitter:description" content="Observable网络框架的解耦和复用BaseObserver的解耦我们可以看到BaseObserver实际做了error的异常响应，loading控制，对外接口的定义等工作。实际上这几部分工作有一定的耦合，业务使用时无法定制（使用了BaseObserver）我们可以如下优化：
+
+将callback接口化我们定义的onSuccess(T)和onFail（boolean isException">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/10/25/ReactiveX2/"/>
+
+
+
+
+
+  <title>基于RxJava Retrofit的网络框架（二） | Muse--D.D</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Muse--D.D</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/25/ReactiveX2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="bo.wang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Muse--D.D">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">基于RxJava Retrofit的网络框架（二）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-25T00:00:00+08:00">
+                2018-10-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="Observable网络框架的解耦和复用"><a href="#Observable网络框架的解耦和复用" class="headerlink" title="Observable网络框架的解耦和复用"></a>Observable网络框架的解耦和复用</h3><h4 id="BaseObserver的解耦"><a href="#BaseObserver的解耦" class="headerlink" title="BaseObserver的解耦"></a>BaseObserver的解耦</h4><p>我们可以看到BaseObserver实际做了error的异常响应，loading控制，对外接口的定义等工作。实际上这几部分工作有一定的耦合，业务使用时无法定制（使用了BaseObserver）<br>我们可以如下优化：</p>
+<ol>
+<li>将callback接口化<br>我们定义的onSuccess(T)和onFail（boolean isException ,Object object）两个抽象方法是完全面向业务使用者的。将其抽象为接口：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">public interface ObserverCallback &lt;T extends MapiHttpResponse&lt;? extends Serializable&gt;&gt;&#123;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 请求成功</div><div class="line">     * @param t</div><div class="line">     */</div><div class="line">    void onSuccess(T t);</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 请求失败</div><div class="line">     * @param isException true：返回Throwable false：返回String（ErrorMsg）</div><div class="line">     * @param object</div><div class="line">     */</div><div class="line">    void onFail(boolean isException ,Object object);</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>化为接口的好处有可以与其他的网络请求调用方式（callback方式，非observable方式），回调接口上统一，降低切换成本。</p>
+<ol>
+<li>将loading逻辑和error响应逻辑分离：定义LoadingObserver，其实现ObserverCallback接口<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line">public abstract class LoadingObserver&lt;T extends MapiHttpResponse&lt;? extends Serializable&gt;&gt;</div><div class="line">        implements Observer&lt;T&gt; ,ObserverCallback&lt;T&gt;&#123;</div><div class="line"></div><div class="line">    protected BaseContext mBaseContext;</div><div class="line"></div><div class="line">    public LoadingObserver(BaseContext baseContext)&#123;</div><div class="line">        mBaseContext = baseContext;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public void onSubscribe(Disposable d) &#123;</div><div class="line">        if (isShowProgress()) &#123;</div><div class="line">            showProgress(true);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public void onNext(T t) &#123;</div><div class="line">        if (isShowProgress()) &#123;</div><div class="line">            showProgress(false);</div><div class="line">        &#125;</div><div class="line">        onSuccess(t);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public void onError(Throwable e) &#123;</div><div class="line">        if (isShowProgress()) &#123;</div><div class="line">            showProgress(false);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public void onComplete() &#123;</div><div class="line">        if (isShowProgress()) &#123;</div><div class="line">            showProgress(false);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    protected void showProgress(boolean isShow)&#123;</div><div class="line">        if (mBaseContext != null) &#123;</div><div class="line">            mBaseContext.showLoading(isShow);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 网络请求是否loading显示</div><div class="line">     * @return</div><div class="line">     */</div><div class="line">    protected boolean isShowProgress()&#123;</div><div class="line">        return true;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>这样做的好处有<br>1、将更为通用的loading逻辑抽离，使其可以被独立使用或继承。<br>2、如果app存在不同业务线，可将error影响单独处理（不同业务线code定义可能不同），将loadingObserver类下沉，适配多业务线情况</p>
+<ol>
+<li>MapiObserver代码变成如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">public abstract class  MapiObserver&lt;T extends MapiHttpResponse&lt;? extends Serializable&gt;&gt;</div><div class="line">        extends LoadingObserver&lt;T&gt;&#123;</div><div class="line"></div><div class="line"></div><div class="line">    public MapiObserver(BaseContext baseContext)&#123;</div><div class="line">        super(baseContext);</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    @Override</div><div class="line">    public void onError(Throwable e) &#123;</div><div class="line">        super.onError(e);</div><div class="line"></div><div class="line">        handleError(e);</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    private void handleError(Throwable e)&#123;</div><div class="line">        //handle error code</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>至此，MapiObserver被分为了三层，MapiObserver这一层可以有多个更为具体的Observer来扩展。每一层都有自己的功能和扩展性。</p>
+<h4 id="ObservableSource一端的解耦"><a href="#ObservableSource一端的解耦" class="headerlink" title="ObservableSource一端的解耦"></a>ObservableSource一端的解耦</h4><p>我们看下Observable一端做了哪些事情：</p>
+<ol>
+<li>对Request 参数做发送前处理：组合和加密处理</li>
+<li>返回Response 解密处理，Java实体化</li>
+<li><p>返回Response code码判断及分类<br>Observable端解耦的目的<br>1、耦合性降低后，方便后续的扩展和组合<br>2、将公共的，不易变化的逻辑下沉<br>这是Observable生成的代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">private static Observable&lt;R&gt; sendRequest(final HttpRequest request，final TypeReference&lt;R&gt; t）</div><div class="line">  &#123;</div><div class="line">        return NetHelper.getApiObservable(request)</div><div class="line">              .map(new JavaBeanFunc(t))</div><div class="line">              .compose(ResponseTransformer.handleResult())</div><div class="line">              .subscribeOn(Schedulers.io())</div><div class="line">              .observeOn(AndroidSchedulers.mainThread());</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>Request请求params参数组合加密处理放到何处？<br>前面一章已经提到，params是通过HttpRequest类中的getURLParam()方法完成。<br>原因有2点 1、params定义在HttpRequest中，在Httprequest类中拿最方便。2、组合和加密的过程如果需要定制，那么直接在HttpRequest子类中就可以，和框架没有关系。</p>
+</li>
+<li>Response解密处理，Java实体化，在何处处理？<br>Response解密处理网上有两种处理方式，<br>1、在okhttp里使用interceptor拦截器解密 2、ResponseTransformer中处理。<br>这两种方式都有问题：<br>虽然app内部一般解密方式不变，但是要适应多业务线，或者作为适应性更广的框架来讲，这块解密逻辑放到框架中显然耦合性太高。<br>我们采用的方式是定义接口：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">public interface ResponseDecryptHandler &#123;</div><div class="line">    String decrypt(String var1) throws IOException;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>HttpRequest类中定义实现接口，并将这种解密方式作为Convertor设置给Retrofit<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">addConverterFactory(SecurityConvertFactory.create(request.responseDecryptHandler()))</div></pre></td></tr></table></figure></p>
+<p>对于JavaBean实体化，一般都采用fastJson方式，这里我们通过map操作符完成，作为链式调用中的一环出现，替换方便。</p>
+<ol>
+<li>前面提到，response的code分为了解析和处理两个部分，分别放在observable和observer中完成。其中ResponseTransformer是用于解析response的返回值。<br>ErrorResumeFunction和ResponseFunction分别是网络错误和业务错误，网络错误不会变，业务错误的判断是可能扩展的。ResponseFunction的实现是可以多样的。<br></li>
+</ol>
+<hr>
+<p>以上可以看出Observable的生成过程中，除了一部分的逻辑放入的Request的接口中用于扩展，其他的功能在Observable的生成过程中以链式调用的方式存在，每个链式调用的功能由一个类承担。这也是rxjava的优势所在，在调用方式上天然地将各部分解耦了。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android框架/" rel="tag"># Android框架</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/12/ReactiveX/" rel="next" title="基于RxJava Retrofit的网络框架（一）">
+                <i class="fa fa-chevron-left"></i> 基于RxJava Retrofit的网络框架（一）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">bo.wang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Observable网络框架的解耦和复用"><span class="nav-number">1.</span> <span class="nav-text">Observable网络框架的解耦和复用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#BaseObserver的解耦"><span class="nav-number">1.1.</span> <span class="nav-text">BaseObserver的解耦</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ObservableSource一端的解耦"><span class="nav-number">1.2.</span> <span class="nav-text">ObservableSource一端的解耦</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bo.wang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
