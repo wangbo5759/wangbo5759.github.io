@@ -85,7 +85,7 @@
 <meta property="og:url" content="http://yoursite.com/2018/10/25/ReactiveX2/index.html">
 <meta property="og:site_name" content="Muse--D.D">
 <meta property="og:description" content="Observable网络框架的解耦和复用Observer一端的解耦我们可以看到BaseObserver实际做了errorcode响应，loading控制，对外接口的定义等工作。这几部分工作集中在一个类中有一定的耦合。我们设计的目标是业务使用自定义的Observer或者直接使用BaseObserver都很方便，但目前的设计业务要么使用BaseObserver全部功能，要么自己从头定义，扩展性不强">
-<meta property="og:updated_time" content="2018-10-26T08:38:16.474Z">
+<meta property="og:updated_time" content="2018-10-26T08:42:37.088Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="基于RxJava Retrofit的网络框架（二）">
 <meta name="twitter:description" content="Observable网络框架的解耦和复用Observer一端的解耦我们可以看到BaseObserver实际做了errorcode响应，loading控制，对外接口的定义等工作。这几部分工作集中在一个类中有一定的耦合。我们设计的目标是业务使用自定义的Observer或者直接使用BaseObserver都很方便，但目前的设计业务要么使用BaseObserver全部功能，要么自己从头定义，扩展性不强">
@@ -313,7 +313,10 @@
 <ol>
 <li>对Request 参数做发送前处理：组合和加密处理</li>
 <li>返回Response 解密处理，Java实体化</li>
-<li>返回Response code码判断及分类<br>Observable端解耦的目的</li>
+<li>返回Response code码判断及分类</li>
+</ol>
+<p>Observable端解耦的目的</p>
+<ol>
 <li>耦合性降低后，方便后续的扩展和组合</li>
 <li>将公共的，不易变化的逻辑下沉</li>
 </ol>
