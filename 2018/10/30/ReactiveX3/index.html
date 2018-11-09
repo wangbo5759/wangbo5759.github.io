@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Android框架," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="RxJava有使用的必要吗？Rxjava这个库和其他常见库不太一样，一般的库例如Picasso，ButterKnife都是为了解决实际问题出现的，一定程度上是刚需。Picasso库如果不用他，那么应用自己就要处理图片下载、压缩、内存管理、多级缓存等等复杂的逻辑。这类问题复杂而常见，而像Picasso这类的轮子，Api的设计都比较友好，一个简单的api调用就能完成一个原本很复杂的功能，简直不要">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RxJava2 复杂异步场景处理">
+<meta property="og:url" content="http://yoursite.com/2018/10/30/ReactiveX3/index.html">
+<meta property="og:site_name" content="Muse--D.D">
+<meta property="og:description" content="RxJava有使用的必要吗？Rxjava这个库和其他常见库不太一样，一般的库例如Picasso，ButterKnife都是为了解决实际问题出现的，一定程度上是刚需。Picasso库如果不用他，那么应用自己就要处理图片下载、压缩、内存管理、多级缓存等等复杂的逻辑。这类问题复杂而常见，而像Picasso这类的轮子，Api的设计都比较友好，一个简单的api调用就能完成一个原本很复杂的功能，简直不要">
+<meta property="og:updated_time" content="2018-11-09T08:16:05.224Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="RxJava2 复杂异步场景处理">
+<meta name="twitter:description" content="RxJava有使用的必要吗？Rxjava这个库和其他常见库不太一样，一般的库例如Picasso，ButterKnife都是为了解决实际问题出现的，一定程度上是刚需。Picasso库如果不用他，那么应用自己就要处理图片下载、压缩、内存管理、多级缓存等等复杂的逻辑。这类问题复杂而常见，而像Picasso这类的轮子，Api的设计都比较友好，一个简单的api调用就能完成一个原本很复杂的功能，简直不要">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/10/30/ReactiveX3/"/>
+
+
+
+
+
+  <title>RxJava2 复杂异步场景处理 | Muse--D.D</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Muse--D.D</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/30/ReactiveX3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="bo.wang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Muse--D.D">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">RxJava2 复杂异步场景处理</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-30T00:00:00+08:00">
+                2018-10-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="RxJava有使用的必要吗？"><a href="#RxJava有使用的必要吗？" class="headerlink" title="RxJava有使用的必要吗？"></a>RxJava有使用的必要吗？</h3><p>Rxjava这个库和其他常见库不太一样，一般的库例如Picasso，ButterKnife都是为了解决实际问题出现的，一定程度上是刚需。Picasso库如果不用他，那么应用自己就要处理图片下载、压缩、内存管理、多级缓存等等复杂的逻辑。这类问题复杂而常见，而像Picasso这类的轮子，Api的设计都比较友好，一个简单的api调用就能完成一个原本很复杂的功能，简直不要太爽。<br>而Rxjava，你刚开始看起来，都不知道他是干什么的。“异步处理”？不是一般都使用观察者模式吗？AsyncTask，Handler也可以，要rxjava干嘛？如果你有兴趣研究过一点rxjava，会发现网上的教程都会说：zip map flatmap debounce等操作符把异步回调变得‘简洁’‘优雅’，对比一下原来的代码和使用rxjava后的代码，最后感叹一下rxjava设计的鬼才和功能的强大。我个人在初次接触中也感觉，这些rxjava的优点描述比较空洞，这项技术意义大于实用。<br>实际开发中，异步调用给我们的最大困扰是：异步回调的时间并不可控性。当有多个异步回调时，这些调用相互联系和依赖，搞清楚每个回调何时返回是个重要的问题。在每个关键时间节点对‘分散的callback’做正确的事，有过类似编程经验的人都知道，是非常痛苦的事，如果还想代码容易看懂，简直是疯了。<br>rxjava是否能解决以上困扰？随着学习和应用的深入，体会会更明显。以下会用一个稍复杂的例子，实操一个复杂异步场景，看看rxjava处理的怎么样。</p>
+<h3 id="典型复杂异步场景-–-Token的前置校验"><a href="#典型复杂异步场景-–-Token的前置校验" class="headerlink" title="典型复杂异步场景 – Token的前置校验"></a>典型复杂异步场景 – Token的前置校验</h3><p>经常遇到这种需求，接口的请求依赖token信息。一个请求需要先请求token（token如果存在缓存则使用缓存），依赖这个token才能进行正常网络请求。这个token有一定的失效性，在时效性内可以使用缓存，过期后需要重新请求token并重新发起一次请求。这个流程可以归纳如下图：</p>
+<p>还有些潜在的逻辑这个图没有表现出来：<br>1 高并发网络请求时，如果token正在请求，需要对请求阻塞（token请求过程中，不再接受新的token请求）<br>2 阻塞的同时，要把这些请求记录下来，token请求成功后，再‘依次’发送这些阻塞的请求。<br>3 token失效情况下，网络请求限制重试次数。（防止递归调用）<br>4 token请求本身，重试策略需单独配置。</p>
+<p>不使用rxjava，我们如何实现上述需求：<br>1、网络请求前，对token是否有缓存判断，如果没有先请求token，并把这个请求阻塞且缓存<br>2、token请求过程中，如果有新的token请求进来，加入阻塞队列<br>3、token请求后，通知阻塞的队列（广播等方式），依次进行阻塞的请求<br>4、对两种次数限制，分别做逻辑判断</p>
+<p>以上就是传统使用方法，有以下特点：<br>1、要时刻维护一个阻塞队列 （注意其添加和清空的时机）<br>2、token请求结束后，有一个回调机制通知阻塞队列，（这个回调需要注册和反注册）<br>3、两处的次数限制，次数维护的变量，不好维护（一般动态秘钥为了便于使用会做成单例，单例内的变量类似static，维护较复杂）<br>4、请求重试的逻辑不好实现，</p>
+<p>我们可以看到这里涉及到很多静态变量的维护，广播等异步回调的处理，这种情况一多，编程者会变得很被动。</p>
+<p>我们来看下rxjava如何处理：<br>一些代码网络请求部分与前一篇博客《基于RxJava Retrofit的网络框架》相关。</p>
+<h5 id="先看看完整的请求过程"><a href="#先看看完整的请求过程" class="headerlink" title="先看看完整的请求过程"></a>先看看完整的请求过程</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line">public static &lt;R&gt; Observable send(final MapiHttpRequest request, final MapiTypeReference&lt;R&gt; t)&#123;</div><div class="line">    return Observable.defer(new Callable&lt;ObservableSource&lt;String&gt;&gt;() &#123;</div><div class="line">                @Override</div><div class="line">                public ObservableSource&lt;String&gt; call() throws Exception &#123;</div><div class="line">                    return Observable.just(Store.sToken);</div><div class="line">                &#125;</div><div class="line">            &#125;).flatMap(new Function&lt;String, ObservableSource&lt;R&gt;&gt;() &#123;</div><div class="line">                @Override</div><div class="line">                public ObservableSource&lt;R&gt; apply(String key) throws Exception &#123;</div><div class="line">                    if(TextUtils.isEmpty(key) &amp;&amp; !request.skipCheckKeyValid())&#123;</div><div class="line">                        //token没有缓存，需要请求Token</div><div class="line">                        return Observable.&lt;R&gt;error(new KeyNotValidThrowable());</div><div class="line">                    &#125; else &#123;</div><div class="line">                        //Token存在缓存，直接请求</div><div class="line">                        return sendRequestInternal(request,t);</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;)</div><div class="line">            .retryWhen(new Function&lt;Observable&lt;? extends Throwable&gt;, ObservableSource&lt;String&gt;&gt;() &#123;</div><div class="line">                private int retryCount = 0;</div><div class="line">                @Override</div><div class="line">                public ObservableSource&lt;String&gt; apply(Observable&lt;? extends Throwable&gt; throwableObservable) throws Exception &#123;</div><div class="line">                    return throwableObservable.flatMap(new Function&lt;Throwable, ObservableSource&lt;String&gt;&gt;() &#123;</div><div class="line">                        @Override</div><div class="line">                        public ObservableSource&lt;String&gt; apply(Throwable throwable) throws Exception &#123;</div><div class="line">                            if (throwable instanceof KeyNotValidThrowable)&#123;</div><div class="line">                                //同一Request，有过一次KeyNotValidThrowable,则不再重试</div><div class="line">                                if (retryCount &gt; 0)&#123;</div><div class="line">                                    return Observable.error(throwable);</div><div class="line">                                &#125; else &#123;</div><div class="line">                                    retryCount++;</div><div class="line">                                    return TokenLoader.getInstance().getNetTokenLocked();</div><div class="line">                                &#125;</div><div class="line">                            &#125; else if (throwable instanceof ApiException)&#123;</div><div class="line">                                  //token过期的情况，重新获取token，并重试</div><div class="line">                                  ApiException apiException = (ApiException)throwable;</div><div class="line">                                  if (apiException.getCode() == MapiResultCode.SECRETKEY_EXPIRED.value())&#123;</div><div class="line">                                      if (retryCount &gt; 0)&#123;</div><div class="line">                                          return Observable.error(throwable);</div><div class="line">                                      &#125; else &#123;</div><div class="line">                                          retryCount++;</div><div class="line">                                          return DynamicKeyLoader.getInstance().getNetTokenLocked();</div><div class="line">                                      &#125;</div><div class="line">                                  &#125;</div><div class="line">                            &#125;</div><div class="line">                            //其他类型错误，直接抛出，不再重试</div><div class="line">                            return Observable.error(throwable);</div><div class="line">                        &#125;</div><div class="line">                    &#125;);</div><div class="line">                &#125;</div><div class="line">            &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>除了注释以外，几点说明：<br>1、defer操作符的作用是在retry时，会重新创建新的Observable，否则会使用上次的Observable，不会重新获取Store.sToken<br>2、retryWhen操作符，与sendRequestInternal内部统一配置的retryWhen并不冲突，相当于二次retry<br>3、retryWhen中如果抛出error ，则不再重试；<br>4、重试请求，通过返回getNetTokenLocked这个subject实现。（下面详述）</p>
+<p>阶段总结：<br>整体的流程被压缩到了一个函数中，rxjava本身的retrywhen和subject机制，已经替我们完成了这么几点：<br>1、自动重试的注册和反注册，subject被回调完自动反注册。<br>2、高并发request，维护队列，通过mTokenObservable的回调自动解决了这个问题<br>3、retry次数的维护，由于每次request的retry都是重新创建的内部类，所以变量的维护变的简单。<br>4、重试的逻辑被retry操作符自动实现了，只要重写retry的返回值就可以控制重试的策略。</p>
+<h5 id="TokenLoader：Token的获取过程"><a href="#TokenLoader：Token的获取过程" class="headerlink" title="TokenLoader：Token的获取过程"></a>TokenLoader：Token的获取过程</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div></pre></td><td class="code"><pre><div class="line">public class TokenLoader &#123;</div><div class="line"></div><div class="line">    public static final String TAG = TokenLoader.class.getSimpleName();</div><div class="line"></div><div class="line">    private AtomicBoolean mRefreshing = new AtomicBoolean(false);</div><div class="line">    private PublishSubject&lt;String&gt; mPublishSubject;</div><div class="line">    private Observable&lt;String&gt; mTokenObservable;</div><div class="line"></div><div class="line">    private TokenLoader() &#123;</div><div class="line">        final TokenRequest request = new TokenRequest(CarOperateApplication.getInstance());</div><div class="line">        mTokenObservable = Observable</div><div class="line">                  .defer(new Callable&lt;ObservableSource&lt;RefreshKeyRequest&gt;&gt;() &#123;</div><div class="line">                      @Override</div><div class="line">                      public ObservableSource&lt;RefreshKeyRequest&gt; call() throws Exception &#123;</div><div class="line">                          return Observable.just(request);</div><div class="line">                      &#125;</div><div class="line">                  &#125;)</div><div class="line">                  .flatMap(new Function&lt;RefreshKeyRequest, ObservableSource&lt;MapiHttpResponse&lt;Boolean&gt;&gt;&gt;() &#123;</div><div class="line">                      @Override</div><div class="line">                      public ObservableSource&lt;MapiHttpResponse&lt;Boolean&gt;&gt; apply(RefreshKeyRequest refreshKeyRequest) throws Exception &#123;</div><div class="line">                          return ApiHelper.sendDynamicKey(refreshKeyRequest,new MapiTypeReference&lt;MapiHttpResponse&lt;Boolean&gt;&gt;()&#123;&#125;);</div><div class="line">                      &#125;</div><div class="line">                  &#125;)</div><div class="line">                  .retryWhen(new Function&lt;Observable&lt;Throwable&gt;, ObservableSource&lt;RefreshKeyRequest&gt;&gt;() &#123;</div><div class="line">                      private int retryCount = 0;</div><div class="line">                      @Override</div><div class="line">                      public ObservableSource&lt;RefreshKeyRequest&gt; apply(Observable&lt;Throwable&gt; throwableObservable) throws Exception &#123;</div><div class="line">                          return throwableObservable.flatMap(new Function&lt;Throwable, ObservableSource&lt;RefreshKeyRequest&gt;&gt;() &#123;</div><div class="line">                              @Override</div><div class="line">                              public ObservableSource&lt;RefreshKeyRequest&gt; apply(Throwable throwable) throws Exception &#123;</div><div class="line">                                  retryCount++;</div><div class="line">                                  if (retryCount == 3)&#123;</div><div class="line">                                      request.setFlag(0);</div><div class="line">                                      return Observable.just(request);</div><div class="line">                                  &#125; else if (retryCount &gt; 3)&#123;</div><div class="line">                                      return Observable.error(throwable);</div><div class="line">                                  &#125; else &#123;</div><div class="line">                                      return Observable.just(request);</div><div class="line">                                  &#125;</div><div class="line">                              &#125;</div><div class="line">                          &#125;);</div><div class="line"></div><div class="line">                      &#125;</div><div class="line">                  &#125;)</div><div class="line">    //                      .delay(6000, TimeUnit.MILLISECONDS)</div><div class="line">                  .map(new Function&lt;MapiHttpResponse&lt;Boolean&gt;,String&gt;() &#123;</div><div class="line">                      @Override</div><div class="line">                      public String apply(MapiHttpResponse&lt;Boolean&gt; response) throws Exception &#123;</div><div class="line">                          if (!TextUtils.isEmpty(response.getUid())) &#123;</div><div class="line">                              DataUtils.putPreferences(Constants.Preferences.KEY_UUID, response.getUid());</div><div class="line">                          &#125;</div><div class="line">                          if (response.getContent().booleanValue() == true)&#123;</div><div class="line">                              setCacheToken(request.getDynamicKey());</div><div class="line">                          &#125; else if (response.getContent().booleanValue() == false)&#123;</div><div class="line">                              setCacheToken(UcarK.getSign());</div><div class="line">                          &#125;</div><div class="line">                          mRefreshing.set(false);</div><div class="line">                          Log.d(TAG,&quot;getDynamicKey = &quot; + getCacheToken());</div><div class="line">                          return getCacheToken();</div><div class="line">                      &#125;</div><div class="line">                  &#125;);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public static TokenLoader getInstance() &#123;</div><div class="line">        return Holder.INSTANCE;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    private static class Holder &#123;</div><div class="line">        private static final TokenLoader INSTANCE = new TokenLoader();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public String getCacheToken() &#123;</div><div class="line">        return Store.sToken;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public void setCacheToken(String key)&#123;</div><div class="line">        Store.sToken = key;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     *</div><div class="line">     * @return</div><div class="line">     */</div><div class="line">    public Observable&lt;String&gt; getNetTokenLocked() &#123;</div><div class="line">        if (mRefreshing.compareAndSet(false, true)) &#123;</div><div class="line">            Log.d(TAG, &quot;没有请求，发起一次新的Token请求&quot;);</div><div class="line">            startTokenRequest();</div><div class="line">        &#125; else &#123;</div><div class="line">            Log.d(TAG, &quot;已经有请求，直接返回等待&quot;);</div><div class="line">        &#125;</div><div class="line">        return mPublishSubject;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    private void startTokenRequest() &#123;</div><div class="line">        mPublishSubject = PublishSubject.create();</div><div class="line">        mTokenObservable.subscribe(mPublishSubject);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>除了注释以外，几点说明：<br>1、mRefreshing的作用是在token请求过程中，不再允许新的token请求，<br>变量采用原子类，而非boolean；这样在多线程环境下，原子类的方法是线程安全的。<br>compareAndSet(boolean expect, boolean update)这个方法两个作用 1）比较expect和mRefresh是否一致 2）将mRefreshing置为update<br>2、startTokenRequest()方法开启token请求，注意Observable在subscribe时才正式开始<br>3、这里使用了PublishSubject较为关键，在rxjava中Subject既是observable，又是observer，在TokenLoader中，<br>mPublishSubject是mTokenObservable的观察者，token请求的会由mPublishSubject响应，同时mPublishSubject也<br>作为Observable返回给TokenLoader的调用者作为retryWhen的返回值返回。（所以这里PublishSubject的泛型与send（）<br>方法中Observable的泛型应该是一致的）<br>4、对于mRefreshing是true的情况，直接返回mPublishSubject，这样每个阻塞的请求retryWhen都会等待mPublishSubject的<br>返回值，回调通知的顺序与加入阻塞的顺序是队列关系（先请求的接口，先回调），满足我们的需求。</p>
+<p>总结：<br>rxjava的学习门槛，说低不低，说高也不高，主要是一个‘思想’的转变。rxjava的操作符之强大，你想要实现的功能总能找到一款能满足你。思想转变后，在实际开发中直接javadoc搜索操作符就ok了。<br>rxjava的使用不是为了赶潮流，更不是用了rxjava就更有逼格，更先进。如果他不能解决你面临的问题，那他就不是一个适合你的库，不要为了用而用。反之，如果你已经开始广泛应用rxjava的思想到你的代码，你也会发现，越过这一层门槛，代码的逻辑清晰度，可维护性都上了一个台阶。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android框架/" rel="tag"># Android框架</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/25/ReactiveX2/" rel="next" title="基于RxJava Retrofit的网络框架（二）">
+                <i class="fa fa-chevron-left"></i> 基于RxJava Retrofit的网络框架（二）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">bo.wang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#RxJava有使用的必要吗？"><span class="nav-number">1.</span> <span class="nav-text">RxJava有使用的必要吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#典型复杂异步场景-–-Token的前置校验"><span class="nav-number">2.</span> <span class="nav-text">典型复杂异步场景 – Token的前置校验</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#先看看完整的请求过程"><span class="nav-number">2.0.1.</span> <span class="nav-text">先看看完整的请求过程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#TokenLoader：Token的获取过程"><span class="nav-number">2.0.2.</span> <span class="nav-text">TokenLoader：Token的获取过程</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bo.wang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
