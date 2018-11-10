@@ -79,16 +79,18 @@
 
 
 
-<meta name="description" content="RxJava有使用的必要吗？Rxjava这个库和其他常见库不太一样，一般的库例如Picasso，ButterKnife都是为了解决实际问题出现的，一定程度上是刚需。Picasso库如果不用他，那么应用自己就要处理图片下载、压缩、内存管理、多级缓存等等复杂的逻辑。这类问题复杂而常见，而像Picasso这类的轮子，Api的设计都比较友好，一个简单的api调用就能完成一个原本很复杂的功能，简直不要">
+<meta name="description" content="RxJava有使用的必要吗？Rxjava这个库和其他常见库不太一样，一般的库例如Glide，ButterKnife都是为了解决实际问题出现的，一定程度上是刚需。Glide库如果不用他，那么应用自己就要处理图片下载、压缩、内存管理、多级缓存等等复杂的逻辑。这类问题复杂而常见，而像Glide这类的轮子，Api的设计都比较友好，一个简单的api调用就能完成一个原本很复杂的功能，简直不要太爽。12345">
 <meta property="og:type" content="article">
 <meta property="og:title" content="RxJava2 复杂异步场景处理">
 <meta property="og:url" content="http://yoursite.com/2018/10/30/ReactiveX3/index.html">
 <meta property="og:site_name" content="Muse--D.D">
-<meta property="og:description" content="RxJava有使用的必要吗？Rxjava这个库和其他常见库不太一样，一般的库例如Picasso，ButterKnife都是为了解决实际问题出现的，一定程度上是刚需。Picasso库如果不用他，那么应用自己就要处理图片下载、压缩、内存管理、多级缓存等等复杂的逻辑。这类问题复杂而常见，而像Picasso这类的轮子，Api的设计都比较友好，一个简单的api调用就能完成一个原本很复杂的功能，简直不要">
-<meta property="og:updated_time" content="2018-11-09T08:16:05.224Z">
+<meta property="og:description" content="RxJava有使用的必要吗？Rxjava这个库和其他常见库不太一样，一般的库例如Glide，ButterKnife都是为了解决实际问题出现的，一定程度上是刚需。Glide库如果不用他，那么应用自己就要处理图片下载、压缩、内存管理、多级缓存等等复杂的逻辑。这类问题复杂而常见，而像Glide这类的轮子，Api的设计都比较友好，一个简单的api调用就能完成一个原本很复杂的功能，简直不要太爽。12345">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2432018-f715dadc4d40d252.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-11-10T14:56:04.898Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="RxJava2 复杂异步场景处理">
-<meta name="twitter:description" content="RxJava有使用的必要吗？Rxjava这个库和其他常见库不太一样，一般的库例如Picasso，ButterKnife都是为了解决实际问题出现的，一定程度上是刚需。Picasso库如果不用他，那么应用自己就要处理图片下载、压缩、内存管理、多级缓存等等复杂的逻辑。这类问题复杂而常见，而像Picasso这类的轮子，Api的设计都比较友好，一个简单的api调用就能完成一个原本很复杂的功能，简直不要">
+<meta name="twitter:description" content="RxJava有使用的必要吗？Rxjava这个库和其他常见库不太一样，一般的库例如Glide，ButterKnife都是为了解决实际问题出现的，一定程度上是刚需。Glide库如果不用他，那么应用自己就要处理图片下载、压缩、内存管理、多级缓存等等复杂的逻辑。这类问题复杂而常见，而像Glide这类的轮子，Api的设计都比较友好，一个简单的api调用就能完成一个原本很复杂的功能，简直不要太爽。12345">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/2432018-f715dadc4d40d252.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
 
@@ -298,9 +300,10 @@
       
 
       
-        <h3 id="RxJava有使用的必要吗？"><a href="#RxJava有使用的必要吗？" class="headerlink" title="RxJava有使用的必要吗？"></a>RxJava有使用的必要吗？</h3><p>Rxjava这个库和其他常见库不太一样，一般的库例如Picasso，ButterKnife都是为了解决实际问题出现的，一定程度上是刚需。Picasso库如果不用他，那么应用自己就要处理图片下载、压缩、内存管理、多级缓存等等复杂的逻辑。这类问题复杂而常见，而像Picasso这类的轮子，Api的设计都比较友好，一个简单的api调用就能完成一个原本很复杂的功能，简直不要太爽。<br>而Rxjava，你刚开始看起来，都不知道他是干什么的。“异步处理”？不是一般都使用观察者模式吗？AsyncTask，Handler也可以，要rxjava干嘛？如果你有兴趣研究过一点rxjava，会发现网上的教程都会说：zip map flatmap debounce等操作符把异步回调变得‘简洁’‘优雅’，对比一下原来的代码和使用rxjava后的代码，最后感叹一下rxjava设计的鬼才和功能的强大。我个人在初次接触中也感觉，这些rxjava的优点描述比较空洞，这项技术意义大于实用。<br>实际开发中，异步调用给我们的最大困扰是：异步回调的时间并不可控性。当有多个异步回调时，这些调用相互联系和依赖，搞清楚每个回调何时返回是个重要的问题。在每个关键时间节点对‘分散的callback’做正确的事，有过类似编程经验的人都知道，是非常痛苦的事，如果还想代码容易看懂，简直是疯了。<br>rxjava是否能解决以上困扰？随着学习和应用的深入，体会会更明显。以下会用一个稍复杂的例子，实操一个复杂异步场景，看看rxjava处理的怎么样。</p>
-<h3 id="典型复杂异步场景-–-Token的前置校验"><a href="#典型复杂异步场景-–-Token的前置校验" class="headerlink" title="典型复杂异步场景 – Token的前置校验"></a>典型复杂异步场景 – Token的前置校验</h3><p>经常遇到这种需求，接口的请求依赖token信息。一个请求需要先请求token（token如果存在缓存则使用缓存），依赖这个token才能进行正常网络请求。这个token有一定的失效性，在时效性内可以使用缓存，过期后需要重新请求token并重新发起一次请求。这个流程可以归纳如下图：</p>
-<p>还有些潜在的逻辑这个图没有表现出来：<br>1 高并发网络请求时，如果token正在请求，需要对请求阻塞（token请求过程中，不再接受新的token请求）<br>2 阻塞的同时，要把这些请求记录下来，token请求成功后，再‘依次’发送这些阻塞的请求。<br>3 token失效情况下，网络请求限制重试次数。（防止递归调用）<br>4 token请求本身，重试策略需单独配置。</p>
+        <h3 id="RxJava有使用的必要吗？"><a href="#RxJava有使用的必要吗？" class="headerlink" title="RxJava有使用的必要吗？"></a>RxJava有使用的必要吗？</h3><p>Rxjava这个库和其他常见库不太一样，一般的库例如Glide，ButterKnife都是为了解决实际问题出现的，一定程度上是刚需。Glide库如果不用他，那么应用自己就要处理图片下载、压缩、内存管理、多级缓存等等复杂的逻辑。这类问题复杂而常见，而像Glide这类的轮子，Api的设计都比较友好，一个简单的api调用就能完成一个原本很复杂的功能，简直不要太爽。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">Glide.with(context)</div><div class="line">    .load(url)//图片加载</div><div class="line">    .crossFade()//动画设置</div><div class="line">    .placeholder(R.drawable.place_image)//占位图</div><div class="line">    .error(R.drawable.error_image)//失败占位图</div><div class="line">    .override(width,height)//图片裁剪</div><div class="line">    .thumbnail(thumbnailRequest)//配置缩略图</div><div class="line">    .diskCacheStrategy(DiskCacheStrategy.SOURCE)//缓存策略</div><div class="line">    .into(imageView);</div></pre></td></tr></table></figure></p>
+<p>而Rxjava，你刚开始看起来，都不知道他是干什么的。“异步处理”？不是一般都使用观察者模式吗？AsyncTask，Handler也可以，要rxjava干嘛？如果你有兴趣研究过一点rxjava，会发现网上的教程都会说：zip map flatmap debounce等操作符把异步回调变得‘简洁’‘优雅’，对比一下原来的代码和使用rxjava后的代码，最后感叹一下rxjava设计的鬼才和功能的强大。我个人在初次接触中也感觉，这些rxjava的优点描述比较空洞，这项技术意义大于实用。</p>
+<p>实际开发中，异步调用给我们的最大困扰是：异步回调的时间并不可控性。当有多个异步回调时，这些调用相互联系和依赖，搞清楚每个回调何时返回是个重要的问题。在每个关键时间节点对‘分散的callback’做正确的事，有过类似编程经验的人都知道，是非常痛苦的事，如果还想代码容易看懂，简直是疯了。<br>rxjava是否能解决以上困扰？随着学习和应用的深入，体会会更明显。以下会用一个稍复杂的例子，实操一个复杂异步场景，看看rxjava处理的怎么样。</p>
+<h3 id="典型复杂异步场景-–-Token的前置校验"><a href="#典型复杂异步场景-–-Token的前置校验" class="headerlink" title="典型复杂异步场景 – Token的前置校验"></a>典型复杂异步场景 – Token的前置校验</h3><p>经常遇到这种需求，接口的请求依赖token信息。一个请求需要先请求token（token如果存在缓存则使用缓存），依赖这个token才能进行正常网络请求。这个token有一定的失效性，在时效性内可以使用缓存，过期后需要重新请求token并重新发起一次请求。这个流程可以归纳如下图：<br><img src="https://upload-images.jianshu.io/upload_images/2432018-f715dadc4d40d252.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="token前置请求.png"><br>还有些潜在的逻辑这个图没有表现出来：<br>1 高并发网络请求时，如果token正在请求，需要对请求阻塞（token请求过程中，不再接受新的token请求）<br>2 阻塞的同时，要把这些请求记录下来，token请求成功后，再‘依次’发送这些阻塞的请求。<br>3 token失效情况下，网络请求限制重试次数。（防止递归调用）<br>4 token请求本身，重试策略需单独配置。</p>
 <p>不使用rxjava，我们如何实现上述需求：<br>1、网络请求前，对token是否有缓存判断，如果没有先请求token，并把这个请求阻塞且缓存<br>2、token请求过程中，如果有新的token请求进来，加入阻塞队列<br>3、token请求后，通知阻塞的队列（广播等方式），依次进行阻塞的请求<br>4、对两种次数限制，分别做逻辑判断</p>
 <p>以上就是传统使用方法，有以下特点：<br>1、要时刻维护一个阻塞队列 （注意其添加和清空的时机）<br>2、token请求结束后，有一个回调机制通知阻塞队列，（这个回调需要注册和反注册）<br>3、两处的次数限制，次数维护的变量，不好维护（一般动态秘钥为了便于使用会做成单例，单例内的变量类似static，维护较复杂）<br>4、请求重试的逻辑不好实现，</p>
 <p>我们可以看到这里涉及到很多静态变量的维护，广播等异步回调的处理，这种情况一多，编程者会变得很被动。</p>
