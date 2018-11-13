@@ -85,18 +85,18 @@
 <meta property="og:url" content="http://yoursite.com/2018/09/06/IntelliJplugin/index.html">
 <meta property="og:site_name" content="Muse--D.D">
 <meta property="og:description" content="Studio主流插件我们知道Android Studio是基于Intellij的一套IDE环境，Intellij本身为开发者提供了插件式的开发环境，大大提高了开发效率和IDE可配置化。目前studio的成熟插件已有很多。我们这里先来看看目前已有的主流Studio插件有哪些，几乎已经涵盖了你所有的需求：https://juejin.im/entry/5998090ff265da248a7a6bde">
-<meta property="og:image" content="http://oqjv79a9c.bkt.clouddn.com/c035fd2ead7a041bac807ed4fc526b49.png">
-<meta property="og:image" content="http://oqjv79a9c.bkt.clouddn.com/303488b7c0d72c275d50706684bc6182.png">
+<meta property="og:image" content="https://i.imgur.com/bdMkQYx.png">
+<meta property="og:image" content="https://i.imgur.com/mxQYUfN.png">
 <meta property="og:image" content="https://i.imgur.com/RRbLTaH.png">
 <meta property="og:image" content="https://i.imgur.com/pqxUAFr.png">
 <meta property="og:image" content="https://i.imgur.com/htvBpGV.png">
 <meta property="og:image" content="http://oqjv79a9c.bkt.clouddn.com/cc0a69bf3ed271bb7afd4ccd39a106c6.png">
 <meta property="og:image" content="http://oqjv79a9c.bkt.clouddn.com/f2b67dfa0384153da79c35c66cd79f19.png">
-<meta property="og:updated_time" content="2018-11-13T08:21:34.397Z">
+<meta property="og:updated_time" content="2018-11-13T08:53:34.482Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SGsonFormat --- Android Studio插件二次开发">
 <meta name="twitter:description" content="Studio主流插件我们知道Android Studio是基于Intellij的一套IDE环境，Intellij本身为开发者提供了插件式的开发环境，大大提高了开发效率和IDE可配置化。目前studio的成熟插件已有很多。我们这里先来看看目前已有的主流Studio插件有哪些，几乎已经涵盖了你所有的需求：https://juejin.im/entry/5998090ff265da248a7a6bde">
-<meta name="twitter:image" content="http://oqjv79a9c.bkt.clouddn.com/c035fd2ead7a041bac807ed4fc526b49.png">
+<meta name="twitter:image" content="https://i.imgur.com/bdMkQYx.png">
 
 
 
@@ -307,8 +307,73 @@
 
       
         <h4 id="Studio主流插件"><a href="#Studio主流插件" class="headerlink" title="Studio主流插件"></a>Studio主流插件</h4><p>我们知道Android Studio是基于Intellij的一套IDE环境，Intellij本身为开发者提供了插件式的开发环境，大大提高了开发效率和IDE可配置化。目前studio的成熟插件已有很多。<br>我们这里先来看看目前已有的主流Studio插件有哪些，几乎已经涵盖了你所有的需求：<br><a href="https://juejin.im/entry/5998090ff265da248a7a6bde" target="_blank" rel="external">https://juejin.im/entry/5998090ff265da248a7a6bde</a></p>
-<h5 id="基本可以把插件的功能分为以下几类："><a href="#基本可以把插件的功能分为以下几类：" class="headerlink" title="基本可以把插件的功能分为以下几类："></a>基本可以把插件的功能分为以下几类：</h5><h6 id="1、解决重复性工作："><a href="#1、解决重复性工作：" class="headerlink" title="1、解决重复性工作："></a>1、解决重复性工作：</h6><p>把studio工作中技术含量低，重复性高的工作，用插件形式代替。<br>| 插件名称 | 插件功能 |<br>|——–|——–|<br>|GsonFormat | （jsonString自动生成JavaBean类）|<br>|ButterKnife Zelezny | （xml自动生成butterknife的注解代码）|<br>|Code Generator | （xml自动生成activity fragment）|<br>|AndroidProguardPlugin | （根据依赖的第三方库，生成proguard文件）|<br>|Exynap | （更加扩展，把成型、固定的代码段，自动生成）|<br>|MVPHelper | （自动生成 M V P 到不同文件夹）|</p>
-<h6 id="2、集成studio不包含的功能："><a href="#2、集成studio不包含的功能：" class="headerlink" title="2、集成studio不包含的功能："></a>2、集成studio不包含的功能：</h6><p>为了开发的方便，将studio本身不具备的功能引入，扩展IDE的功能，避免studio和第三方来回切换和数据传输的麻烦。<br>| 插件名称 | 插件功能 |<br>|——–|——–|<br>|EventBus3 Intellij | （辅助 索引eventbus 从subscribe到post，提高eventbus可读性）|<br>|GradleDependenciesHelperPlugin | （gradle依赖自动补全）|<br>|SQLScout | （调试sqlite）|<br>|FindBugs-IDEA | （findbugs插件）|<br>|Android Methods Count | （预览依赖库中方法数，提前判断方法数超限）|<br>各插件的开发和使用成熟度很高，大部分是免费并且开源的，活跃度也很高。因为studio的使用率极高，而且IntelliJ IDE本身的插件资源丰富，直接借鉴的插件也有很多，使得插件开发的门槛大大降低。<br>那么我们自己再遇到重复性高的工作，或者第三方功能需要嵌入时，也建议考虑插件的方式。</p>
+<h5 id="基本可以把插件的功能分为以下几类："><a href="#基本可以把插件的功能分为以下几类：" class="headerlink" title="基本可以把插件的功能分为以下几类："></a>基本可以把插件的功能分为以下几类：</h5><h6 id="1、解决重复性工作："><a href="#1、解决重复性工作：" class="headerlink" title="1、解决重复性工作："></a>1、解决重复性工作：</h6><p>把studio工作中技术含量低，重复性高的工作，用插件形式代替。</p>
+<table>
+<thead>
+<tr>
+<th>插件名称</th>
+<th>插件功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GsonFormat</td>
+<td>（jsonString自动生成JavaBean类）</td>
+</tr>
+<tr>
+<td>ButterKnife Zelezny</td>
+<td>（xml自动生成butterknife的注解代码）</td>
+</tr>
+<tr>
+<td>Code Generator</td>
+<td>（xml自动生成activity fragment）</td>
+</tr>
+<tr>
+<td>AndroidProguardPlugin</td>
+<td>（根据依赖的第三方库，生成proguard文件）</td>
+</tr>
+<tr>
+<td>Exynap</td>
+<td>（更加扩展，把成型、固定的代码段，自动生成）</td>
+</tr>
+<tr>
+<td>MVPHelper</td>
+<td>（自动生成 M V P 到不同文件夹）</td>
+</tr>
+</tbody>
+</table>
+<h6 id="2、集成studio不包含的功能："><a href="#2、集成studio不包含的功能：" class="headerlink" title="2、集成studio不包含的功能："></a>2、集成studio不包含的功能：</h6><p>为了开发的方便，将studio本身不具备的功能引入，扩展IDE的功能，避免studio和第三方来回切换和数据传输的麻烦。</p>
+<table>
+<thead>
+<tr>
+<th>插件名称</th>
+<th>插件功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EventBus3 Intellij</td>
+<td>（辅助 索引eventbus 从subscribe到post，提高eventbus可读性）</td>
+</tr>
+<tr>
+<td>GradleDependenciesHelperPlugin</td>
+<td>（gradle依赖自动补全）</td>
+</tr>
+<tr>
+<td>SQLScout</td>
+<td>（调试sqlite）</td>
+</tr>
+<tr>
+<td>FindBugs-IDEA</td>
+<td>（findbugs插件）</td>
+</tr>
+<tr>
+<td>Android Methods Count</td>
+<td>（预览依赖库中方法数，提前判断方法数超限）</td>
+</tr>
+</tbody>
+</table>
+<p>各插件的开发和使用成熟度很高，大部分是免费并且开源的，活跃度也很高。因为studio的使用率极高，而且IntelliJ IDE本身的插件资源丰富，直接借鉴的插件也有很多，使得插件开发的门槛大大降低。<br>那么我们自己再遇到重复性高的工作，或者第三方功能需要嵌入时，也建议考虑插件的方式。</p>
 <h5 id="插件的安装方法"><a href="#插件的安装方法" class="headerlink" title="插件的安装方法"></a>插件的安装方法</h5><p>1、Preferences - plugins - Browse repositories 查找jetBrains远程仓库上的插件<br>很多插件是免费且开源的（github），远程repositories上对应的plugins都是最新的release版本<br>我们可以使用beta版本，或者自己对开源插件进行二次开发，这时就需要安装本地插件：<br>2、Preferences - plugins - Install plugin from disk 查找本地plugin的jar包</p>
 <p>本文会以一个我自己二次开发的plugin为例，记录下plugin开发的基本流程和值得注意的坑。</p>
 <hr>
@@ -318,19 +383,26 @@
 <p>dev分支工程配置步骤</p>
 <ol>
 <li>import project from existing code<br>注意我们的工程是plugin,选择的sdk不是jdk1.8（此处同new project），而是IntelliJ IDEA Community，一路‘下一步’这个过程中，有一步已经把src下代码作为module放入了project，生成了GsonFormat.iml,</li>
-<li>只是此时GsonFormat.iml中module type是JAVA_MODULE,而不是PLUGIN_MODULE，需要修改。<br>（project的module设置很重要，决定了project是否可以正常编译）<br>此处配置成功的标志就是 IDE出现了run 和 debug两个按钮。如果还不正常，可以进入IDE右上角的按钮进入project structure进行配置<br><img src="http://oqjv79a9c.bkt.clouddn.com/c035fd2ead7a041bac807ed4fc526b49.png" alt="配置sdk"></li>
-<li>如果想正常编译插件，还需要一步，在 Edit Configuration中配置project的属性，见图二，新建一个Plugin Configuration，在右侧的Use classpath of module中选择刚刚的GsonFormat（由于刚刚我们成功配置了GsonFormat为PLUGIN_MODULE,否则此处找不到哦）<br>图二：<br><img src="http://oqjv79a9c.bkt.clouddn.com/303488b7c0d72c275d50706684bc6182.png" alt="配置plugin的Module"></li>
-<li>到了这一步，无论是run  debug 还是Prepare Plugin Module For Deployment(产出本地plugin jar)都可以了。<h5 id="分析plugin工程"><a href="#分析plugin工程" class="headerlink" title="分析plugin工程"></a>分析plugin工程</h5>import成功后，我们看一下plugin工程是怎样的？<br>plugin工程中常见以下三类文件，也是plugin工程较为特有的文件类型：</li>
+<li>只是此时GsonFormat.iml中module type是JAVA_MODULE,而不是PLUGIN_MODULE，需要修改。<br>（project的module设置很重要，决定了project是否可以正常编译）<br>此处配置成功的标志就是 IDE出现了run 和 debug两个按钮。如果还不正常，可以进入IDE右上角的按钮进入project structure进行配置<br><img src="https://i.imgur.com/bdMkQYx.png" alt="配置sdk"></li>
+<li>如果想正常编译插件，还需要一步，在 Edit Configuration中配置project的属性，见图二，新建一个Plugin Configuration，在右侧的Use classpath of module中选择刚刚的GsonFormat（由于刚刚我们成功配置了GsonFormat为PLUGIN_MODULE,否则此处找不到哦）<br><img src="https://i.imgur.com/mxQYUfN.png" alt="配置plugin的Module"></li>
+<li>到了这一步，无论是run  debug 还是Prepare Plugin Module For Deployment(产出本地plugin jar)都可以了。</li>
+</ol>
+<h5 id="分析plugin工程"><a href="#分析plugin工程" class="headerlink" title="分析plugin工程"></a>分析plugin工程</h5><p>import成功后，我们看一下plugin工程是怎样的？<br>plugin工程中常见以下三类文件，也是plugin工程较为特有的文件类型：</p>
+<ol>
 <li>Action<br>作为整个插件的入口类，其入口方式和name等定义在plugin.xml，Action中actionPerformed作为入口方法，初始化当前类，包，传入到dialog中</li>
 <li>Dialog 类似于android中的activity，绑定了Form类，用于view的databinding和逻辑<br>JsonDialog是入口dialog，FieldsDialog是解析jsonstring后展示的dialog，SettingDialog是配置dialog</li>
-<li>GUI Form 类似于android中xml布局文件，只不过此处是swing的拖拽控件，Form与Dialog是配对出现，其对应关系在Form配置。<h5 id="GsonFormat代码架构"><a href="#GsonFormat代码架构" class="headerlink" title="GsonFormat代码架构"></a>GsonFormat代码架构</h5>以GsonFormat plugin为例，具体讲清楚plugin工程的组成和实现原理。<br>(GsonFormat插件是把jsonString转变为javaBean的前端插件，写业务代码的朋友们应该非常熟悉，这款插件的使用过程是这样子的：)<br>第一步：弹窗：输入你要转换的jsonString，此处也可以Setting进行配置<br><img src="https://i.imgur.com/RRbLTaH.png" alt=""><br>第二步：弹窗：展示转换成功的field class，你可以在此基础上自定义。<br><img src="https://i.imgur.com/pqxUAFr.png" alt=""><br>最后：我们得到了我们想要的javaBean<br><img src="https://i.imgur.com/htvBpGV.png" alt=""><br>这个插件的基本功能如上，下面我们简单分析下源码：<h6 id="代码（类）的组织方式"><a href="#代码（类）的组织方式" class="headerlink" title="代码（类）的组织方式"></a>代码（类）的组织方式</h6>主Action是MainAction，作为插件的入口可以看到他启动了弹窗JsonDialog。工程中维护了几个dialog（包括java文件和form表单文件），分别对应插件工作中所有的弹窗，被放入了ui文件夹。<br><img src="http://oqjv79a9c.bkt.clouddn.com/cc0a69bf3ed271bb7afd4ccd39a106c6.png" alt=""><br>再来看其他文件夹：<br><img src="http://oqjv79a9c.bkt.clouddn.com/f2b67dfa0384153da79c35c66cd79f19.png" alt=""></li>
+<li>GUI Form 类似于android中xml布局文件，只不过此处是swing的拖拽控件，Form与Dialog是配对出现，其对应关系在Form配置。</li>
+</ol>
+<h5 id="GsonFormat代码架构"><a href="#GsonFormat代码架构" class="headerlink" title="GsonFormat代码架构"></a>GsonFormat代码架构</h5><p>以GsonFormat plugin为例，具体讲清楚plugin工程的组成和实现原理。<br>(GsonFormat插件是把jsonString转变为javaBean的前端插件，写业务代码的朋友们应该非常熟悉，这款插件的使用过程是这样子的：)<br>第一步：弹窗：输入你要转换的jsonString，此处也可以Setting进行配置<br><img src="https://i.imgur.com/RRbLTaH.png" alt=""><br>第二步：弹窗：展示转换成功的field class，你可以在此基础上自定义。<br><img src="https://i.imgur.com/pqxUAFr.png" alt=""><br>最后：我们得到了我们想要的javaBean<br><img src="https://i.imgur.com/htvBpGV.png" alt=""><br>这个插件的基本功能如上，下面我们简单分析下源码：</p>
+<h6 id="代码（类）的组织方式"><a href="#代码（类）的组织方式" class="headerlink" title="代码（类）的组织方式"></a>代码（类）的组织方式</h6><p>主Action是MainAction，作为插件的入口可以看到他启动了弹窗JsonDialog。工程中维护了几个dialog（包括java文件和form表单文件），分别对应插件工作中所有的弹窗，被放入了ui文件夹。<br><img src="http://oqjv79a9c.bkt.clouddn.com/cc0a69bf3ed271bb7afd4ccd39a106c6.png" alt=""><br>再来看其他文件夹：<br><img src="http://oqjv79a9c.bkt.clouddn.com/f2b67dfa0384153da79c35c66cd79f19.png" alt=""></p>
+<ol>
 <li>DataWriter类负责GsonFormat最后一步写入class文件，</li>
 <li>config文件夹中类维护了插件的settings属性（属性用户可以在SettingsDialog配置），</li>
 <li>entity文件夹内是实体类，classEntity fieldEntity等类都是维护最终生成class中的field及innerclass的实体类。</li>
-<li><p>process文件夹内是处理类，jsonstring的解析，javaBean封装等具体的操作都是在这些类中完成的，是插件的核心类。</p>
-<h6 id="处理流程"><a href="#处理流程" class="headerlink" title="处理流程"></a>处理流程</h6><p>处理流程的代码逻辑是流式的，从MainAction入口开始看起，在JsonDialog中点击确定后，开始解析jsonString。<br>类JsonUtilsDialog中，点击事件的响应函数作为入口：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">editTP.addKeyListener(new KeyAdapter() &#123;</div><div class="line">    @Override</div><div class="line">    public void keyReleased(KeyEvent keyEvent) &#123;</div><div class="line">        super.keyReleased(keyEvent);</div><div class="line">        if (keyEvent.getKeyCode() == KeyEvent.VK_ENTER) &#123;</div><div class="line">            onOK();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-</li>
+<li>process文件夹内是处理类，jsonstring的解析，javaBean封装等具体的操作都是在这些类中完成的，是插件的核心类。</li>
+</ol>
+<h6 id="处理流程"><a href="#处理流程" class="headerlink" title="处理流程"></a>处理流程</h6><p>处理流程的代码逻辑是流式的，从MainAction入口开始看起，在JsonDialog中点击确定后，开始解析jsonString。<br>类JsonUtilsDialog中，点击事件的响应函数作为入口：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">editTP.addKeyListener(new KeyAdapter() &#123;</div><div class="line">    @Override</div><div class="line">    public void keyReleased(KeyEvent keyEvent) &#123;</div><div class="line">        super.keyReleased(keyEvent);</div><div class="line">        if (keyEvent.getKeyCode() == KeyEvent.VK_ENTER) &#123;</div><div class="line">            onOK();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<ol>
 <li><p>解析的过程，主要在ConvertBridge类完成，由run方法作入口，开始解析jsonSTR<br>onOK（）方法的实现：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">private void onOK() &#123;</div><div class="line">    //省略部分：get PsiClass generateClass:</div><div class="line">    new ConvertBridge(</div><div class="line">            this, errorLB, jsonSTR, mFile, mProject, generateClass,</div><div class="line">            mClass, generateClassName).run();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 </li>
@@ -338,8 +410,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">public void parseJson(JSONObject json) &#123;</div><div class="line">    if (Config.getInstant().isVirgoMode()) &#123;</div><div class="line">      //省略代码：装配mGenerateEntity对象</div><div class="line">      //createFields 解析jsonString核心方法</div><div class="line">      mGenerateEntity.setFields(createFields(json, fieldList, mGenerateEntity));</div><div class="line">      FieldsDialog fieldsDialog = new FieldsDialog(mJsonUtilsDialog, mGenerateEntity, mFactory,</div><div class="line">                mGeneratClass, currentClass, mFile, project, generateClassName);</div><div class="line">    &#125; else &#123;</div><div class="line">      mGenerateEntity.setFields(createFields(json, fieldList, mGenerateEntity));</div><div class="line">      WriterUtil writerUtil = new WriterUtil(null, null, mFile, project, mGeneratClass);</div><div class="line">      writerUtil.mInnerClassEntity = mGenerateEntity;</div><div class="line">      writerUtil.execute();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 </li>
 </ol>
-<p>分为Virgo模式和非Virgo模式（默认virgo模式）：virgo模式，就是启动FieldsDialog，就是我们见到的第二个窗口，用户自行修改fields的定义，非virgo比较简单，跳过dialog直接写入fields到class里。除非settings自己定义，否则我们一般都使用virgo模式。</p>
-<p>可以看到无论是否virgo模式与否，都会调用createFields方法，区别只是是否显示FieldsDialog。</p>
+<p>分为Virgo模式和非Virgo模式（默认virgo模式）：virgo模式，就是启动FieldsDialog，就是我们见到的第二个窗口，用户自行修改fields的定义，非virgo比较简单，跳过dialog直接写入fields到class里。除非settings自己定义，否则我们一般都使用virgo模式。<br>可以看到无论是否virgo模式与否，都会调用createFields方法，区别只是是否显示FieldsDialog。</p>
 <ol>
 <li>详细看下createFields方法做了什么。<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">for (int i = 0; i &lt; list.size(); i++) &#123;</div><div class="line">    String key = list.get(i);</div><div class="line">    Object type = json.get(key);</div><div class="line">    if (type instanceof JSONArray) &#123;</div><div class="line">        //将jsonArray放入listEntityList</div><div class="line">        listEntityList.add(key);</div><div class="line">        continue;</div><div class="line">    &#125;</div><div class="line">    FieldEntity fieldEntity = createFiled(parentClass, key, type);</div><div class="line">    fieldEntityList.add(fieldEntity);</div><div class="line">&#125;</div><div class="line">for (int i = 0; i &lt; listEntityList.size(); i++) &#123;</div><div class="line">    //解析listEntityList中数据</div><div class="line">    String key = listEntityList.get(i);</div><div class="line">    Object type = json.get(key);</div><div class="line"></div><div class="line">    FieldEntity fieldEntity = createFiled(parentClass, key, type);</div><div class="line">    fieldEntityList.add(fieldEntity);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 </li>
@@ -351,13 +422,17 @@
 </ol>
 <p>createFields方法中对每个fieldEntity依次调用createField方法，createFiled方法中调用了typeByValue方法，在createInnnerClass中 对子json再次进行createFields方法，如此依次递归。完成了一层层javabean的解析工作。<br>可以说Class中包括FieldEntry，而FieldEntry本身也是包含多个子FieldEntry的。FieldEntry可以设置基本类型，也可以设置ClassEntity。</p>
 <ol>
-<li>最终通过WriterUtil类将FieldEntry写入到class文件中，完成了整个的插件功能。<h4 id="二次开发的部分"><a href="#二次开发的部分" class="headerlink" title="二次开发的部分"></a>二次开发的部分</h4><h5 id="开发中遇到的问题"><a href="#开发中遇到的问题" class="headerlink" title="开发中遇到的问题"></a>开发中遇到的问题</h5>由于代码混淆的原因，开发中经常遇到debug下正常的代码，在release包情况下无法正常解析网路数据，因为javabean类中的field混淆后已经不是原来定义的名称了。而这个问题在提测关口最容易出现。想解决这个问题必须保证javaBean在打包中不被混淆。<br>如何不被混淆，不同厂商有不同的解决策略（规范）：</li>
-<li>统一放到一个文件夹里（或者含固定名称的文件夹），混淆时ignore 这些文件夹。<br>但是这办法操作起来不完美，一个是重构后文件夹容易变名字，还有团队开发时无法保证所有的人都遵守。处理代码时都要绷着文件夹名称这个弦。</li>
-<li>所有JavaBean extends Serializable(统一基类)<br>这样proguard文件中保证所有Seriallizable的子类不被混淆即可。而且Bundle传递参数时javaBean可以直接被用。但是这个办法也有一个缺点：需要保证所有人遵守这个约定，无法规范这个步骤。<h5 id="我们的解决方式："><a href="#我们的解决方式：" class="headerlink" title="我们的解决方式："></a>我们的解决方式：</h5>一般我们的接口管理系统中，都可以产生mock的jsonString，客户端开发会直接利用SGsonFormat插件将jsonString直接转为JavaBean，所以基于GsonFormat功能二次开发，让所有的JavaBean class统一继承Serializable，这样兼顾了易用性和统一性。<h6 id="GsonFormat的二次开发："><a href="#GsonFormat的二次开发：" class="headerlink" title="GsonFormat的二次开发："></a>GsonFormat的二次开发：</h6>统一继承Serializable的逻辑，应该放入DataWriter写入的流程中，分析可得：在ClassProcessor中process方法，实际上将classContent的String内容通过PsiElementFactory写入class文件中，所以修改String classContent既可。<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line">protected void generateClass(PsiElementFactory factory, ClassEntity classEntity, PsiClass parentClass, IProcessor visitor) &#123;</div><div class="line"></div><div class="line">    onStartGenerateClass(factory, classEntity, parentClass, visitor);</div><div class="line">    PsiClass generateClass = null;</div><div class="line">    if (classEntity.isGenerate()) &#123;</div><div class="line">        if (Config.getInstant().isSplitGenerate()) &#123;</div><div class="line">            try &#123;</div><div class="line">                generateClass = PsiClassUtil.getPsiClass(</div><div class="line">                        parentClass.getContainingFile(), parentClass.getProject(), classEntity.getQualifiedName());</div><div class="line">            &#125; catch (Throwable throwable) &#123;</div><div class="line">                throwable.printStackTrace();</div><div class="line">            &#125;</div><div class="line">        &#125; else &#123;</div><div class="line">            //根据classContent创建class</div><div class="line">            String classContent =</div><div class="line">                    &quot;public static class &quot; + classEntity.getClassName() + &quot; implements Serializable&quot; + &quot;&#123;&#125;&quot;;</div><div class="line">            generateClass = factory.createClassFromText(classContent, null).getInnerClasses()[0];</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        if (generateClass != null) &#123;</div><div class="line">            //递归调用，创建内部类</div><div class="line">            for (ClassEntity innerClass : classEntity.getInnerClasss()) &#123;</div><div class="line">                generateClass(factory, innerClass, generateClass, visitor);</div><div class="line">            &#125;</div><div class="line">            if (!Config.getInstant().isSplitGenerate()) &#123;</div><div class="line">                generateClass = (PsiClass) parentClass.add(generateClass);</div><div class="line">            &#125;</div><div class="line">            //创建内部变量</div><div class="line">            for (FieldEntity fieldEntity : classEntity.getFields()) &#123;</div><div class="line">                generateField(factory, fieldEntity, generateClass, classEntity);</div><div class="line">            &#125;</div><div class="line">            //创建内部变量getter setter方法</div><div class="line">            generateGetterAndSetter(factory, generateClass, classEntity);</div><div class="line">            generateConvertMethod(factory, generateClass, classEntity);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    onEndGenerateClass(factory, classEntity, parentClass, generateClass, visitor);</div><div class="line">    if (Config.getInstant().isSplitGenerate()) &#123;</div><div class="line">        formatJavCode(generateClass);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
+<li>最终通过WriterUtil类将FieldEntry写入到class文件中，完成了整个的插件功能。</li>
 </ol>
+<h4 id="二次开发的部分"><a href="#二次开发的部分" class="headerlink" title="二次开发的部分"></a>二次开发的部分</h4><h5 id="开发中遇到的问题"><a href="#开发中遇到的问题" class="headerlink" title="开发中遇到的问题"></a>开发中遇到的问题</h5><p>由于代码混淆的原因，开发中经常遇到debug下正常的代码，在release包情况下无法正常解析网路数据，因为javabean类中的field混淆后已经不是原来定义的名称了。而这个问题在提测关口最容易出现。想解决这个问题必须保证javaBean在打包中不被混淆。<br>如何不被混淆，不同厂商有不同的解决策略（规范）：</p>
+<ol>
+<li>统一放到一个文件夹里（或者含固定名称的文件夹），混淆时ignore 这些文件夹。<br>但是这办法操作起来不完美，一个是重构后文件夹容易变名字，还有团队开发时无法保证所有的人都遵守。处理代码时都要绷着文件夹名称这个弦。</li>
+<li>所有JavaBean extends Serializable(统一基类)<br>这样proguard文件中保证所有Seriallizable的子类不被混淆即可。而且Bundle传递参数时javaBean可以直接被用。但是这个办法也有一个缺点：需要保证所有人遵守这个约定，无法规范这个步骤。</li>
+</ol>
+<h5 id="我们的解决方式："><a href="#我们的解决方式：" class="headerlink" title="我们的解决方式："></a>我们的解决方式：</h5><p>一般我们的接口管理系统中，都可以产生mock的jsonString，客户端开发会直接利用SGsonFormat插件将jsonString直接转为JavaBean，所以基于GsonFormat功能二次开发，让所有的JavaBean class统一继承Serializable，这样兼顾了易用性和统一性。</p>
+<h6 id="GsonFormat的二次开发："><a href="#GsonFormat的二次开发：" class="headerlink" title="GsonFormat的二次开发："></a>GsonFormat的二次开发：</h6><p>统一继承Serializable的逻辑，应该放入DataWriter写入的流程中，分析可得：在ClassProcessor中process方法，实际上将classContent的String内容通过PsiElementFactory写入class文件中，所以修改String classContent既可。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line">protected void generateClass(PsiElementFactory factory, ClassEntity classEntity, PsiClass parentClass, IProcessor visitor) &#123;</div><div class="line"></div><div class="line">    onStartGenerateClass(factory, classEntity, parentClass, visitor);</div><div class="line">    PsiClass generateClass = null;</div><div class="line">    if (classEntity.isGenerate()) &#123;</div><div class="line">        if (Config.getInstant().isSplitGenerate()) &#123;</div><div class="line">            try &#123;</div><div class="line">                generateClass = PsiClassUtil.getPsiClass(</div><div class="line">                        parentClass.getContainingFile(), parentClass.getProject(), classEntity.getQualifiedName());</div><div class="line">            &#125; catch (Throwable throwable) &#123;</div><div class="line">                throwable.printStackTrace();</div><div class="line">            &#125;</div><div class="line">        &#125; else &#123;</div><div class="line">            //根据classContent创建class</div><div class="line">            String classContent =</div><div class="line">                    &quot;public static class &quot; + classEntity.getClassName() + &quot; implements Serializable&quot; + &quot;&#123;&#125;&quot;;</div><div class="line">            generateClass = factory.createClassFromText(classContent, null).getInnerClasses()[0];</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        if (generateClass != null) &#123;</div><div class="line">            //递归调用，创建内部类</div><div class="line">            for (ClassEntity innerClass : classEntity.getInnerClasss()) &#123;</div><div class="line">                generateClass(factory, innerClass, generateClass, visitor);</div><div class="line">            &#125;</div><div class="line">            if (!Config.getInstant().isSplitGenerate()) &#123;</div><div class="line">                generateClass = (PsiClass) parentClass.add(generateClass);</div><div class="line">            &#125;</div><div class="line">            //创建内部变量</div><div class="line">            for (FieldEntity fieldEntity : classEntity.getFields()) &#123;</div><div class="line">                generateField(factory, fieldEntity, generateClass, classEntity);</div><div class="line">            &#125;</div><div class="line">            //创建内部变量getter setter方法</div><div class="line">            generateGetterAndSetter(factory, generateClass, classEntity);</div><div class="line">            generateConvertMethod(factory, generateClass, classEntity);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    onEndGenerateClass(factory, classEntity, parentClass, generateClass, visitor);</div><div class="line">    if (Config.getInstant().isSplitGenerate()) &#123;</div><div class="line">        formatJavCode(generateClass);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>插件下载地址：（该插件已提交repository） <a href="https://plugins.jetbrains.com/plugin/11100-sgsonformat/update/49532" target="_blank" rel="external">https://plugins.jetbrains.com/plugin/11100-sgsonformat/update/49532</a><br>或者直接搜索SGsonFormat，install即可使用</p>
-<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>二次开发的改动并不大，但是把Studio的plugin开发环境和流程算是熟悉了一遍，plugin插件的开发可以说你会用java就能上手，只不过他自定义的文件类型和组织方式需要熟悉。如果有需要的话，做个新的plugin提高工作效率，是个很好的方式。</p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>二次开发的改动并不大，但是把Studio的plugin开发环境和流程算是熟悉了一遍，plugin插件的开发可以说你会用java就能上手，只不过他自定义的文件类型和组织方式需要熟悉。如果有需要的话，做个新的plugin提高工作效率，是个很好的方式。</p>
 
       
     </div>
@@ -525,7 +600,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Studio主流插件"><span class="nav-number">1.</span> <span class="nav-text">Studio主流插件</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#基本可以把插件的功能分为以下几类："><span class="nav-number">1.1.</span> <span class="nav-text">基本可以把插件的功能分为以下几类：</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#1、解决重复性工作："><span class="nav-number">1.1.1.</span> <span class="nav-text">1、解决重复性工作：</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#2、集成studio不包含的功能："><span class="nav-number">1.1.2.</span> <span class="nav-text">2、集成studio不包含的功能：</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#插件的安装方法"><span class="nav-number">1.2.</span> <span class="nav-text">插件的安装方法</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#插件开发"><span class="nav-number">2.</span> <span class="nav-text">插件开发</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#新建及import工程"><span class="nav-number">2.1.</span> <span class="nav-text">新建及import工程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#分析plugin工程"><span class="nav-number">2.2.</span> <span class="nav-text">分析plugin工程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#GsonFormat代码架构"><span class="nav-number">2.3.</span> <span class="nav-text">GsonFormat代码架构</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#代码（类）的组织方式"><span class="nav-number">2.3.1.</span> <span class="nav-text">代码（类）的组织方式</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#处理流程"><span class="nav-number">2.3.2.</span> <span class="nav-text">处理流程</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二次开发的部分"><span class="nav-number">3.</span> <span class="nav-text">二次开发的部分</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#开发中遇到的问题"><span class="nav-number">3.1.</span> <span class="nav-text">开发中遇到的问题</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#我们的解决方式："><span class="nav-number">3.2.</span> <span class="nav-text">我们的解决方式：</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#GsonFormat的二次开发："><span class="nav-number">3.2.1.</span> <span class="nav-text">GsonFormat的二次开发：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Studio主流插件"><span class="nav-number">1.</span> <span class="nav-text">Studio主流插件</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#基本可以把插件的功能分为以下几类："><span class="nav-number">1.1.</span> <span class="nav-text">基本可以把插件的功能分为以下几类：</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#1、解决重复性工作："><span class="nav-number">1.1.1.</span> <span class="nav-text">1、解决重复性工作：</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#2、集成studio不包含的功能："><span class="nav-number">1.1.2.</span> <span class="nav-text">2、集成studio不包含的功能：</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#插件的安装方法"><span class="nav-number">1.2.</span> <span class="nav-text">插件的安装方法</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#插件开发"><span class="nav-number">2.</span> <span class="nav-text">插件开发</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#新建及import工程"><span class="nav-number">2.1.</span> <span class="nav-text">新建及import工程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#分析plugin工程"><span class="nav-number">2.2.</span> <span class="nav-text">分析plugin工程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#GsonFormat代码架构"><span class="nav-number">2.3.</span> <span class="nav-text">GsonFormat代码架构</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#代码（类）的组织方式"><span class="nav-number">2.3.1.</span> <span class="nav-text">代码（类）的组织方式</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#处理流程"><span class="nav-number">2.3.2.</span> <span class="nav-text">处理流程</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二次开发的部分"><span class="nav-number">3.</span> <span class="nav-text">二次开发的部分</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#开发中遇到的问题"><span class="nav-number">3.1.</span> <span class="nav-text">开发中遇到的问题</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#我们的解决方式："><span class="nav-number">3.2.</span> <span class="nav-text">我们的解决方式：</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#GsonFormat的二次开发："><span class="nav-number">3.2.1.</span> <span class="nav-text">GsonFormat的二次开发：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
             
 
           </div>
