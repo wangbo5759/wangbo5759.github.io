@@ -90,7 +90,7 @@ Note: This class provides strong consistency guarantees. It is using expensive o
 
 Note: This class provides strong consistency guarantees. It is using expensive operations which might slow down an app. Frequently changing properties or prop">
 <meta property="og:image" content="https://i.imgur.com/Dp1KcRA.png">
-<meta property="og:updated_time" content="2019-03-01T01:51:28.138Z">
+<meta property="og:updated_time" content="2019-03-01T02:19:04.133Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SharedPreference线程、进程安全性">
 <meta name="twitter:description" content="SharedPreference的线程、进程安全性一、安全性结论官方文档如是说：
@@ -481,7 +481,7 @@ private void loadFromDisk() {
 </ol>
 <p><strong>总结</strong></p>
 <p>sp中进程不安全，不建议使用sp进行进程间通讯，Context.MODE_MULTI_PROCESS虽然可用，但是官方会逐步deprecated，而且多进程调用的同步性无法保证。</p>
-<p>那么数据的进程间共享方案，就是另一个话题了。</p>
+<p>那么数据的进程间共享方案，就是另一个话题了。我会专门开一个专题来说明。</p>
 
       
     </div>
