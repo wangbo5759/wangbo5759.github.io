@@ -79,16 +79,36 @@
 
 
 
-<meta name="description" content="LNMP的搭建多个端口的设定wordpress搭建shadowsocks搭建hbase搭建">
+<meta name="description" content="Linux下WebServer的搭建linux 初始化及登录使用的linux服务器供应商：https://bwh8.net/
+
+重新安装centos 6 x86_64
+
+执行shadowsocks server端的脚本：https://kiwivm.64clouds.com/main-exec.php?mode=extras_shadowsocks  根据提示即可配置ss客户端
+
+安装ddos d">
 <meta property="og:type" content="article">
 <meta property="og:title" content="LNMP环境搭建 及多端口访问">
 <meta property="og:url" content="http://yoursite.com/2018/09/06/LNMP/index.html">
 <meta property="og:site_name" content="Muse--D.D">
-<meta property="og:description" content="LNMP的搭建多个端口的设定wordpress搭建shadowsocks搭建hbase搭建">
-<meta property="og:updated_time" content="2018-11-29T03:20:34.195Z">
+<meta property="og:description" content="Linux下WebServer的搭建linux 初始化及登录使用的linux服务器供应商：https://bwh8.net/
+
+重新安装centos 6 x86_64
+
+执行shadowsocks server端的脚本：https://kiwivm.64clouds.com/main-exec.php?mode=extras_shadowsocks  根据提示即可配置ss客户端
+
+安装ddos d">
+<meta property="og:image" content="https://i.imgur.com/stjQ17s.png">
+<meta property="og:updated_time" content="2019-01-04T10:10:25.686Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="LNMP环境搭建 及多端口访问">
-<meta name="twitter:description" content="LNMP的搭建多个端口的设定wordpress搭建shadowsocks搭建hbase搭建">
+<meta name="twitter:description" content="Linux下WebServer的搭建linux 初始化及登录使用的linux服务器供应商：https://bwh8.net/
+
+重新安装centos 6 x86_64
+
+执行shadowsocks server端的脚本：https://kiwivm.64clouds.com/main-exec.php?mode=extras_shadowsocks  根据提示即可配置ss客户端
+
+安装ddos d">
+<meta name="twitter:image" content="https://i.imgur.com/stjQ17s.png">
 
 
 
@@ -298,7 +318,145 @@
       
 
       
-        <h3 id="LNMP的搭建"><a href="#LNMP的搭建" class="headerlink" title="LNMP的搭建"></a>LNMP的搭建</h3><h3 id="多个端口的设定"><a href="#多个端口的设定" class="headerlink" title="多个端口的设定"></a>多个端口的设定</h3><h3 id="wordpress搭建"><a href="#wordpress搭建" class="headerlink" title="wordpress搭建"></a>wordpress搭建</h3><h3 id="shadowsocks搭建"><a href="#shadowsocks搭建" class="headerlink" title="shadowsocks搭建"></a>shadowsocks搭建</h3><h3 id="hbase搭建"><a href="#hbase搭建" class="headerlink" title="hbase搭建"></a>hbase搭建</h3>
+        <h3 id="Linux下WebServer的搭建"><a href="#Linux下WebServer的搭建" class="headerlink" title="Linux下WebServer的搭建"></a>Linux下WebServer的搭建</h3><h4 id="linux-初始化及登录"><a href="#linux-初始化及登录" class="headerlink" title="linux 初始化及登录"></a>linux 初始化及登录</h4><p>使用的linux服务器供应商：<a href="https://bwh8.net/" target="_blank" rel="external">https://bwh8.net/</a></p>
+<ul>
+<li><p>重新安装centos 6 x86_64</p>
+</li>
+<li><p>执行shadowsocks server端的脚本：<a href="https://kiwivm.64clouds.com/main-exec.php?mode=extras_shadowsocks" target="_blank" rel="external">https://kiwivm.64clouds.com/main-exec.php?mode=extras_shadowsocks</a>  根据提示即可配置ss客户端</p>
+</li>
+<li><p>安装ddos deflate 防止/减轻 ddos攻击</p>
+<p><a href="https://www.jianshu.com/p/f1e44408c195" target="_blank" rel="external">https://www.jianshu.com/p/f1e44408c195</a></p>
+</li>
+<li><p>为了linux服务器的安全，采用以下登录策略</p>
+<ol>
+<li><p>非root登录 创建普通账户： root下，adduser wangbo ;   passwd wangbo;  则wangbo用户根目录在/home/wangbo;</p>
+<p>将root账户和普通账户的密码区分开 </p>
+</li>
+<li><p>采用普通用户秘钥登录（公私钥）登录</p>
+<p><a href="https://blog.csdn.net/asahinokawa/article/details/84324526" target="_blank" rel="external">https://blog.csdn.net/asahinokawa/article/details/84324526</a> 具体可以参考文章</p>
+<p>备注：</p>
+<ul>
+<li><p>1）公私钥的产生ssh-keygen可以在客户端，也可以在linux端，都在.ssh目录下（如果是linux端，需要是home/wangbo/.ssh目录下，而不是root目录下）</p>
+<p>（一般是客户端产生，这样不同客户端产生的私钥/公钥对，可以对应同一台linux；这样linux保存多个公钥，客户端保存各自私钥）</p>
+</li>
+<li><p>2）私钥放在客户端，linux端保存公钥 </p>
+</li>
+<li><p>3）利用ssh config管理的方式，可以用别名直接登录linux </p>
+</li>
+<li><p>4）linux端 把公钥串 复制到.ssh/authorized_keys文件中，多个公钥依次复制，这样可以客户端无需密码，直接ssh alias（别名）登录 </p>
+</li>
+<li><p>5）删除原来在客户端.ssh/config中配置的host * interval 轮询发送数据包的机制</p>
+</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<h3 id="tomcat-mysql-搭建"><a href="#tomcat-mysql-搭建" class="headerlink" title="tomcat mysql 搭建"></a>tomcat mysql 搭建</h3><ul>
+<li><p>jdk的安装</p>
+<p>因为tomcat这套webserver是基于java的，依赖于jdk环境，我们先安装jdk</p>
+<ul>
+<li><p>jdk下载</p>
+<p>如果不用yum或者npm方式自动安装，我们采用自行wget下载的方式，需要注意的是：</p>
+<p>wget + oracle官网上找到的tar.gz包下载地址   这种方式：</p>
+<figure class="highlight plain"><figcaption><span>https://download.oracle.com/otn-pub/java/jdk/8u191-b12/2787e4a523244c269598db4e85c51e0c/jdk-8u191-linux-i586.tar.gz ```</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">  你通过这个命令下载下来的包不是完整的。（好像官网下载默认是不授权的）</div><div class="line"></div><div class="line">  所以我们必须先下载，再上传到服务器，位置一般是/usr/java/</div><div class="line"></div><div class="line">- 环境变量配置</div><div class="line"></div><div class="line">  ```tar -xzvf jdk-8u191-linux-i586.tar.gz</div></pre></td></tr></table></figure>
+<p>解压之后，配置环境变量在 linux中 </p>
+<figure class="highlight vim"><figcaption><span>/etc/profile```</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div></pre></td></tr></table></figure>
+<p>#set java environment<br>JAVA_HOME=/usr/java/jdk1.7.0_79<br>JRE_HOME=/usr/java/jdk1.7.0_79/jre<br>CLASS_PATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$JRE_HOME/lib<br>PATH=$PATH:$JAVA_HOME/bin:$JRE_HOME/bin<br>export JAVA_HOME JRE_HOME CLASS_PATH PATH</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">出现以下，说明jdk环境配置成功</div></pre></td></tr></table></figure>
+<p>[root@localhost bin]# java -version<br>java version “1.8.0_191”<br>Java(TM) SE Runtime Environment (build 1.8.0_191-b12)<br>Java HotSpot(TM) Client VM (build 25.191-b12, mixed mode)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">- tomcat 安装</div><div class="line"></div><div class="line">  - tomcat下载</div><div class="line"></div><div class="line">    wget http://mirrors.hust.edu.cn/apache/tomcat/tomcat-9/v9.0.12/bin/apache-tomcat-9.0.12.tar.gz</div><div class="line"></div><div class="line">    解压文件：tar -xzvf apache-tomcat-9.0.12.tar.gz</div><div class="line"></div><div class="line">    位置我选择在/home/wangbo/下，用户目录中</div><div class="line"></div><div class="line">  - tomcat启动</div><div class="line"></div><div class="line">    执行</div><div class="line"></div><div class="line">    ```apache-tomcat-9.0.14/bin/startup.sh</div></pre></td></tr></table></figure>
+<p>我们在 <a href="http://yourip:8080" target="_blank" rel="external">http://yourip:8080</a> 就可以看到 tomcat的启动页面了</p>
+<p><img src="https://i.imgur.com/stjQ17s.png" alt=""></p>
+</li>
+<li><p>tomcat 目录结构</p>
+<p>bin/ : 各种脚本  startup stop restart等</p>
+<p>logs/: 日志信息在此处查询</p>
+<p>webapps/: webserver中各种webapp都是部署在此文件夹下了 </p>
+<ul>
+<li>其下的ROOT目录: 是8080端口的默认位置，我们看到的‘三脚猫’页面就在此处部署</li>
+<li>其他目录：我们可以新建folder，来部署新的webapp，访问地址就是<a href="http://youip/folder:8080" target="_blank" rel="external">http://youip/folder:8080</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>mysql 安装</p>
+<ul>
+<li><p>基于centos6系统的mysql安装指南：</p>
+<p><a href="https://segmentfault.com/a/1190000003049498" target="_blank" rel="external">https://segmentfault.com/a/1190000003049498</a></p>
+<p>因为之前安装失败后，没有卸载mysql干净，会导致安装过程中有冲突，</p>
+<p>附上卸载指南：<a href="https://www.jianshu.com/p/3f263c3c3d63" target="_blank" rel="external">https://www.jianshu.com/p/3f263c3c3d63</a></p>
+</li>
+<li><p>上一步中命令：service mysqld start ，启动了mysql的server</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">[root@localhost wangbo]# mysql</div><div class="line">Welcome to the MySQL monitor.  Commands end with ; or \g.</div><div class="line">Your MySQL connection id is 2</div><div class="line">Server version: 5.6.42 MySQL Community Server (GPL)</div><div class="line"></div><div class="line">Copyright (c) 2000, 2018, Oracle and/or its affiliates. All rights reserved.</div><div class="line"></div><div class="line">Oracle is a registered trademark of Oracle Corporation and/or its</div><div class="line">affiliates. Other names may be trademarks of their respective</div><div class="line">owners.</div><div class="line">mysql&gt;</div></pre></td></tr></table></figure>
+<p>通过mysql命令，就可以通过命令行客户端来访问服务器了。</p>
+</li>
+<li><p>mysql账户的设置</p>
+<p>创建root账户密码：mysqladmin <code>-</code>u root password <em>*</em></p>
+<p>登录时：mysql -u root -p<em>*</em></p>
+<p>可以参考：<a href="https://www.cnblogs.com/fu-yong/p/9025576.html" target="_blank" rel="external">https://www.cnblogs.com/fu-yong/p/9025576.html</a></p>
+</li>
+<li><p>mysql重要目录</p>
+<ul>
+<li>数据库目录：/var/lib/mysql/    databases都在这里</li>
+<li>配置文件：/usr/share/mysql   （mysql.server命令及配置文件）</li>
+<li>命令行文件：/<code>usr</code>/<code>bin</code>（mysqladmin mysqldump等命令）</li>
+<li>启动脚本：/<code>etc</code>/<code>rc.d</code>/<code>init.d</code>/``（启动脚本文件mysql的目录）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="springboot搭建"><a href="#springboot搭建" class="headerlink" title="springboot搭建"></a>springboot搭建</h3><p>启蒙blog <a href="https://www.jianshu.com/p/575990ebb2ba" target="_blank" rel="external">https://www.jianshu.com/p/575990ebb2ba</a></p>
+<ul>
+<li><p>SpringBoot IDE的搭建</p>
+</li>
+<li><p>Tomcat 安装及启动</p>
+</li>
+<li><p>springboot在tomcat上的部署</p>
+<ol>
+<li><p>部署后报错</p>
+<blockquote>
+<p>SEVERE: Error deploying web application archive /var/lib/tomcat/webapps/restful-0.0.1-SNAPSHOT.war<br>java.lang.IllegalStateException: ContainerBase.addChild: start: org.apache.catalina.LifecycleException: Failed to start component [StandardEngine[Catalina].StandardHost[localhost].StandardContext[/restful-0.0.1-SNAPSHOT]]</p>
+</blockquote>
+</li>
+</ol>
+<p><strong>这个问题是jdk和tomcat中的servlet版本不一致造成的</strong></p>
+<p><em><code>java -version</code></em></p>
+<p>openjdk version “1.8.0_191”</p>
+<p><code>rpm -qa tomcat</code></p>
+<p>tomcat 是7.0版本</p>
+<p>tomcat与jdk版本兼容关系</p>
+<p>tomcat v7.0——-support——–&gt;Java EE 5 and 6</p>
+<p>tomcat v8.0——-support——–&gt;Java EE 5,6 and 7</p>
+<p>tomcat v8.5——-support——–&gt;Java EE 5,6 and 7</p>
+<p>tomcat v9.0——-support——–&gt;Java EE 5,6,7 and 8</p>
+</li>
+</ul>
+<ol>
+<li>重新安装tomcat 9.0</li>
+</ol>
+<p>卸载yum安装的tomcat， yum -y remove tomcat，卸载之后</p>
+<p>这次我们不适用yum安装，采用自行下载安装的方法，这样可以自行选择版本</p>
+<p>下载地址：</p>
+<p>wget <a href="http://mirrors.hust.edu.cn/apache/tomcat/tomcat-9/v9.0.12/bin/apache-tomcat-9.0.12.tar.gz" target="_blank" rel="external">http://mirrors.hust.edu.cn/apache/tomcat/tomcat-9/v9.0.12/bin/apache-tomcat-9.0.12.tar.gz</a></p>
+<p>解压文件：tar -xzvf apache-tomcat-9.0.12.tar.gz </p>
+<p>tomcat依赖jre环境，需要先安装jdk，</p>
+<p>依照这个流程    <a href="https://blog.csdn.net/qq_36090419/article/details/82787980" target="_blank" rel="external">https://blog.csdn.net/qq_36090419/article/details/82787980</a></p>
+<p>重启tomcat既可</p>
+<h3 id="Mysql"><a href="#Mysql" class="headerlink" title="Mysql"></a>Mysql</h3><p>安装mysql（本地mac 下homebrew，）</p>
+<p>远程登录服务器端mysql：<a href="https://www.cnblogs.com/weifeng1463/p/7941625.html" target="_blank" rel="external">https://www.cnblogs.com/weifeng1463/p/7941625.html</a></p>
+<p>navicat 配置，远程控制服务器 mysql 及本地mysql</p>
+<p>防火墙开放3306端口：/sbin/iptables -I INPUT -p tcp –dport 3306 -j ACCEPT</p>
+<p>Idea中，配置mysql的依赖：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&lt;dependency&gt;</div><div class="line">    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</div><div class="line">    &lt;artifactId&gt;spring-boot-starter-data-jpa&lt;/artifactId&gt;</div><div class="line">&lt;/dependency&gt;</div><div class="line"></div><div class="line">&lt;dependency&gt;</div><div class="line">    &lt;groupId&gt;mysql&lt;/groupId&gt;</div><div class="line">    &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;</div><div class="line">    &lt;version&gt;5.1.46&lt;/version&gt;</div><div class="line">&lt;/dependency&gt;</div></pre></td></tr></table></figure>
+<p>开始会标红，选择compile的task后，会自动下载依赖，</p>
+<p>.yml文件中，mysql配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">spring:</div><div class="line">  profiles:</div><div class="line">    active: prod</div><div class="line"></div><div class="line">  datasource:</div><div class="line">    driver-class-name: com.mysql.jdbc.Driver</div><div class="line">    url: jdbc:mysql://localhost:3306/restful</div><div class="line">    username: root</div><div class="line">    password: 575986wa!</div><div class="line"></div><div class="line">  jpa:</div><div class="line">    hibernate:</div><div class="line">      ddl-auto: create</div><div class="line">    show-sql: true</div></pre></td></tr></table></figure>
+<p><code>com.mysql.jdbc.Driver</code>开始标红，pom.xml右键 – maven– reimport 就ok了</p>
+<p>开始springboot中操作数据库mysql：</p>
+<p>jpa hiberation 框架原理 主要参考：<a href="http://blog.didispace.com/springbootdata2/" target="_blank" rel="external">http://blog.didispace.com/springbootdata2/</a></p>
+
       
     </div>
     
@@ -328,8 +486,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/09/06/IntelliJplugin/" rel="next" title="SGsonFormat --- Android Studio插件二次开发">
-                <i class="fa fa-chevron-left"></i> SGsonFormat --- Android Studio插件二次开发
+              <a href="/2018/09/06/Robust/" rel="next" title="Robust原理及修复范围">
+                <i class="fa fa-chevron-left"></i> Robust原理及修复范围
               </a>
             
           </div>
@@ -338,8 +496,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/09/06/JVM GC/" rel="prev" title="JVM GC原理">
-                JVM GC原理 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/09/11/LRecycler/" rel="prev" title="下拉刷新分页加载控件">
+                下拉刷新分页加载控件 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -417,7 +575,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">19</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -430,7 +588,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
@@ -465,7 +623,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#LNMP的搭建"><span class="nav-number">1.</span> <span class="nav-text">LNMP的搭建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多个端口的设定"><span class="nav-number">2.</span> <span class="nav-text">多个端口的设定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#wordpress搭建"><span class="nav-number">3.</span> <span class="nav-text">wordpress搭建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#shadowsocks搭建"><span class="nav-number">4.</span> <span class="nav-text">shadowsocks搭建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hbase搭建"><span class="nav-number">5.</span> <span class="nav-text">hbase搭建</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux下WebServer的搭建"><span class="nav-number">1.</span> <span class="nav-text">Linux下WebServer的搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#linux-初始化及登录"><span class="nav-number">1.1.</span> <span class="nav-text">linux 初始化及登录</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tomcat-mysql-搭建"><span class="nav-number">2.</span> <span class="nav-text">tomcat mysql 搭建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#springboot搭建"><span class="nav-number">3.</span> <span class="nav-text">springboot搭建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mysql"><span class="nav-number">4.</span> <span class="nav-text">Mysql</span></a></li></ol></div>
             
 
           </div>
@@ -485,7 +643,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

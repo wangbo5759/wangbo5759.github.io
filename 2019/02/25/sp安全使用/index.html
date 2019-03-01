@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="进程与并发," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="SharedPreference的线程、进程安全性一、安全性结论官方文档如是说：
+
+Note: This class provides strong consistency guarantees. It is using expensive operations which might slow down an app. Frequently changing properties or prop">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SharedPreference线程、进程安全性">
+<meta property="og:url" content="http://yoursite.com/2019/02/25/sp安全使用/index.html">
+<meta property="og:site_name" content="Muse--D.D">
+<meta property="og:description" content="SharedPreference的线程、进程安全性一、安全性结论官方文档如是说：
+
+Note: This class provides strong consistency guarantees. It is using expensive operations which might slow down an app. Frequently changing properties or prop">
+<meta property="og:image" content="https://i.imgur.com/Dp1KcRA.png">
+<meta property="og:updated_time" content="2019-03-01T01:51:28.138Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SharedPreference线程、进程安全性">
+<meta name="twitter:description" content="SharedPreference的线程、进程安全性一、安全性结论官方文档如是说：
+
+Note: This class provides strong consistency guarantees. It is using expensive operations which might slow down an app. Frequently changing properties or prop">
+<meta name="twitter:image" content="https://i.imgur.com/Dp1KcRA.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/02/25/sp安全使用/"/>
+
+
+
+
+
+  <title>SharedPreference线程、进程安全性 | Muse--D.D</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Muse--D.D</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/25/sp安全使用/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="bo.wang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Muse--D.D">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">SharedPreference线程、进程安全性</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-25T00:00:00+08:00">
+                2019-02-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="SharedPreference的线程、进程安全性"><a href="#SharedPreference的线程、进程安全性" class="headerlink" title="SharedPreference的线程、进程安全性"></a>SharedPreference的线程、进程安全性</h2><h3 id="一、安全性结论"><a href="#一、安全性结论" class="headerlink" title="一、安全性结论"></a>一、安全性结论</h3><p>官方文档如是说：</p>
+<blockquote>
+<p>Note: This class provides strong consistency guarantees. It is using expensive operations which might slow down an app. Frequently changing properties or properties where loss can be tolerated should use other mechanisms. For more details read the comments on <code>SharedPreferences.Editor.commit()</code> and <code>SharedPreferences.Editor.apply()</code>.</p>
+<p><em>Note: This class does not support use across multiple processes.</em></p>
+</blockquote>
+<p><strong>线程安全、进程不安全</strong></p>
+<h3 id="二、使用注意"><a href="#二、使用注意" class="headerlink" title="二、使用注意"></a>二、使用注意</h3><ul>
+<li><p>第一次getSharedPreferences有ANR风险，sp中数据大时。</p>
+<p>第一次getSharedPreferences，如果从disk未加载完毕，则getSharedPreferences方法会阻塞，直到加载完毕后返回。</p>
+<p>sp中存储的key和value不应过大和过多，除了以上ANR风险外，内存也会高（全部内存缓存）</p>
+</li>
+<li><p>apply方法内存同步，disk异步，返回值void，commit方法内存同步，disk同步，返回值boolean（是否更新成功）</p>
+</li>
+<li><p>从 Android N 开始, 不再支持 MODE_WORLD_READABLE &amp; MODE_WORLD_WRITEABLE. 一旦指定, 会抛异常</p>
+</li>
+<li><p>不要sp用于多进程，进程不安全。</p>
+</li>
+</ul>
+<h3 id="三、SP原理分析"><a href="#三、SP原理分析" class="headerlink" title="三、SP原理分析"></a>三、SP原理分析</h3><h4 id="1、SharedPreferences的初始化"><a href="#1、SharedPreferences的初始化" class="headerlink" title="1、SharedPreferences的初始化"></a>1、SharedPreferences的初始化</h4><p>首先，从基本使用简单看下SharedPreferences的实现原理</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">mSharedPreferences = context.getSharedPreferences(&quot;test&quot;, Context.MODE_PRIVATE);</div><div class="line">SharedPreferences.Editor editor = mSharedPreferences.edit();</div><div class="line">editor.putString(key, value);</div><div class="line">editor.apply();</div></pre></td></tr></table></figure>
+<p>ContextImpl.java （sdk-26）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">public SharedPreferences getSharedPreferences(String name, int mode) &#123;</div><div class="line">        // At least one application in the world actually passes in a null</div><div class="line">        // name.  This happened to work because when we generated the file name</div><div class="line">        // we would stringify it to &quot;null.xml&quot;.  Nice.</div><div class="line">        if (mPackageInfo.getApplicationInfo().targetSdkVersion &lt;</div><div class="line">                Build.VERSION_CODES.KITKAT) &#123;</div><div class="line">            if (name == null) &#123;</div><div class="line">                name = &quot;null&quot;;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        File file;</div><div class="line">        synchronized (ContextImpl.class) &#123;</div><div class="line">            if (mSharedPrefsPaths == null) &#123;</div><div class="line">                mSharedPrefsPaths = new ArrayMap&lt;&gt;();</div><div class="line">            &#125;</div><div class="line">            file = mSharedPrefsPaths.get(name);</div><div class="line">            if (file == null) &#123;</div><div class="line">                file = getSharedPreferencesPath(name);</div><div class="line">                mSharedPrefsPaths.put(name, file);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        return getSharedPreferences(file, mode);</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>context全局单例中，mSharedPrefsPaths变量map，一个name对应一个xml文件，内部存储空间内。(data/data/packageName/shared_prefs下)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">public SharedPreferences getSharedPreferences(File file, int mode) &#123;</div><div class="line">        checkMode(mode);</div><div class="line">      //真实的实现类：SharedPreferencesImpl，其对象缓存在cache对象中</div><div class="line">      //从getSharedPreferencesCacheLocked()看出</div><div class="line">      //SharedPreferencesImpl与packageName一一对应</div><div class="line">      SharedPreferencesImpl sp;</div><div class="line">      synchronized (ContextImpl.class) &#123;</div><div class="line">          final ArrayMap&lt;File, SharedPreferencesImpl&gt; cache = getSharedPreferencesCacheLocked();</div><div class="line">          sp = cache.get(file);</div><div class="line">          if (sp == null) &#123;</div><div class="line">            //实际SharedPreferencesImpl的初始化开始</div><div class="line">              sp = new SharedPreferencesImpl(file, mode);</div><div class="line">              cache.put(file, sp);</div><div class="line">              return sp;</div><div class="line">          &#125;</div><div class="line">      &#125;</div><div class="line">      //mode == Context.MODE_MULTI_PROCESS时，</div><div class="line">      //从Disk读取数据保存到map中(如果有changed的话)</div><div class="line">      if ((mode &amp; Context.MODE_MULTI_PROCESS) != 0 ||</div><div class="line">          getApplicationInfo().targetSdkVersion &lt; android.os.Build.VERSION_CODES.HONEYCOMB) &#123;</div><div class="line">          sp.startReloadIfChangedUnexpectedly();</div><div class="line">      &#125;</div><div class="line">      return sp;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h5 id="结论："><a href="#结论：" class="headerlink" title="结论："></a>结论：</h5><p>0 SharedPreferences只是接口，SharedPreferencesImpl才是实现，其实现的对象在contextImpl中map缓存起来。</p>
+<p>1 SharedPreferencesImpl并非每次创建，而是从cache中获取，并且和packageName一一对应。SharedPreferencesImpl倾向于优先利用缓存。</p>
+<p>2 在getSharedPreferences过程中，对于MODE_MULTI_PROCESS则重新读取disk同步到内存中，否则一切用内存中的cache（缓存）。</p>
+<h4 id="2、SharedPreferences数据加载、获取的并发"><a href="#2、SharedPreferences数据加载、获取的并发" class="headerlink" title="2、SharedPreferences数据加载、获取的并发"></a>2、SharedPreferences数据加载、获取的并发</h4><p>在getSharedPreferences方法中，sp从cache中取出==null时，sp = new SharedPreferencesImpl()是初始化的真正开始。</p>
+<pre><code>SharedPreferencesImpl(File file, int mode) {
+    mFile = file;
+    mBackupFile = makeBackupFile(file);
+    mMode = mode;
+    mLoaded = false;
+    mMap = null;
+    startLoadFromDisk();
+}
+
+private void startLoadFromDisk() {
+    synchronized (mLock) {
+    //mLoaded标志位设置为false
+        mLoaded = false;
+    }
+    new Thread(&quot;SharedPreferencesImpl-load&quot;) {
+        public void run() {
+            loadFromDisk();
+        }
+    }.start();
+}
+
+private void loadFromDisk() {
+
+    ···
+    Map map = null;
+    StructStat stat = null;
+    try {
+        stat = Os.stat(mFile.getPath());
+        if (mFile.canRead()) {
+            BufferedInputStream str = null;
+            try {
+                str = new BufferedInputStream(
+                        new FileInputStream(mFile), 16*1024);
+                //XmlUtils读取xml到map内存中
+                map = XmlUtils.readMapXml(str);
+            } ···
+        }
+    } catch (ErrnoException e) {
+        /* ignore */
+    }
+
+    //mLock同步锁整体加载过程，加载完成后notifyAll
+    synchronized (mLock) {
+      //标志位mLoaded重置为true，加载完毕。
+        mLoaded = true;
+        if (map != null) {
+        //mMap中缓存了xml中的数据
+            mMap = map;
+            mStatTimestamp = stat.st_mtime;
+            mStatSize = stat.st_size;
+        } else {
+                mMap = new HashMap&lt;&gt;();
+        }
+        mLock.notifyAll();
+    }
+}
+
+备注：
+上文提到getSharedPreferences方法中的sp.startReloadIfChangedUnexpectedly()实际也是直接调用了      loadFromDisk()方法，重新读取xml中的数据。
+</code></pre><p>除了mLoaded标志位以外，mLock （Object对象）是个同步对象，保证了并发安全。</p>
+<p>如果加载的同时又get请求，会如何，以getLong为例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">public long getLong(String key, long defValue) &#123;</div><div class="line">		//mLock同步</div><div class="line">        synchronized (mLock) &#123;</div><div class="line">            awaitLoadedLocked();</div><div class="line">            Long v = (Long)mMap.get(key);</div><div class="line">            return v != null ? v : defValue;</div><div class="line">        &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>如果在加载过程中，getLong会一直等待，直到加载结束。这个mLock是不分xml文件的，只要有一个xml在加载，那么同步锁就在生效。</p>
+<p>同时可以看到getLong方法完全是从mMap缓存对象中读取，和disk无关。其他的get方法类似。</p>
+<h5 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h5><p>每次都从xml文件中读取数据，会造成很大的并发问题。为保证线程安全，这也是SharedPreferences中尽量减少文件读取过程，数据保存和读取都在mMap内存的原因。</p>
+<h4 id="3、SharedPreferences数据更新的并发"><a href="#3、SharedPreferences数据更新的并发" class="headerlink" title="3、SharedPreferences数据更新的并发"></a>3、SharedPreferences数据更新的并发</h4><p>为了增强并发性，SharedPreferences数据的更新采用事务管理的机制。Editor相当于事务管理器。在SharedPreferences中获取：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">public Editor edit() &#123;</div><div class="line">	//全局同步锁mLock，所以更新的过程，会等待xml加载过程</div><div class="line">    synchronized (mLock) &#123;</div><div class="line">        awaitLoadedLocked();</div><div class="line">    &#125;</div><div class="line">    //每次new 新的EditorImpl对象</div><div class="line">    return new EditorImpl();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>EditorImpl</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">  public final class EditorImpl implements Editor &#123;</div><div class="line">      private final Object mLock = new Object();</div><div class="line"></div><div class="line">//mModified变量将所有要更新的事务缓存起来，一起提交</div><div class="line">      @GuardedBy(&quot;mLock&quot;)</div><div class="line">      private final Map&lt;String, Object&gt; mModified = Maps.newHashMap();</div><div class="line"></div><div class="line">      public Editor putString(String key, @Nullable String value) &#123;</div><div class="line">          synchronized (mLock) &#123;</div><div class="line">              mModified.put(key, value);</div><div class="line">              return this;</div><div class="line">          &#125;</div><div class="line">      &#125;</div></pre></td></tr></table></figure>
+<pre><code>}        
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">EditorImpl对象通过apply（异步）commit（同步）两种方法提交事务到SharePreferences；我们来看下两者的区别：</div><div class="line"></div><div class="line">**Apply方法：**</div></pre></td></tr></table></figure>
+<pre><code>public void apply() {
+    //更新到内存,返回要更新的内容mcr
+    final MemoryCommitResult mcr = commitToMemory();
+    //异步任务更新disk
+    final Runnable awaitCommit = new Runnable() {
+            public void run() {
+                try {
+                    mcr.writtenToDiskLatch.await();
+                } catch (InterruptedException ignored) {
+                }
+            }
+        };
+
+    QueuedWork.addFinisher(awaitCommit);
+
+    Runnable postWriteRunnable = new Runnable() {
+            public void run() {
+                awaitCommit.run();
+                QueuedWork.removeFinisher(awaitCommit);
+            }
+        };
+
+    SharedPreferencesImpl.this.enqueueDiskWrite(mcr, postWriteRunnable);
+
+    notifyListeners(mcr);
+}
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">**commit方法：**</div></pre></td></tr></table></figure>
+<pre><code>public boolean commit() {
+    //更新到内存,返回要更新的内容mcr
+      MemoryCommitResult mcr = commitToMemory();
+
+    SharedPreferencesImpl.this.enqueueDiskWrite(mcr, null);
+    try {
+        mcr.writtenToDiskLatch.await();
+    } catch (InterruptedException e) {
+        return false;
+    } 
+    notifyListeners(mcr);
+    return mcr.writeToDiskResult;
+}
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">apply和commit两个方法中，都分为两步，先保存到内存commitToMemory（），</div><div class="line"></div><div class="line">然后储存到disk： SharedPreferencesImpl.this.enqueueDiskWrite</div><div class="line"></div><div class="line">由于commitToMemory是相同的，我们简单看一下：</div></pre></td></tr></table></figure>
+<p>// Returns true if any changes were made<br>        private MemoryCommitResult commitToMemory() {<br>            <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line">//全局锁SharedPreferencesImpl.this.mLock同步</div><div class="line">         synchronized (SharedPreferencesImpl.this.mLock) &#123;</div><div class="line">             synchronized (mLock) &#123;</div><div class="line">                 boolean changesMade = false;</div><div class="line"></div><div class="line">                 for (Map.Entry&lt;String, Object&gt; e : mModified.entrySet()) &#123;</div><div class="line">                     String k = e.getKey();</div><div class="line">                     Object v = e.getValue();</div><div class="line"></div><div class="line">                     if (v == this || v == null) &#123;</div><div class="line">                         if (!mMap.containsKey(k)) &#123;</div><div class="line">                             continue;</div><div class="line">                         &#125;</div><div class="line">                         mMap.remove(k);</div><div class="line">                     &#125; else &#123;</div><div class="line">                         if (mMap.containsKey(k)) &#123;</div><div class="line">                             Object existingValue = mMap.get(k);</div><div class="line">                             //与mMap中每个字段对比，不相等的(待更新的)更新到mMap中</div><div class="line">                             //最终使得mMap变为最新的</div><div class="line">                             if (existingValue != null &amp;&amp; existingValue.equals(v)) &#123;</div><div class="line">                                 continue;</div><div class="line">                             &#125;</div><div class="line">                         &#125;</div><div class="line">                         mMap.put(k, v);</div><div class="line">                     &#125;</div><div class="line"></div><div class="line">                 &#125;</div><div class="line">                 </div><div class="line">		···</div><div class="line">		</div><div class="line">                 mModified.clear();</div><div class="line"></div><div class="line">             &#125;</div><div class="line">         &#125;</div><div class="line">         return new MemoryCommitResult(memoryStateGeneration, keysModified, listeners,</div><div class="line">                 mapToWriteToDisk);</div><div class="line">     &#125;</div></pre></td></tr></table></figure></p>
+<p>SharedPreferencesImpl.this.enqueueDiskWrite方法apply和commit的调用方法不同，不同点在于apply是：</p>
+<p><code>SharedPreferencesImpl.this.enqueueDiskWrite</code></p>
+<p> 而commit是<code>SharedPreferencesImpl.this.enqueueDiskWrite(mcr, null);</code></p>
+<p>那么enqueueDiskWrite方法是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">  private void enqueueDiskWrite(final MemoryCommitResult mcr,</div><div class="line">                                final Runnable postWriteRunnable) &#123;</div><div class="line">      //字段isFromSyncCommit判断是来自apply还是commit</div><div class="line">      final boolean isFromSyncCommit = (postWriteRunnable == null);</div><div class="line"></div><div class="line">//真正写入disk的异步方法</div><div class="line">      final Runnable writeToDiskRunnable = new Runnable() &#123;</div><div class="line">              public void run() &#123;</div><div class="line">                  synchronized (mWritingToDiskLock) &#123;</div><div class="line">                      writeToFile(mcr, isFromSyncCommit);</div><div class="line">                  &#125;</div><div class="line">                  synchronized (mLock) &#123;</div><div class="line">                      mDiskWritesInFlight--;</div><div class="line">                  &#125;</div><div class="line">                  if (postWriteRunnable != null) &#123;</div><div class="line">                      postWriteRunnable.run();</div><div class="line">                  &#125;</div><div class="line">              &#125;</div><div class="line">          &#125;;</div><div class="line"></div><div class="line">//如果是commit，则在主线程执行writeToDiskRunnable，写入disk并直接return</div><div class="line">      if (isFromSyncCommit) &#123;</div><div class="line">          boolean wasEmpty = false;</div><div class="line">          synchronized (mLock) &#123;</div><div class="line">              wasEmpty = mDiskWritesInFlight == 1;</div><div class="line">          &#125;</div><div class="line">          if (wasEmpty) &#123;</div><div class="line">              writeToDiskRunnable.run();</div><div class="line">              return;</div><div class="line">          &#125;</div><div class="line">      &#125;</div><div class="line"></div><div class="line">//如果是apply，则异步执行writeToDiskRunnable</div><div class="line">      QueuedWork.queue(writeToDiskRunnable, !isFromSyncCommit);</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
+<p><strong>总结:</strong></p>
+<p>sharedPreferences数据的提交是基于事务的，最终通过apply或commit方法，两个方法都是先同步更新内存（全局mLock锁保证线程安全），然后更新disk，apply在子线程中异步更新disk，commit在主线程中更新disk。</p>
+<h4 id="4、SharedPreferences的多进程"><a href="#4、SharedPreferences的多进程" class="headerlink" title="4、SharedPreferences的多进程"></a>4、SharedPreferences的多进程</h4><ul>
+<li><strong>是否进程安全？</strong></li>
+</ul>
+<p>进程安全，类比线程安全，指的是不同的进程同时处理一个字段（此处应该是文件），是否有类似lock的机制，保证同步，如果没有那么就是进程不安全的。</p>
+<p>因为进程的隔离性，两个进程不能互相访问对方内存，进程安全主要是针对xml文件而言。从上述的原理分析来看，并没有任何机制保证xml文件，在读和写过程中的同步性。</p>
+<ul>
+<li><strong>多进程同步数据的可能性</strong></li>
+</ul>
+<p>进程不安全，所以官方也不建议利用SharedPreferences来同步进程间的数据。</p>
+<p>而且一般情况下，在进程A中更新的sp数据，在进程B中取，是未更新的状态。</p>
+<p>考虑两种情况，</p>
+<p>情况一、在进程A中更新sp数据，然后开启进程B，从sp中取数据，那么数据是更新过的。</p>
+<p>情况二、进程A、B均已开启，在进程A中更新sp数据，然后切换到进程B，从sp中取数据，数据是未更新过的。</p>
+<p><strong>如何解释？</strong></p>
+<p>我们知道，SharedPreferences中大多数数据是缓存在内存中的，get方法都是从内存中直接获取。</p>
+<p><img src="https://i.imgur.com/Dp1KcRA.png" alt=""></p>
+<p>如图所示，进程A通过put方法写入disk后，如果进程B不重新load，是无法同步更新的。</p>
+<p><code>startLoadFromDisk()</code>两个地方会调用，一个是SharePreferenceImpl的构造方法，一个是getSharedPreferences方法中mode == Context.MODE_MULTI_PROCESS；</p>
+<p>所以对应到应用场景中，</p>
+<ol>
+<li><p>新进程启动时访问sp是会走SharePreferenceImpl的构造方法，重新读取disk。</p>
+</li>
+<li><p>如果在已存在的进程中，必须通过context.getSharedPreferences方法传入multi-process的mode，也可以重新读取disk的数据。</p>
+</li>
+</ol>
+<p><strong>总结</strong></p>
+<p>sp中进程不安全，不建议使用sp进行进程间通讯，Context.MODE_MULTI_PROCESS虽然可用，但是官方会逐步deprecated，而且多进程调用的同步性无法保证。</p>
+<p>那么数据的进程间共享方案，就是另一个话题了。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/进程与并发/" rel="tag"># 进程与并发</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/02/25/阿里Android规约/" rel="next" title="阿里Android开发规约及分析">
+                <i class="fa fa-chevron-left"></i> 阿里Android开发规约及分析
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">bo.wang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#SharedPreference的线程、进程安全性"><span class="nav-number">1.</span> <span class="nav-text">SharedPreference的线程、进程安全性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、安全性结论"><span class="nav-number">1.1.</span> <span class="nav-text">一、安全性结论</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、使用注意"><span class="nav-number">1.2.</span> <span class="nav-text">二、使用注意</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、SP原理分析"><span class="nav-number">1.3.</span> <span class="nav-text">三、SP原理分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、SharedPreferences的初始化"><span class="nav-number">1.3.1.</span> <span class="nav-text">1、SharedPreferences的初始化</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#结论："><span class="nav-number">1.3.1.1.</span> <span class="nav-text">结论：</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、SharedPreferences数据加载、获取的并发"><span class="nav-number">1.3.2.</span> <span class="nav-text">2、SharedPreferences数据加载、获取的并发</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#总结："><span class="nav-number">1.3.2.1.</span> <span class="nav-text">总结：</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、SharedPreferences数据更新的并发"><span class="nav-number">1.3.3.</span> <span class="nav-text">3、SharedPreferences数据更新的并发</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4、SharedPreferences的多进程"><span class="nav-number">1.3.4.</span> <span class="nav-text">4、SharedPreferences的多进程</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bo.wang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

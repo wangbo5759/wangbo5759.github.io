@@ -79,16 +79,18 @@
 
 
 
-<meta name="description" content="Observable网络框架的解耦和复用Observer一端的解耦我们可以看到BaseObserver实际做了errorcode响应，loading控制，对外接口的定义等工作。这几部分工作集中在一个类中有一定的耦合。我们设计的目标是业务使用自定义的Observer或者直接使用BaseObserver都很方便，但目前的设计业务要么使用BaseObserver全部功能，要么自己从头定义，扩展性不强">
+<meta name="description" content="Observable网络框架的解耦和复用Observer一端的解耦我们可以看到BaseObserver实际做了errorcode响应，loading控制，对外接口的定义等工作。这几部分工作集中在一个类中有一定的耦合。我们设计的目标是业务使用自定义的Observer或者直接使用BaseObserver都很方便，但目前的设计业务要么使用BaseObserver全部功能，要么自己从头定义，扩展性不">
 <meta property="og:type" content="article">
-<meta property="og:title" content="基于RxJava Retrofit的网络框架（二）">
+<meta property="og:title" content="基于Observable网络框架的搭建（二）">
 <meta property="og:url" content="http://yoursite.com/2018/10/25/ReactiveX2/index.html">
 <meta property="og:site_name" content="Muse--D.D">
-<meta property="og:description" content="Observable网络框架的解耦和复用Observer一端的解耦我们可以看到BaseObserver实际做了errorcode响应，loading控制，对外接口的定义等工作。这几部分工作集中在一个类中有一定的耦合。我们设计的目标是业务使用自定义的Observer或者直接使用BaseObserver都很方便，但目前的设计业务要么使用BaseObserver全部功能，要么自己从头定义，扩展性不强">
-<meta property="og:updated_time" content="2018-10-26T08:42:37.088Z">
+<meta property="og:description" content="Observable网络框架的解耦和复用Observer一端的解耦我们可以看到BaseObserver实际做了errorcode响应，loading控制，对外接口的定义等工作。这几部分工作集中在一个类中有一定的耦合。我们设计的目标是业务使用自定义的Observer或者直接使用BaseObserver都很方便，但目前的设计业务要么使用BaseObserver全部功能，要么自己从头定义，扩展性不">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/1/2/1680d4166d125b5b?w=1024&h=682&f=jpeg&s=204862">
+<meta property="og:updated_time" content="2019-01-04T10:06:26.767Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="基于RxJava Retrofit的网络框架（二）">
-<meta name="twitter:description" content="Observable网络框架的解耦和复用Observer一端的解耦我们可以看到BaseObserver实际做了errorcode响应，loading控制，对外接口的定义等工作。这几部分工作集中在一个类中有一定的耦合。我们设计的目标是业务使用自定义的Observer或者直接使用BaseObserver都很方便，但目前的设计业务要么使用BaseObserver全部功能，要么自己从头定义，扩展性不强">
+<meta name="twitter:title" content="基于Observable网络框架的搭建（二）">
+<meta name="twitter:description" content="Observable网络框架的解耦和复用Observer一端的解耦我们可以看到BaseObserver实际做了errorcode响应，loading控制，对外接口的定义等工作。这几部分工作集中在一个类中有一定的耦合。我们设计的目标是业务使用自定义的Observer或者直接使用BaseObserver都很方便，但目前的设计业务要么使用BaseObserver全部功能，要么自己从头定义，扩展性不">
+<meta name="twitter:image" content="https://user-gold-cdn.xitu.io/2019/1/2/1680d4166d125b5b?w=1024&h=682&f=jpeg&s=204862">
 
 
 
@@ -124,7 +126,7 @@
 
 
 
-  <title>基于RxJava Retrofit的网络框架（二） | Muse--D.D</title>
+  <title>基于Observable网络框架的搭建（二） | Muse--D.D</title>
   
 
 
@@ -248,7 +250,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">基于RxJava Retrofit的网络框架（二）</h1>
+          <h1 class="post-title" itemprop="name headline">基于Observable网络框架的搭建（二）</h1>
         
 
         <div class="post-meta">
@@ -298,7 +300,8 @@
       
 
       
-        <h3 id="Observable网络框架的解耦和复用"><a href="#Observable网络框架的解耦和复用" class="headerlink" title="Observable网络框架的解耦和复用"></a>Observable网络框架的解耦和复用</h3><h4 id="Observer一端的解耦"><a href="#Observer一端的解耦" class="headerlink" title="Observer一端的解耦"></a>Observer一端的解耦</h4><p>我们可以看到BaseObserver实际做了errorcode响应，loading控制，对外接口的定义等工作。这几部分工作集中在一个类中有一定的耦合。我们设计的目标是业务使用自定义的Observer或者直接使用BaseObserver都很方便，但目前的设计业务要么使用BaseObserver全部功能，要么自己从头定义，扩展性不强。<br>我们可以如下优化：</p>
+        <p><img src="https://user-gold-cdn.xitu.io/2019/1/2/1680d4166d125b5b?w=1024&amp;h=682&amp;f=jpeg&amp;s=204862" alt=""></p>
+<h3 id="Observable网络框架的解耦和复用"><a href="#Observable网络框架的解耦和复用" class="headerlink" title="Observable网络框架的解耦和复用"></a>Observable网络框架的解耦和复用</h3><h4 id="Observer一端的解耦"><a href="#Observer一端的解耦" class="headerlink" title="Observer一端的解耦"></a>Observer一端的解耦</h4><p>我们可以看到BaseObserver实际做了errorcode响应，loading控制，对外接口的定义等工作。这几部分工作集中在一个类中有一定的耦合。我们设计的目标是业务使用自定义的Observer或者直接使用BaseObserver都很方便，但目前的设计业务要么使用BaseObserver全部功能，要么自己从头定义，扩展性不强。<br>我们可以如下优化：</p>
 <h5 id="将callback接口化"><a href="#将callback接口化" class="headerlink" title="将callback接口化"></a>将callback接口化</h5><p>BaseObserver定义的onSuccess(T)和onFail（boolean isException ,Object object）两个抽象方法是完全面向业务使用者的。可将其抽象为接口：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">public interface ObserverCallback &lt;T extends MapiHttpResponse&lt;? extends Serializable&gt;&gt;&#123;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 请求成功</div><div class="line">     * @param t</div><div class="line">     */</div><div class="line">    void onSuccess(T t);</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 请求失败</div><div class="line">     * @param isException true：返回Throwable false：返回String（ErrorMsg）</div><div class="line">     * @param object</div><div class="line">     */</div><div class="line">    void onFail(boolean isException ,Object object);</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>化为接口有两个作用</p>
 <ol>
@@ -359,8 +362,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/10/12/ReactiveX/" rel="next" title="基于RxJava Retrofit的网络框架（一）">
-                <i class="fa fa-chevron-left"></i> 基于RxJava Retrofit的网络框架（一）
+              <a href="/2018/10/12/ReactiveX/" rel="next" title="基于Observable网络框架的搭建（一）">
+                <i class="fa fa-chevron-left"></i> 基于Observable网络框架的搭建（一）
               </a>
             
           </div>
@@ -448,7 +451,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">19</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -461,7 +464,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
@@ -516,7 +519,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
