@@ -228,6 +228,263 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/25/MarkDown/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="bo.wang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Muse--D.D">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/02/25/MarkDown/" itemprop="url">阿里Android开发规约及分析</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-25T00:00:00+08:00">
+                2019-02-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Markdown的常用语法"><a href="#Markdown的常用语法" class="headerlink" title="### Markdown的常用语法"></a>### Markdown的常用语法</h1><h2 id="标题"><a href="#标题" class="headerlink" title="标题"></a><strong>标题</strong></h2><p>Markdown 标题支持两种形式：</p>
+<p><strong>1、用#标记</strong></p>
+<p>在 <strong>标题开头</strong> 加上1~6个#，依次代表一级标题、二级标题….六级标题</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"># 一级标题</div><div class="line">## 二级标题</div><div class="line">### 三级标题</div><div class="line">##### 四级标题</div><div class="line">###### 五级标题</div><div class="line">###### 六级标题</div></pre></td></tr></table></figure>
+<p><strong>2、用=和-标记</strong></p>
+<p>在 <strong>标题底下</strong> 加上任意个<code>=</code>代表一级标题，<code>-</code>代表二级标题</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">一级标题</div><div class="line">======</div><div class="line"></div><div class="line">二级标题</div><div class="line">----------</div></pre></td></tr></table></figure>
+<p>效果如下：</p>
+<h1 id="一级标题"><a href="#一级标题" class="headerlink" title="一级标题"></a>一级标题</h1><h2 id="二级标题"><a href="#二级标题" class="headerlink" title="二级标题"></a>二级标题</h2><h3 id="三级标题"><a href="#三级标题" class="headerlink" title="三级标题"></a>三级标题</h3><h5 id="四级标题"><a href="#四级标题" class="headerlink" title="四级标题"></a>四级标题</h5><h6 id="五级标题"><a href="#五级标题" class="headerlink" title="五级标题"></a>五级标题</h6><h6 id="六级标题"><a href="#六级标题" class="headerlink" title="六级标题"></a>六级标题</h6><hr>
+<h2 id="列表"><a href="#列表" class="headerlink" title="列表"></a><strong>列表</strong></h2><p>Markdown 支持有序列表和无序列表。</p>
+<p><strong>无序列表使用-、+和*作为列表标记：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">- Red</div><div class="line">- Green</div><div class="line">- Blue</div><div class="line"></div><div class="line">* Red</div><div class="line">* Green</div><div class="line">* Blue</div><div class="line"></div><div class="line">+ Red</div><div class="line">+ Green</div><div class="line">+ Blue</div></pre></td></tr></table></figure>
+<p>效果如下：</p>
+<ul>
+<li>Red</li>
+<li>Green</li>
+<li>Blue</li>
+</ul>
+<p><strong>有序列表则使用数字加英文句点.来表示：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">1. Red</div><div class="line">2. Green</div><div class="line">3. Blue</div></pre></td></tr></table></figure>
+<p>效果如下：</p>
+<ol>
+<li>Red</li>
+<li>Green</li>
+<li>Blue</li>
+</ol>
+<hr>
+<h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a><strong>引用</strong></h3><p>引用以<code>&gt;</code>来表示，引用中支持多级引用、标题、列表、代码块、分割线等常规语法。</p>
+<p>常见的引用写法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">&gt; 这是一段引用    //在`&gt;`后面有 1 个空格</div><div class="line">&gt; </div><div class="line">&gt;     这是引用的代码块形式    //在`&gt;`后面有 5 个空格</div><div class="line">&gt;     </div><div class="line">&gt; 代码例子：</div><div class="line">&gt;   </div><div class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</div><div class="line">        super.onCreate(savedInstanceState);</div><div class="line">        setContentView(R.layout.activity_main);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&gt; 一级引用</div><div class="line">&gt; &gt; 二级引用</div><div class="line">&gt; &gt; &gt; 三级引用</div><div class="line"></div><div class="line">&gt; #### 这是一个四级标题</div><div class="line">&gt; </div><div class="line">&gt; 1. 这是第一行列表项</div><div class="line">&gt; 2. 这是第二行列表项</div></pre></td></tr></table></figure>
+<p>效果如下：</p>
+<blockquote>
+<p>这是一段引用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt; 这是引用的代码块形式    //在`&gt;`后面有 5 个空格</div><div class="line">&gt;</div></pre></td></tr></table></figure>
+</blockquote>
+<p>&gt;</p>
+<blockquote>
+<p>代码例子：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">protected void onCreate(Bundle savedInstanceState) &#123;</div><div class="line">    super.onCreate(savedInstanceState);</div><div class="line">    setContentView(R.layout.activity_main);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>一级引用</p>
+<blockquote>
+<p>二级引用</p>
+<blockquote>
+<p>三级引用</p>
+</blockquote>
+</blockquote>
+<h4 id="这是一个四级标题"><a href="#这是一个四级标题" class="headerlink" title="这是一个四级标题"></a>这是一个四级标题</h4><ol>
+<li>这是第一行列表项</li>
+<li>这是第二行列表项</li>
+</ol>
+<p>以下是分割线</p>
+<hr>
+</blockquote>
+<h2 id="强调"><a href="#强调" class="headerlink" title="强调"></a><strong>强调</strong></h2><p>两个<code>*</code>或<code>-</code>代表加粗，一个<code>*</code>或<code>-</code>代表斜体，<code>~~</code>代表删除。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">**加粗文本** 或者 __加粗文本__</div><div class="line"></div><div class="line">*斜体文本*  或者_斜体文本_</div><div class="line"></div><div class="line">~~删除文本~~</div></pre></td></tr></table></figure>
+<p>效果如下：</p>
+<p><strong>加粗文本</strong> 或者 <strong>加粗文本</strong></p>
+<p><em>斜体文本</em> 或者 <em>斜体文本</em></p>
+<p><del>删除文本</del></p>
+<hr>
+<h2 id="图片与链接"><a href="#图片与链接" class="headerlink" title="图片与链接"></a><strong>图片与链接</strong></h2><p>图片与链接的语法很像，区别在一个 ! 号。二者格式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">图片：![]()    ![图片文本(可忽略)](图片地址)</div><div class="line"></div><div class="line">链接：[]()     [链接文本](链接地址)</div></pre></td></tr></table></figure>
+<p>链接又分为<code>行内式</code>、<code>参考式</code>和 <code>自动链接</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">这是行内式链接：[ConnorLin&apos;s Blog](http://connorlin.github.io)。</div><div class="line"></div><div class="line">这是参考式链接：[ConnorLin&apos;s Blog][url]，其中url为链接标记，可置于文中任意位置。</div><div class="line"></div><div class="line">[url]: http://connorlin.github.io/ &quot;ConnorLin&apos;s Blog&quot;</div><div class="line"></div><div class="line">链接标记格式为：[链接标记文本]:  链接地址  链接title(可忽略)</div><div class="line"></div><div class="line">这是自动链接：直接使用`&lt;&gt;`括起来&lt;http://connorlin.github.io&gt;</div><div class="line"></div><div class="line">这是图片：![][avatar]</div><div class="line"></div><div class="line">[avatar]: https://connorlin.github.io/images/avatar.jpg</div></pre></td></tr></table></figure>
+<p>效果如下：</p>
+<p>这是行内式链接：<a href="https://link.jianshu.com?t=http://connorlin.github.io/" target="_blank" rel="external">ConnorLin’s Blog</a>。</p>
+<p>这是参考式链接：<a href="https://link.jianshu.com?t=http://connorlin.github.io/" target="_blank" rel="external">ConnorLin’s Blog</a>，其中url为链接标记，可置于文中任意位置。</p>
+<p>这是自动链接：直接使用<code>&lt;&gt;</code>括起来<a href="https://link.jianshu.com?t=http://connorlin.github.io" target="_blank" rel="external">http://connorlin.github.io</a></p>
+<p> 这是图片：</p>
+<hr>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a><strong>代码</strong></h2><p>代码分为<code>行内代码</code>和<code>代码块</code>。</p>
+<ul>
+<li><p>行内代码使用 <code>代码</code> 标识，可嵌入文字中</p>
+</li>
+<li><p>代码块使用4个空格或<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">\</div></pre></td></tr></table></figure></p>
+<p> 这里是代码<br> \<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">- 代码语法高亮在 ```后面加上`空格`和语言名称即可</div><div class="line"></div><div class="line">  \``` 语言</div><div class="line">   //注意语言前面有空格</div><div class="line">   这里是代码</div><div class="line">   \</div></pre></td></tr></table></figure></p>
+</li>
+</ul>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">这是行内代码`onCreate(Bundle savedInstanceState)`的例子。</div><div class="line"></div><div class="line">这是代码块和语法高亮：</div><div class="line"></div><div class="line">​``` java</div><div class="line">// 注意java前面有空格</div><div class="line">protected void onCreate(Bundle savedInstanceState) &#123;</div><div class="line">    super.onCreate(savedInstanceState);</div><div class="line">    setContentView(R.layout.activity_main);</div><div class="line">&#125;</div><div class="line">​</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">效果如下：</div><div class="line"></div><div class="line">这是行内代码`onCreate(Bundle savedInstanceState)`的例子。</div><div class="line"></div><div class="line">这是代码块和语法高亮：</div></pre></td></tr></table></figure>
+<p>// 注意java前面有空格<br>protected void onCreate(Bundle savedInstanceState) {<br>    super.onCreate(savedInstanceState);<br>    setContentView(R.layout.activity_main);<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">## **表格**</div><div class="line"></div><div class="line">表格对齐格式</div><div class="line"></div><div class="line">- 居左：`:----` </div><div class="line">- 居中：`:----:`或`-----` </div><div class="line">- 居右：`----:` </div><div class="line"></div><div class="line">例子：</div></pre></td></tr></table></figure></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">标题</th>
+<th style="text-align:center">标题</th>
+<th style="text-align:right">标题</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">居左测试文本</td>
+<td style="text-align:center">居中测试文本</td>
+<td style="text-align:right">居右测试文本</td>
+</tr>
+<tr>
+<td style="text-align:left">居左测试文本1</td>
+<td style="text-align:center">居中测试文本2</td>
+<td style="text-align:right">居右测试文本3</td>
+</tr>
+<tr>
+<td style="text-align:left">居左测试文本11</td>
+<td style="text-align:center">居中测试文本22</td>
+<td style="text-align:right">居右测试文本33</td>
+</tr>
+<tr>
+<td style="text-align:left">居左测试文本111</td>
+<td style="text-align:center">居中测试文本222</td>
+<td style="text-align:right">居右测试文本333</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">效果如下：</div><div class="line"></div><div class="line">| 标题            | 标题            | 标题            |</div><div class="line">| --------------- | --------------- | --------------- |</div><div class="line">| 居左测试文本    | 居中测试文本    | 居右测试文本    |</div><div class="line">| 居左测试文本1   | 居中测试文本2   | 居右测试文本3   |</div><div class="line">| 居左测试文本11  | 居中测试文本22  | 居右测试文本33  |</div><div class="line">| 居左测试文本111 | 居中测试文本222 | 居右测试文本333 |</div><div class="line"></div><div class="line">------</div><div class="line"></div><div class="line">## **分隔线**</div><div class="line"></div><div class="line">在一行中用三个以上的`*`、`-`、`_`来建立一个分隔线，行内不能有其他东西。也可以在符号间插入空格。</div></pre></td></tr></table></figure>
+<h2 id=""><a href="#" class="headerlink" title="*"></a><em>*</em></h2><hr>
+<hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">效果均为一条分割线：</div><div class="line"></div><div class="line">------</div><div class="line"></div><div class="line">------</div><div class="line"></div><div class="line">## **换行**</div><div class="line"></div><div class="line">在行尾添加两个空格加回车表示换行：</div></pre></td></tr></table></figure>
+<p>这是一行后面加两个空格  换行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">效果如下：</div><div class="line"></div><div class="line">这是一行后面加两个空格</div><div class="line"> 换行</div><div class="line"></div><div class="line">------</div><div class="line"></div><div class="line">## **脚注(注解)**</div><div class="line"></div><div class="line">使用`[^]`来定义脚注：</div></pre></td></tr></table></figure></p>
+<p>这是一个脚注的例子<a href="这里是脚注">^1</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">效果如下：</div><div class="line"></div><div class="line">这是一个脚注的例子[[1\]](#fn1)</div><div class="line"></div><div class="line">------</div><div class="line"></div><div class="line"># **常用弥补Markdown的Html标签**</div><div class="line"></div><div class="line">## **字体**</div></pre></td></tr></table></figure>
+<p><font face="微软雅黑" color="red" size="6">字体及字体颜色和大小</font></p>
+<p><font color="#0000ff">字体颜色</font><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">效果如下：</div><div class="line"></div><div class="line">&lt;font face=&quot;微软雅黑&quot; color=&quot;red&quot; size=&quot;6&quot;&gt;字体及字体颜色和大小&lt;/font&gt;</div><div class="line"> &lt;font color=&quot;#0000ff&quot;&gt;字体颜色&lt;/font&gt;</div><div class="line"></div><div class="line">------</div><div class="line"></div><div class="line">## **换行**</div></pre></td></tr></table></figure></p>
+<p>使用html标签<code>&lt;br/&gt;</code><br>换行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">效果如下：</div><div class="line"></div><div class="line">使用html标签`&lt;br/&gt;`</div><div class="line">换行</div><div class="line"></div><div class="line">------</div><div class="line"></div><div class="line">## **文本对齐方式**</div></pre></td></tr></table></figure></p>
+<p></p><p align="left">居左文本</p><p></p>
+<p></p><p align="center">居中文本</p><p></p>
+<p></p><p align="right">居右文本</p><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">效果如下：</div><div class="line"></div><div class="line">&lt;p align=&quot;left&quot;&gt;居左文本&lt;/p&gt;</div><div class="line"></div><div class="line">&lt;p align=&quot;center&quot;&gt;居中文本&lt;/p&gt;</div><div class="line"></div><div class="line">&lt;p align=&quot;right&quot;&gt;居右文本&lt;/p&gt;</div><div class="line"></div><div class="line">------</div><div class="line"></div><div class="line">## **下划线**</div></pre></td></tr></table></figure><p></p>
+<p><u>下划线文本</u><br>```</p>
+<p>效果如下：</p>
+<p><u>下划线文本</u></p>
+<hr>
+<p><strong>That’s all, Enjoy it!</strong></p>
+<p><strong>备注：文末有些html标签在简书上不支持，同时，本文提供Markdown源文件，需要的请联系我！</strong></p>
+<hr>
+<ol>
+<li>这里是脚注 <a href="#fnref1">↩</a></li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/25/sp安全使用/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1587,363 +1844,6 @@ private void loadFromDisk() {
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/06/JVM GC/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="bo.wang">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Muse--D.D">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/09/06/JVM GC/" itemprop="url">JVM GC原理</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-06T00:00:00+08:00">
-                2018-09-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="对象的四种引用类型"><a href="#对象的四种引用类型" class="headerlink" title="对象的四种引用类型"></a>对象的四种引用类型</h3><h3 id="JVM-GC原理"><a href="#JVM-GC原理" class="headerlink" title="JVM GC原理"></a>JVM GC原理</h3><h3 id="LeakCanary开源库-对泄漏的分析原理（haha库）"><a href="#LeakCanary开源库-对泄漏的分析原理（haha库）" class="headerlink" title="LeakCanary开源库 对泄漏的分析原理（haha库）"></a>LeakCanary开源库 对泄漏的分析原理（haha库）</h3>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/06/ClassLoader/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="bo.wang">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Muse--D.D">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/09/06/ClassLoader/" itemprop="url">ClassLoader原理</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-06T00:00:00+08:00">
-                2018-09-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/06/Robust/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="bo.wang">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Muse--D.D">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/09/06/Robust/" itemprop="url">Robust原理及修复范围</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-06T00:00:00+08:00">
-                2018-09-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/06/LNMP/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2188,6 +2088,244 @@ private void loadFromDisk() {
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/06/Robust/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="bo.wang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Muse--D.D">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/09/06/Robust/" itemprop="url">Robust原理及修复范围</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-06T00:00:00+08:00">
+                2018-09-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/06/JVM GC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="bo.wang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Muse--D.D">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/09/06/JVM GC/" itemprop="url">JVM GC原理</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-06T00:00:00+08:00">
+                2018-09-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="对象的四种引用类型"><a href="#对象的四种引用类型" class="headerlink" title="对象的四种引用类型"></a>对象的四种引用类型</h3><h3 id="JVM-GC原理"><a href="#JVM-GC原理" class="headerlink" title="JVM GC原理"></a>JVM GC原理</h3><h3 id="LeakCanary开源库-对泄漏的分析原理（haha库）"><a href="#LeakCanary开源库-对泄漏的分析原理（haha库）" class="headerlink" title="LeakCanary开源库 对泄漏的分析原理（haha库）"></a>LeakCanary开源库 对泄漏的分析原理（haha库）</h3>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
   </section>
 
   
@@ -2238,7 +2376,7 @@ private void loadFromDisk() {
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-count">20</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
